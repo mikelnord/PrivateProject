@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+
+    <include app:graph="@navigation/dialog_filtr_navigation" />
+
+    <fragment
+        android:id="@+id/exchangeFragment"
+        android:name="com.project.mobilemcm.ui.exchange.ExchangeFragment"
+        android:label="exchange_fragment"
+        tools:layout="@layout/fragment_exchange" />
+    <fragment
+        android:id="@+id/basketFragment"
+        android:name="com.project.mobilemcm.ui.basket.BasketFragment"
+        android:label="BasketFragment"
+        tools:layout="@layout/fragment_basket" />
+    <fragment
+        android:id="@+id/requestDocFragment"
+        android:name="com.project.mobilemcm.ui.requestDocument.RequestDocFragment"
+        android:label="fragment_request_doc"
+        tools:layout="@layout/fragment_request_doc">
+        <action
+            android:id="@+id/action_requestDocFragment_to_requestListFragment"
+            app:destination="@id/requestListFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/requestListFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.project.mobilemcm.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_exchangeFragment"
+            app:destination="@id/exchangeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_requestListFragment"
+            app:destination="@id/requestListFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestListFragment"
+        android:name="com.project.mobilemcm.ui.requestDocument.RequestListFragment"
+        android:label="RequestListFragment"
+        tools:layout="@layout/fragment_request_list_doc">
+        <action
+            android:id="@+id/action_requestListFragment_to_requestDocFragment"
+            app:destination="@id/requestDocFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/requestListFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_requestListFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/requestListFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.project.mobilemcm.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/homeAdapter"
+        android:name="com.project.mobilemcm.ui.masterdoc.HomeAdapter"
+        android:label="HomeAdapter"
+        tools:layout="@layout/fragment_home_adapter">
+        <argument
+            android:name="podborReturn"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+        <fragment
+            android:id="@+id/podborFragment"
+            android:name="com.project.mobilemcm.ui.formpodbor.PodborFragment"
+            android:label="PodborFragment"
+            tools:layout="@layout/fragment_podbor">
+            <action
+                android:id="@+id/action_podborFragment_to_basketFragment"
+                app:destination="@id/basketFragment"
+                app:popUpTo="@id/podborFragment"
+                app:popUpToInclusive="false" />
+            <action
+                android:id="@+id/action_podborFragment_to_requestDocFragment"
+                app:destination="@id/requestDocFragment"
+                app:popUpTo="@id/requestDocFragment"
+                app:popUpToInclusive="false" />
+            <action
+                android:id="@+id/action_podborFragment_to_dialog_filtr_navigation"
+                app:destination="@id/dialog_filtr_navigation"
+                app:popUpTo="@id/podborFragment" />
+            <argument
+                android:name="isMasterDoc"
+                app:argType="boolean" />
+        </fragment>
+</navigation>

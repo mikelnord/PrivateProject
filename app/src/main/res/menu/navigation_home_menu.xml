@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_list_doc"
+        android:enabled="true"
+        android:icon="@drawable/library_books_24"
+        android:title="@string/orders_value"/>
+    <item
+        android:id="@+id/menu_add_doc"
+        android:enabled="true"
+        android:icon="@drawable/list_alt_24"
+        android:title="@string/order_value"/>
+    <item
+        android:id="@+id/menu_exchange"
+        android:enabled="true"
+        android:icon="@drawable/cloud_sync_24"
+        android:title="@string/exchange_value"/>
+    <item
+        android:id="@+id/menu_logout"
+        android:enabled="true"
+        android:icon="@drawable/logout_24"
+        android:title="@string/logout"/>
+</menu>

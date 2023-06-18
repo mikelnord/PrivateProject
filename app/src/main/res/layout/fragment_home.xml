@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <com.google.android.material.navigationrail.NavigationRailView
+        android:id="@+id/navigation_rail"
+        style="@style/Widget.MaterialComponents.NavigationRailView.Compact"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:elevation="4dp"
+        app:labelVisibilityMode="auto"
+        app:menu="@menu/navigation_home_menu"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/dayButton"
+        style="?attr/materialIconButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:icon="@drawable/wb_sunny_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/nightButton"
+        style="?attr/materialIconButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:icon="@drawable/night_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/iconButtonList"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:icon="@drawable/library_books_48"
+        app:iconGravity="textStart"
+        app:iconSize="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iconButtonDoc"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@+id/navigation_rail"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/iconButtonDoc"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        app:icon="@drawable/list_alt_48"
+        app:iconGravity="textStart"
+        app:iconSize="48dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonList"
+        app:layout_constraintEnd_toStartOf="@+id/iconButtonExchange"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iconButtonList" />
+
+    <Button
+        android:id="@+id/iconButtonExchange"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        app:icon="@drawable/cloud_sync_48"
+        app:iconGravity="textStart"
+        app:iconSize="48dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonDoc"
+        app:layout_constraintEnd_toStartOf="@+id/iconButtonExchange2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iconButtonDoc" />
+
+    <Button
+        android:id="@+id/iconButtonExchange2"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        app:icon="@drawable/directions_car_24"
+        app:iconGravity="textStart"
+        app:iconSize="48dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonExchange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iconButtonExchange" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/orders_text"
+        app:layout_constraintEnd_toEndOf="@+id/iconButtonList"
+        app:layout_constraintStart_toStartOf="@+id/iconButtonList"
+        app:layout_constraintTop_toBottomOf="@+id/iconButtonList" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/create_order_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/iconButtonDoc"
+        app:layout_constraintStart_toStartOf="@+id/iconButtonDoc" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exchange_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="@+id/iconButtonExchange"
+        app:layout_constraintStart_toStartOf="@+id/iconButtonExchange" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/visit_plan_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/iconButtonExchange2"
+        app:layout_constraintStart_toStartOf="@+id/iconButtonExchange2" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/mcm_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/mcm_logo" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
