@@ -1,5 +1,6 @@
 package com.project.mobilemcm.data.di
 
+import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.data.remote.network.ApiService
 import com.project.mobilemcm.data.remote.network.AuthInterceptor
 import dagger.Module
@@ -16,9 +17,9 @@ import java.util.concurrent.TimeUnit
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "https://mx.wlbs.ru/upr_mcm/hs/MobileAgent/"
-    private const val name="change1c"
-    private const val pwd="changius"
+    private const val BASE_URL = BuildConfig.API_URL
+    private const val name = BuildConfig.API_NAME
+    private const val pwd = BuildConfig.API_PASS
 
 
     @Provides
@@ -36,7 +37,7 @@ object NetworkModule {
             .readTimeout(3000, TimeUnit.SECONDS)
             .connectTimeout(3000, TimeUnit.SECONDS)
             //.addInterceptor(loggingInterceptor)
-            .addInterceptor(AuthInterceptor(name,pwd))
+            .addInterceptor(AuthInterceptor(name, pwd))
             .build()
     }
 
