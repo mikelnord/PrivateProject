@@ -1,5 +1,6 @@
 package com.project.mobilemcm.ui.exchange
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.system.measureTimeMillis
 
 @HiltViewModel
 class ExchangeViewModel @Inject constructor(
@@ -20,7 +20,7 @@ class ExchangeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _loadFile = MutableLiveData<Int>()
-    val loadFile = _loadFile
+    private val loadFile = _loadFile
 
     private val _message = MutableLiveData<String>()
     val message = _message
@@ -28,21 +28,30 @@ class ExchangeViewModel @Inject constructor(
     private val _countGoods = MutableLiveData<Int>()
     val countGoods = _countGoods
 
-    private val _timeSecGoods = MutableLiveData<Long>()
-    val timeSecGoods = _timeSecGoods
+    private val _dateObmen = MutableLiveData<String>()
+    val dateObmen = _dateObmen
 
-    private fun setLoadProgress(progress: Int) {
-        _loadFile.postValue(loadFile.value?.plus(progress) ?: 0)
-    }
+    private val _complateObmen = MutableLiveData<Boolean>()
+    val complateObmen = _complateObmen
 
     var isError = false
 
     fun getObmen() {
+        //2023-06-19
+        //20010101
         val strPodr = loginRepository.user?.division_id//stock
         val strUserId = loginRepository.user?.id ?: ""
+        val dateObmen = viewModelScope.async { repository.getObmenDate() }
         val fileObmen = viewModelScope.async(Dispatchers.IO) {
+            _dateObmen.postValue(dateObmen.await()?.dateObmen ?: "20010101")
             val result =
-                strPodr?.let { repository.fetchObmenFile("20010101", it, strUserId) }
+                strPodr?.let {
+                    repository.fetchObmenFile(
+                        dateObmen.await()?.dateObmen ?: "20010101",
+                        it,
+                        strUserId
+                    )
+                }
             result?.let { res ->
                 if (res.status == Result.Status.SUCCESS) {
                     isError = false
@@ -56,23 +65,29 @@ class ExchangeViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            timeSecGoods.postValue(measureTimeMillis {
-                fileObmen.await()?.let {
-                    setLoadProgress(repository.addGoodToBase(it))
+            _complateObmen.postValue(false)
+            fileObmen.await()?.let {
+                try {
+                    _dateObmen.postValue(fileObmen.await()?.goods?.size.toString())
+                    repository.addGoodToBase(it)
                     _countGoods.postValue(loadFile.value)
-                    setLoadProgress(repository.addCategoryToBase(it))
-                    setLoadProgress(repository.addPricegroupToBase(it))
-                    setLoadProgress(repository.addPricegroups2ToBase(it))
-                    setLoadProgress(repository.addStoresToBase(it))
-                    setLoadProgress(repository.addStockToBase(it))
-                    setLoadProgress(repository.addCounterpartiesToBase(it))
-                    setLoadProgress(repository.addCounterpartiesStoresToBase(it))
-                    setLoadProgress(repository.addDiscontsToBase(it))
-                    setLoadProgress(repository.addActionPricesToBase(it))
-                    setLoadProgress(repository.addIndividualPricesToBase(it))
-                    setLoadProgress(repository.addDivisionToBase(it))
+                    repository.addCategoryToBase(it)
+                    repository.addPricegroupToBase(it)
+                    repository.addPricegroups2ToBase(it)
+                    repository.addStoresToBase(it)
+                    repository.addStockToBase(it)
+                    repository.addCounterpartiesToBase(it)
+                    repository.addCounterpartiesStoresToBase(it)
+                    repository.addDateObmenToBase(it)
+                    repository.addDiscontsToBase(it)
+                    repository.addActionPricesToBase(it)
+                    repository.addIndividualPricesToBase(it)
+                    repository.addDivisionToBase(it)
+                } catch (e: Throwable) {
+                    Log.e("errorObmen", e.message.toString())
                 }
-            } / 1000)
+            }
+            _complateObmen.postValue(true)
         }
     }
 

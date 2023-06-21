@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentExchangeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +20,11 @@ class ExchangeFragment : Fragment() {
     private var _binding: FragmentExchangeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ExchangeViewModel by viewModels()
+    private lateinit var savedStateHandle: SavedStateHandle
 
+    companion object {
+        const val LOGIN_FIRST: String = "LOGIN_FIRST"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +37,11 @@ class ExchangeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        savedStateHandle = findNavController().previousBackStackEntry!!.savedStateHandle
+
+    }
+
     @SuppressLint("SetTextI18n")
     private fun updateUI() {
         binding.buttonStartObmen.setOnClickListener {
@@ -40,12 +52,6 @@ class ExchangeFragment : Fragment() {
                 viewModel.countGoods.observe(viewLifecycleOwner) {
                     viewModel.insertVendors()
                 }
-                viewModel.loadFile.observe(viewLifecycleOwner) {
-                    binding.indikator.setProgressCompat(it, true)
-                }
-                viewModel.timeSecGoods.observe(viewLifecycleOwner) {
-
-                }
             }
         }
     }
@@ -53,6 +59,13 @@ class ExchangeFragment : Fragment() {
     private fun subscribeUi() {
         viewModel.message.observe(viewLifecycleOwner) {
             showError(it)
+        }
+        viewModel.dateObmen.observe(viewLifecycleOwner) {
+            binding.textViewDate.text = it
+        }
+        viewModel.complateObmen.observe(viewLifecycleOwner) {
+            if (it)
+                findNavController().navigate(R.id.homeFragment)
         }
     }
 

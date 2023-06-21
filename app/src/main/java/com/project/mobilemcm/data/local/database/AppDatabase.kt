@@ -24,7 +24,7 @@ import com.project.mobilemcm.pricing.model.ItemInd
         Good::class, Stock::class, RequestDocument::class, Counterparties::class,
         RequestGoods::class, Vendors::class, CounterpartiesStores::class, LoggedInUser::class,
         Disconts::class, Item::class, Company::class, ActionPrices::class, ItemAction::class,
-        IndividualPrices::class, ItemInd::class, Division::class],
+        IndividualPrices::class, ItemInd::class, Division::class, ObmenDate::class],
     version = 1
 )
 @TypeConverters(Converters::class)
@@ -39,14 +39,15 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun counterpartiesDao(): CounterpartiesDao
     abstract fun requestGoodsDao(): RequestGoodsDao
     abstract fun vendorsDao(): VendorsDao
-    abstract fun CounterpartiesStoresDao(): CounterpartiesStoresDao
-    abstract fun LoggedInUserDao(): LoggedInUserDao
-    abstract fun CompanyDao(): CompanyDao
-    abstract fun DiscontsDao(): DiscontsDao
-    abstract fun ItemDao(): ItemDao
-    abstract fun ActionPricesDao(): ActionPricesDao
-    abstract fun ItemActionDao(): ItemActionDao
-    abstract fun IndividualPricesDao(): IndividualPricesDao
-    abstract fun ItemIndDao(): ItemIndDao
-    abstract fun DivisionDao():DivisionDao
+    abstract fun counterpartiesStoresDao(): CounterpartiesStoresDao
+    abstract fun loggedInUserDao(): LoggedInUserDao
+    abstract fun companyDao(): CompanyDao
+    abstract fun discontsDao(): DiscontsDao
+    abstract fun itemDao(): ItemDao
+    abstract fun actionPricesDao(): ActionPricesDao
+    abstract fun itemActionDao(): ItemActionDao
+    abstract fun individualPricesDao(): IndividualPricesDao
+    abstract fun itemIndDao(): ItemIndDao
+    abstract fun divisionDao():DivisionDao
+    abstract fun obmenDateDao():ObmenDateDao
 }

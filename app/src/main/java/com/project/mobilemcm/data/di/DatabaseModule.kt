@@ -32,53 +32,58 @@ object DatabaseModule {
     }
 
     @Provides
+    fun providesObmenDateDao(appDatabase: AppDatabase): ObmenDateDao {
+        return appDatabase.obmenDateDao()
+    }
+
+    @Provides
     fun providesDivisionDao(appDatabase: AppDatabase): DivisionDao {
-        return appDatabase.DivisionDao()
+        return appDatabase.divisionDao()
     }
 
     @Provides
     fun providesIndividualPricesDao(appDatabase: AppDatabase): IndividualPricesDao {
-        return appDatabase.IndividualPricesDao()
+        return appDatabase.individualPricesDao()
     }
 
     @Provides
     fun providesItemIndDao(appDatabase: AppDatabase): ItemIndDao {
-        return appDatabase.ItemIndDao()
+        return appDatabase.itemIndDao()
     }
 
     @Provides
     fun providesActionPricesDao(appDatabase: AppDatabase): ActionPricesDao {
-        return appDatabase.ActionPricesDao()
+        return appDatabase.actionPricesDao()
     }
 
     @Provides
     fun providesItemActionDao(appDatabase: AppDatabase): ItemActionDao {
-        return appDatabase.ItemActionDao()
+        return appDatabase.itemActionDao()
     }
 
     @Provides
     fun providesCompanyDao(appDatabase: AppDatabase): CompanyDao {
-        return appDatabase.CompanyDao()
+        return appDatabase.companyDao()
     }
 
     @Provides
     fun providesDiscontsDao(appDatabase: AppDatabase): DiscontsDao {
-        return appDatabase.DiscontsDao()
+        return appDatabase.discontsDao()
     }
 
     @Provides
     fun providesItemDao(appDatabase: AppDatabase): ItemDao {
-        return appDatabase.ItemDao()
+        return appDatabase.itemDao()
     }
 
     @Provides
     fun providesLoggedInUserDao(appDatabase: AppDatabase): LoggedInUserDao {
-        return appDatabase.LoggedInUserDao()
+        return appDatabase.loggedInUserDao()
     }
 
     @Provides
     fun providesCounterpartiesStoresDao(appDatabase: AppDatabase): CounterpartiesStoresDao {
-        return appDatabase.CounterpartiesStoresDao()
+        return appDatabase.counterpartiesStoresDao()
     }
 
 

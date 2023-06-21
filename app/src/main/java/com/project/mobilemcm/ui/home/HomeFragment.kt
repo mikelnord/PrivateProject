@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.project.mobilemcm.R
-import com.project.mobilemcm.data.login.LoginRepository
 import com.project.mobilemcm.databinding.FragmentHomeBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
 import com.project.mobilemcm.ui.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -23,9 +23,11 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: CategoryViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var savedStateHandle: SavedStateHandle
 
-    @Inject
-    lateinit var loginRepository: LoginRepository
+    companion object {
+        const val LOGIN_FIRST: String = "LOGIN_FIRST"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,15 +36,19 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupUI()
         setupNavigationRail()
+        homeViewModel.isLoginFirst()
+        savedStateHandle[LOGIN_FIRST] = homeViewModel.emptyBase.value
+
         return binding.root
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val navController = findNavController()
         val currentBackStackEntry = navController.currentBackStackEntry!!
-        val savedStateHandle = currentBackStackEntry.savedStateHandle
-        if (loginRepository.user == null && !savedStateHandle.contains(LoginFragment.LOGIN_SUCCESSFUL))
+        savedStateHandle = currentBackStackEntry.savedStateHandle
+        if (homeViewModel.loginRepository.user == null && !savedStateHandle.contains(LoginFragment.LOGIN_SUCCESSFUL))
             savedStateHandle[LoginFragment.LOGIN_SUCCESSFUL] = false
 
         savedStateHandle.getLiveData<Boolean>(LoginFragment.LOGIN_SUCCESSFUL)
@@ -52,6 +58,15 @@ class HomeFragment : Fragment() {
                         .setPopUpTo(R.id.loginFragment, true)
                         .build()
                     navController.navigate(R.id.loginFragment, null, navOptions)
+                }
+            }
+        savedStateHandle.getLiveData<Boolean>(LOGIN_FIRST)
+            .observe(currentBackStackEntry) {
+                it?.let {
+                    if (it) {
+                        findNavController().navigate(R.id.exchangeFragment)
+                        Toast.makeText(requireContext(), "Go to obmen", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
     }
@@ -70,7 +85,7 @@ class HomeFragment : Fragment() {
             viewModel.clearDoc()
             val navOptions = NavOptions.Builder()
                 //.setPopUpTo(R.id.homeAdapter, false)
-               // .setLaunchSingleTop(true)
+                // .setLaunchSingleTop(true)
                 .build()
             findNavController().navigate(R.id.homeAdapter)
         }
@@ -96,7 +111,6 @@ class HomeFragment : Fragment() {
         binding.nightButton.setOnClickListener {
             homeViewModel.setMode()
         }
-
     }
 
     private fun setupNavigationRail() {
@@ -123,7 +137,7 @@ class HomeFragment : Fragment() {
                     val currentBackStackEntry = navController.currentBackStackEntry!!
                     val savedStateHandle = currentBackStackEntry.savedStateHandle
                     savedStateHandle[LoginFragment.LOGIN_SUCCESSFUL] = false
-                    loginRepository.logout()
+                    homeViewModel.loginRepository.logout()
                     true
                 }
 

@@ -6,6 +6,7 @@ import com.project.mobilemcm.data.local.database.CounterpartiesDao
 import com.project.mobilemcm.data.local.database.CounterpartiesStoresDao
 import com.project.mobilemcm.data.local.database.DivisionDao
 import com.project.mobilemcm.data.local.database.GoodDao
+import com.project.mobilemcm.data.local.database.ObmenDateDao
 import com.project.mobilemcm.data.local.database.PricegroupDao
 import com.project.mobilemcm.data.local.database.Pricegroups2Dao
 import com.project.mobilemcm.data.local.database.RequestDocumentDao
@@ -15,6 +16,7 @@ import com.project.mobilemcm.data.local.database.StoreDao
 import com.project.mobilemcm.data.local.database.VendorsDao
 import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.GoodWithStock
+import com.project.mobilemcm.data.local.database.model.ObmenDate
 import com.project.mobilemcm.data.local.database.model.RequestDocument
 import com.project.mobilemcm.data.local.database.model.RequestGoods
 import com.project.mobilemcm.data.local.database.model.Result
@@ -53,6 +55,7 @@ class Repository @Inject constructor(
     private val individualPricesDao: IndividualPricesDao,
     private val itemIndDao: ItemIndDao,
     private val divisionDao: DivisionDao,
+    private val obmenDateDao: ObmenDateDao,
     private val appDatabase: AppDatabase
 ) {
 
@@ -64,7 +67,7 @@ class Repository @Inject constructor(
         return remoteDataSource.startObmen(strDate, strPodr, strUserId)
     }
 
-    suspend fun addGoodToBase(fileObmen: FileObmen):Int {
+    suspend fun addGoodToBase(fileObmen: FileObmen): Int {
         fileObmen.goods?.let { goods ->
             goodDao.insertAll(goods)
             return goods.size
@@ -72,7 +75,17 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addCategoryToBase(fileObmen: FileObmen):Int {
+    suspend fun addDateObmenToBase(fileObmen: FileObmen) {
+        fileObmen.date.let { date ->
+            obmenDateDao.insert(ObmenDate(dateObmen = date))
+        }
+    }
+
+    suspend fun getObmenDate()=obmenDateDao.getDate()
+
+    suspend fun firstLogin() = obmenDateDao.getCountObmenDate()
+
+    suspend fun addCategoryToBase(fileObmen: FileObmen): Int {
         fileObmen.categories?.let { categorys ->
             categoryDao.insertAll(categorys)
             return categorys.size
@@ -80,7 +93,7 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addPricegroups2ToBase(fileObmen: FileObmen):Int {
+    suspend fun addPricegroups2ToBase(fileObmen: FileObmen): Int {
         fileObmen.pricegroups2?.let { pricegroups2 ->
             pricegroups2Dao.insertAll(pricegroups2)
             return pricegroups2.size
@@ -88,7 +101,7 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addPricegroupToBase(fileObmen: FileObmen):Int {
+    suspend fun addPricegroupToBase(fileObmen: FileObmen): Int {
         fileObmen.pricegroups?.let { pricegroup ->
             pricegroupDao.insertAll(pricegroup)
             return pricegroup.size
@@ -96,7 +109,7 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addStoresToBase(fileObmen: FileObmen):Int {
+    suspend fun addStoresToBase(fileObmen: FileObmen): Int {
         fileObmen.store?.let { stores ->
             storeDao.insertAll(stores)
             return stores.size
@@ -104,7 +117,7 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addStockToBase(fileObmen: FileObmen):Int {
+    suspend fun addStockToBase(fileObmen: FileObmen): Int {
         fileObmen.stocks?.let { stocks ->
             stockDao.insertAll(stocks)
             return stocks.size
@@ -112,15 +125,15 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addCounterpartiesToBase(fileObmen: FileObmen):Int {
+    suspend fun addCounterpartiesToBase(fileObmen: FileObmen): Int {
         fileObmen.companies?.let { counterpartiesList ->
             counterpartiesDao.insertAll(counterpartiesList)
-            return  counterpartiesList.size
+            return counterpartiesList.size
         }
         return 0
     }
 
-    suspend fun addCounterpartiesStoresToBase(fileObmen: FileObmen):Int {
+    suspend fun addCounterpartiesStoresToBase(fileObmen: FileObmen): Int {
         fileObmen.company_stores?.let { counterpartiesStoresList ->
             counterpartiesStoresDao.insertAll(counterpartiesStoresList)
             return counterpartiesStoresList.size
@@ -128,7 +141,7 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addDiscontsToBase(fileObmen: FileObmen):Int {
+    suspend fun addDiscontsToBase(fileObmen: FileObmen): Int {
         fileObmen.discounts?.let { discontsList ->
             discontsList.forEach {
                 itemDao.insertAll(it.items)
@@ -142,7 +155,7 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addActionPricesToBase(fileObmen: FileObmen):Int {
+    suspend fun addActionPricesToBase(fileObmen: FileObmen): Int {
         fileObmen.action_prices?.let { actionList ->
             actionList.forEach {
                 if (!it.items.isNullOrEmpty()) {
@@ -156,7 +169,7 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addIndividualPricesToBase(fileObmen: FileObmen):Int {
+    suspend fun addIndividualPricesToBase(fileObmen: FileObmen): Int {
         fileObmen.individual_prices?.let { individualPricesList ->
             individualPricesList.forEach {
                 itemIndDao.insertAll(it.items)
@@ -168,7 +181,7 @@ class Repository @Inject constructor(
         return 0
     }
 
-    suspend fun addDivisionToBase(fileObmen: FileObmen):Int {
+    suspend fun addDivisionToBase(fileObmen: FileObmen): Int {
         fileObmen.divisions?.let { divisionsList ->
             divisionDao.insertAll(divisionsList)
             return divisionsList.size
