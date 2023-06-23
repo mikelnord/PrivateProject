@@ -10,7 +10,9 @@ import com.project.mobilemcm.data.login.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,6 +30,9 @@ class ExchangeViewModel @Inject constructor(
     private val _countGoods = MutableLiveData<Int>()
     val countGoods = _countGoods
 
+    private val _firstObmen = MutableLiveData<String>()
+    val firstObmen = _firstObmen
+
     private val _dateObmen = MutableLiveData<String>()
     val dateObmen = _dateObmen
 
@@ -37,17 +42,14 @@ class ExchangeViewModel @Inject constructor(
     var isError = false
 
     fun getObmen() {
-        //2023-06-19
-        //20010101
         val strPodr = loginRepository.user?.division_id//stock
         val strUserId = loginRepository.user?.id ?: ""
         val dateObmen = viewModelScope.async { repository.getObmenDate() }
         val fileObmen = viewModelScope.async(Dispatchers.IO) {
-            _dateObmen.postValue(dateObmen.await()?.dateObmen ?: "20010101")
             val result =
                 strPodr?.let {
                     repository.fetchObmenFile(
-                        dateObmen.await()?.dateObmen ?: "20010101",
+                        dateObmen.await()?.dateObmen ?: "2001-01-01T00:00:00",
                         it,
                         strUserId
                     )
@@ -68,14 +70,14 @@ class ExchangeViewModel @Inject constructor(
             _complateObmen.postValue(false)
             fileObmen.await()?.let {
                 try {
-                    _dateObmen.postValue(fileObmen.await()?.goods?.size.toString())
-                    repository.addGoodToBase(it)
+                    //_dateObmen.postValue(fileObmen.await()?.goods?.size.toString())
+                    if(repository.addGoodToBase(it) != (fileObmen.await()?.goods?.size ?: 0)) throw IOException("errorObmen")
                     _countGoods.postValue(loadFile.value)
                     repository.addCategoryToBase(it)
                     repository.addPricegroupToBase(it)
                     repository.addPricegroups2ToBase(it)
                     repository.addStoresToBase(it)
-                    repository.addStockToBase(it)
+                    if(repository.addStockToBase(it) != (fileObmen.await()?.stocks?.size ?: 0)) throw IOException("errorObmen")
                     repository.addCounterpartiesToBase(it)
                     repository.addCounterpartiesStoresToBase(it)
                     repository.addDateObmenToBase(it)
@@ -87,6 +89,8 @@ class ExchangeViewModel @Inject constructor(
                     Log.e("errorObmen", e.message.toString())
                 }
             }
+            _dateObmen.postValue(repository.getObmenDate()?.dateObmen)
+            delay(5000)
             _complateObmen.postValue(true)
         }
     }
@@ -97,4 +101,6 @@ class ExchangeViewModel @Inject constructor(
                 repository.addVendors(repository.getAllVendors())
         }
     }
+
+
 }

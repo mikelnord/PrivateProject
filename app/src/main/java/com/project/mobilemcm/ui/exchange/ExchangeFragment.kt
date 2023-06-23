@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentExchangeBinding
+import com.project.mobilemcm.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,9 +23,6 @@ class ExchangeFragment : Fragment() {
     private val viewModel: ExchangeViewModel by viewModels()
     private lateinit var savedStateHandle: SavedStateHandle
 
-    companion object {
-        const val LOGIN_FIRST: String = "LOGIN_FIRST"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +36,11 @@ class ExchangeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        savedStateHandle = findNavController().previousBackStackEntry!!.savedStateHandle
-
+        findNavController().previousBackStackEntry?.let {
+            if (it.savedStateHandle.get<Boolean>(HomeFragment.LOGIN_FIRST) == true)
+                binding.textViewDate.text =
+                    "Для работы необходимо выполнить первоначальное заполнение базы"
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -60,12 +61,12 @@ class ExchangeFragment : Fragment() {
         viewModel.message.observe(viewLifecycleOwner) {
             showError(it)
         }
-        viewModel.dateObmen.observe(viewLifecycleOwner) {
-            binding.textViewDate.text = it
-        }
         viewModel.complateObmen.observe(viewLifecycleOwner) {
             if (it)
                 findNavController().navigate(R.id.homeFragment)
+        }
+        viewModel.dateObmen.observe(viewLifecycleOwner) {
+            binding.textViewDate.text = it
         }
     }
 
