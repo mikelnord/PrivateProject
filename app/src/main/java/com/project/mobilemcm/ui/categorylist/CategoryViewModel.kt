@@ -298,7 +298,10 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
             newList.map { ParentCategory(it.parent_id, it.name, it.code) }.distinct()
                 .sortedBy { it.code }.map { parentCategory ->
-                    val listChild = repository.categoryChildList(parentCategory.parent_id, requestDocument.store_id)
+                    val listChild = repository.categoryChildList(
+                        parentCategory.parent_id,
+                        requestDocument.store_id
+                    )
                         .asSequence()
                         .filter { domainCategory ->
                             if (isStateFilter.isRemainder) {
@@ -336,10 +339,10 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 getActiveUser()
                 newList.forEach { goodWithStock ->
                     val gp = getPricing(
-                        store_id = requestDocument.store_id,
+                        division_id = loginRepository.user?.division_id?:"",
                         good_id = goodWithStock.id,
                         company_id = selectedCompanies.value?.id ?: "",
-                        date = "2023-06-01T08:00:00",
+                        date = "2023-06-27T08:00:00",
                         goodWithStock.pricegroup,
                         goodWithStock.pricegroup2,
                         selectedCompanies.value?.apply_actions ?: false
@@ -372,7 +375,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     @OptIn(ExperimentalCoroutinesApi::class)
     val findGoods = _isStateFilter.switchMap { isStateFilter ->
         query.switchMap { query ->
-            repository.getSearch(sanitizeSearchQuery(query))
+            repository.getSearch(sanitizeSearchQuery(query),requestDocument.store_id)
                 .onStart { _showProgress.value = true }
                 .onEmpty { _showProgress.value = false }
                 .onCompletion { _showProgress.value = false }
@@ -388,10 +391,10 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                     getActiveUser()
                     newList.forEach {
                         val gp = getPricing(
-                            store_id = requestDocument.store_id,
+                            division_id = loginRepository.user?.division_id?:"",
                             good_id = it.id,
                             company_id = selectedCompanies.value?.id ?: "",
-                            date = "2023-06-01T08:00:00",
+                            date = "2023-06-27T08:00:00",
                             it.pricegroup,
                             it.pricegroup2,
                             selectedCompanies.value?.apply_actions ?: false
@@ -487,10 +490,18 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 counterparties_id = requestDocument.counterparties_id,
                 counterpartiesStores_id = requestDocument.counterpartiesStores_id,
                 isPickup = requestDocument.isPickup,
-                itemList = itemList
+                itemList = itemList,
+                comment = requestDocument.comment
+
             )
             //  println(Gson().toJson(requestDocument1c))
-            //   repository.postDoc(requestDocument1c)
+//            try {
+ //           repository.postDoc(requestDocument1c)
+//                Log.e("otvet1C",res.data.toString() )
+//                Log.e("otvet1C",res.message.toString() )
+//            } catch (e: Throwable) {
+//                Log.e("errorSendDocument", e.message.toString())
+//            }
 
             clearDoc()
         }
@@ -599,7 +610,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
 
     private suspend fun getPricing(
-        store_id: String, good_id: String, company_id: String, date: String, pricegroup: String,
+        division_id: String, good_id: String, company_id: String, date: String, pricegroup: String,
         pricegroup2: String, apply_actions: Boolean
     ): IndPrices? {
         var result = individualPricesDao.getIndividualPices(good_id, company_id, date)
@@ -608,8 +619,8 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             val im = individualPricesDao.getIm(company_id)
             if (apply_actions) {
                 im?.let {
-                    result = if (it) individualPricesDao.getActionPricesIm(store_id, good_id, date)
-                    else individualPricesDao.getActionPricesOther(store_id, good_id, date)
+                    result = if (it) individualPricesDao.getActionPricesIm(division_id, good_id, date)
+                    else individualPricesDao.getActionPricesOther(division_id, good_id, date)
                 }
             }
             if (result == null) {

@@ -12,7 +12,9 @@ data class RequestDocument(
     var counterparties_id: String,
     var counterpartiesStores_id: String = "",
     var store_id: String,
-    var isPickup: Boolean = false
+    var isPickup: Boolean = false,
+    var comment: String = "",
+    var isSent: Boolean = false
 )
 
 data class RequestDocumentItem(
@@ -30,5 +32,6 @@ data class RequestDocument1c(
     val store_id: String,
     val isPickup: Boolean,
     val userId: String,
+    val comment: String,
     val itemList: List<Good1c>
 )

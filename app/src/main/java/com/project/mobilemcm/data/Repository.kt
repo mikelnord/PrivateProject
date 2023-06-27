@@ -18,6 +18,7 @@ import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.GoodWithStock
 import com.project.mobilemcm.data.local.database.model.ObmenDate
 import com.project.mobilemcm.data.local.database.model.RequestDocument
+import com.project.mobilemcm.data.local.database.model.RequestDocument1c
 import com.project.mobilemcm.data.local.database.model.RequestGoods
 import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.local.database.model.Vendors
@@ -81,7 +82,7 @@ class Repository @Inject constructor(
         }
     }
 
-    suspend fun getObmenDate()=obmenDateDao.getDate()
+    suspend fun getObmenDate() = obmenDateDao.getDate()
 
     suspend fun firstLogin() = obmenDateDao.getCountObmenDate()
 
@@ -191,9 +192,9 @@ class Repository @Inject constructor(
 
     fun getChildGoods(id: String, store: String) = goodDao.getChildGoods(id, store)
 
-    fun getSearch(query: String): Flow<List<GoodWithStock>> =
-        if (query.trim().isEmpty()) goodDao.fullList()
-        else goodDao.search(query)
+    fun getSearch(query: String, store: String): Flow<List<GoodWithStock>> =
+        if (query.trim().isEmpty()) goodDao.fullList(store)
+        else goodDao.search(query, store)
 
 
     suspend fun addRequestDoc(requestDocument: RequestDocument): Long =
@@ -250,4 +251,8 @@ class Repository @Inject constructor(
 
     suspend fun getStoresFromDivision(divisionId: String) =
         storeDao.getStoresFromDivision(divisionId)
+
+    suspend fun postDoc(requestDocument1c: RequestDocument1c) =
+        remoteDataSource.postDoc(requestDocument1c)
+
 }

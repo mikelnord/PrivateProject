@@ -34,18 +34,18 @@ where active='true' and date(:date)>=date(date_start) and date(:date)<=date(date
     suspend fun getIndividualPices(good_id: String, company_id: String, date: String): IndPrices?
 
     @Query(
-        """select a.number, i.price, 0 as discount, 3 as metod from actionprices a inner join itemaction i on a.id=i.id and( i.division_id=:store_id and  i.good_id=:good_id)
+        """select a.number, i.price, 0 as discount, 3 as metod from actionprices a inner join itemaction i on a.id=i.id and( i.division_id=:division_id and  i.good_id=:good_id)
 where  date(:date)>=date(date_start) and date(:date)<=date(date_end)
 and active='true' and type="ЦеноваяАкция""""
     )
-    suspend fun getActionPricesOther(store_id: String, good_id: String, date: String): IndPrices?
+    suspend fun getActionPricesOther(division_id: String, good_id: String, date: String): IndPrices?
 
     @Query(
-        """select a.number, i.price, 0 as discount, 2 as metod from actionprices a inner join itemaction i on a.id=i.id and( i.division_id=:store_id and  i.good_id=:good_id)
+        """select a.number, i.price, 0 as discount, 2 as metod from actionprices a inner join itemaction i on a.id=i.id and( i.division_id=:division_id and  i.good_id=:good_id)
 where  date(:date)>=date(date_start) and date(:date)<=date(date_end)
 and active='true' and type="РаспродажаДляИнтернетМагазинов""""
     )
-    suspend fun getActionPricesIm(store_id: String, good_id: String, date: String): IndPrices?
+    suspend fun getActionPricesIm(division_id: String, good_id: String, date: String): IndPrices?
 
     @Query(
         """select  number, 0 as price, discount, 4 as metod  from Disconts join item on Disconts.id=item.id and ((pricegroup=:pricegroup and pricegroup2=:pricegroup2) 

@@ -51,6 +51,7 @@ class EndPage : Fragment() {
         binding.buttonSave.setOnClickListener {
             if (!viewModel.saveDoc()) showAlert(requireContext())
             else {
+                viewModel.requestDocument.comment = binding.textCardComm.text.toString().trim()
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(R.id.homeFragment, false)
                     .build()
@@ -72,7 +73,7 @@ class EndPage : Fragment() {
             when (isChecked) {
                 true -> {
                     binding.searchBarAdr.isEnabled = false
-                    binding.searchBarAdr.text="Самовывоз"
+                    binding.searchBarAdr.text = "Самовывоз"
                     viewModel.requestDocument.isPickup = true
                 }
 

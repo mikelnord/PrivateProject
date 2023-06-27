@@ -53,7 +53,7 @@ interface GoodDao {
     )
     fun search(
         query: String,
-        store: String = "c3a21002-ef22-11e5-a605-f07959941a7c"
+        store: String,
     ): Flow<List<GoodWithStock>>
 
     @Query(
@@ -66,7 +66,7 @@ interface GoodDao {
   ORDER BY g.name"""
     )
     fun fullList(
-        store: String = "c3a21002-ef22-11e5-a605-f07959941a7c"
+        store: String,
     ): Flow<List<GoodWithStock>>
 
     @Query("""Select distinct ""as vendor_id ,vendor as name from good where deletionmark=0 and vendor!=""order by vendor""")

@@ -17,7 +17,6 @@ class AdapterViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-
     var requestDocument =
         RequestDocument(counterparties_id = "0", store_id = "c3a21002-ef22-11e5-a605-f07959941a7c")
     private var _queryCompanies = MutableLiveData<String>()
@@ -25,6 +24,10 @@ class AdapterViewModel @Inject constructor(
 
     private var _onlyMine = MutableLiveData(true)
     private val onlyMine = _onlyMine
+
+    init {
+        _queryCompanies.value = ""
+    }
 
     fun setQueryCompanies(query: String) {
         _queryCompanies.value = query
@@ -76,6 +79,6 @@ class AdapterViewModel @Inject constructor(
         }
     }
 
-    fun getItemFromListStore(position:Int)= storeList.value?.get(position)?.id
+    fun getItemFromListStore(position: Int) = storeList.value?.get(position)?.id
 
 }
