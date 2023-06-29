@@ -48,7 +48,7 @@ class ExchangeFragment : Fragment() {
         binding.buttonStartObmen.setOnClickListener {
             binding.buttonStartObmen.isEnabled = false
             binding.indikator.visibility = View.VISIBLE
-            viewModel.getObmen()
+            viewModel.getObmen(requireContext())
             if (!viewModel.isError) {
                 viewModel.countGoods.observe(viewLifecycleOwner) {
                     viewModel.insertVendors()

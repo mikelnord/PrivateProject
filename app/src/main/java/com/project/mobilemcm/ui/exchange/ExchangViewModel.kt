@@ -1,18 +1,26 @@
 package com.project.mobilemcm.ui.exchange
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
+import com.project.mobilemcm.workers.ExchangeWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,7 +49,7 @@ class ExchangeViewModel @Inject constructor(
 
     var isError = false
 
-    fun getObmen() {
+    fun getObmen(context: Context) {
         val strPodr = loginRepository.user?.division_id//stock
         val strUserId = loginRepository.user?.id ?: ""
         val dateObmen = viewModelScope.async { repository.getObmenDate() }
@@ -71,13 +79,17 @@ class ExchangeViewModel @Inject constructor(
             fileObmen.await()?.let {
                 try {
                     //_dateObmen.postValue(fileObmen.await()?.goods?.size.toString())
-                    if(repository.addGoodToBase(it) != (fileObmen.await()?.goods?.size ?: 0)) throw IOException("errorObmen")
+                    if (repository.addGoodToBase(it) != (fileObmen.await()?.goods?.size
+                            ?: 0)
+                    ) throw IOException("errorObmen")
                     _countGoods.postValue(loadFile.value)
                     repository.addCategoryToBase(it)
                     repository.addPricegroupToBase(it)
                     repository.addPricegroups2ToBase(it)
                     repository.addStoresToBase(it)
-                    if(repository.addStockToBase(it) != (fileObmen.await()?.stocks?.size ?: 0)) throw IOException("errorObmen")
+                    if (repository.addStockToBase(it) != (fileObmen.await()?.stocks?.size
+                            ?: 0)
+                    ) throw IOException("errorObmen")
                     repository.addCounterpartiesToBase(it)
                     repository.addCounterpartiesStoresToBase(it)
                     repository.addDateObmenToBase(it)
@@ -92,6 +104,7 @@ class ExchangeViewModel @Inject constructor(
             _dateObmen.postValue(repository.getObmenDate()?.dateObmen)
             delay(5000)
             _complateObmen.postValue(true)
+            applyExchangeWorker(context)
         }
     }
 
@@ -102,5 +115,19 @@ class ExchangeViewModel @Inject constructor(
         }
     }
 
+    private fun applyExchangeWorker(context: Context) {
+        val workRequest = PeriodicWorkRequestBuilder<ExchangeWorker>(25, TimeUnit.MINUTES)
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+            )
+            .build()
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            "sendDateFromBase",
+            ExistingPeriodicWorkPolicy.KEEP,
+            workRequest
+        )
+    }
 
 }
