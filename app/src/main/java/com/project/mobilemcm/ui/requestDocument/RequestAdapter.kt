@@ -5,23 +5,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.project.mobilemcm.R
 import com.project.mobilemcm.data.local.database.model.RequestDocumentItem
 import com.project.mobilemcm.databinding.ItemRequestDocBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class RequestAdapter(val onClick: (Long) -> Unit) :
-    ListAdapter<RequestDocumentItem, RequestAdapter.RequestViewHolder>(RequestDiffCallback()){
+    ListAdapter<RequestDocumentItem, RequestAdapter.RequestViewHolder>(RequestDiffCallback()) {
 
-   inner class RequestViewHolder(private val binding: ItemRequestDocBinding):RecyclerView.ViewHolder(binding.root) {
+    inner class RequestViewHolder(private val binding: ItemRequestDocBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(requestDocumentItem: RequestDocumentItem){
+        fun bind(requestDocumentItem: RequestDocumentItem) {
             val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
-            with(binding){
-                date.text=dateFormat.format(requestDocumentItem.docDate.time)
-                number.text=requestDocumentItem.document_id.toString()
-                store.text=requestDocumentItem.nameStore
-                counterparties.text=requestDocumentItem.nameCounterparties
+            with(binding) {
+                date.text = dateFormat.format(requestDocumentItem.docDate.time)
+                number.text = requestDocumentItem.document_id.toString()
+                store.text = requestDocumentItem.nameStore
+                counterparties.text = requestDocumentItem.nameCounterparties
+                if (requestDocumentItem.isSent)
+                    imageSend.setImageResource(R.drawable.circle_24_green)
+                else
+                    imageSend.setImageResource(R.drawable.circle_24_red)
+                textsumm.text = String.format("%.2f", requestDocumentItem.summDoc)
+
                 card.setOnClickListener {
                     onClick(requestDocumentItem.document_id)
                 }
@@ -35,7 +43,8 @@ class RequestAdapter(val onClick: (Long) -> Unit) :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ))
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
@@ -45,11 +54,17 @@ class RequestAdapter(val onClick: (Long) -> Unit) :
 }
 
 private class RequestDiffCallback : DiffUtil.ItemCallback<RequestDocumentItem>() {
-    override fun areItemsTheSame(oldItem: RequestDocumentItem, newItem: RequestDocumentItem): Boolean {
+    override fun areItemsTheSame(
+        oldItem: RequestDocumentItem,
+        newItem: RequestDocumentItem
+    ): Boolean {
         return oldItem.document_id == newItem.document_id
     }
 
-    override fun areContentsTheSame(oldItem: RequestDocumentItem, newItem: RequestDocumentItem): Boolean {
+    override fun areContentsTheSame(
+        oldItem: RequestDocumentItem,
+        newItem: RequestDocumentItem
+    ): Boolean {
         return oldItem == newItem
     }
 }

@@ -1,5 +1,6 @@
 package com.project.mobilemcm.ui.categorylist
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -339,7 +340,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 getActiveUser()
                 newList.forEach { goodWithStock ->
                     val gp = getPricing(
-                        division_id = loginRepository.user?.division_id?:"",
+                        division_id = loginRepository.user?.division_id ?: "",
                         good_id = goodWithStock.id,
                         company_id = selectedCompanies.value?.id ?: "",
                         date = "2023-06-27T08:00:00",
@@ -375,7 +376,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     @OptIn(ExperimentalCoroutinesApi::class)
     val findGoods = _isStateFilter.switchMap { isStateFilter ->
         query.switchMap { query ->
-            repository.getSearch(sanitizeSearchQuery(query),requestDocument.store_id)
+            repository.getSearch(sanitizeSearchQuery(query), requestDocument.store_id)
                 .onStart { _showProgress.value = true }
                 .onEmpty { _showProgress.value = false }
                 .onCompletion { _showProgress.value = false }
@@ -391,7 +392,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                     getActiveUser()
                     newList.forEach {
                         val gp = getPricing(
-                            division_id = loginRepository.user?.division_id?:"",
+                            division_id = loginRepository.user?.division_id ?: "",
                             good_id = it.id,
                             company_id = selectedCompanies.value?.id ?: "",
                             date = "2023-06-27T08:00:00",
@@ -439,7 +440,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         if (requestDocument.counterparties_id.isEmpty()) {
             return false
         }
-
+        docSumm.value?.let {
+            requestDocument.summDoc = it
+        }
         val idDoc = viewModelScope.async {
             repository.addRequestDoc(requestDocument)
         }
@@ -494,15 +497,21 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 comment = requestDocument.comment
 
             )
-            //  println(Gson().toJson(requestDocument1c))
-//            try {
- //           repository.postDoc(requestDocument1c)
-//                Log.e("otvet1C",res.data.toString() )
-//                Log.e("otvet1C",res.message.toString() )
-//            } catch (e: Throwable) {
-//                Log.e("errorSendDocument", e.message.toString())
-//            }
-
+//            println(Gson().toJson(requestDocument1c))
+            try {
+                if (false) {
+                    val res = repository.postDoc(requestDocument1c)
+                    res.data?.let {
+                        repository.sendDocumentUpdate(
+                            it.id ?: "",
+                            it.number ?: "",
+                            requestDocument1c.id_doc.toInt()
+                        )
+                    }
+                }
+            } catch (e: Throwable) {
+                Log.e("errorSendDocument", e.message.toString())
+            }
             clearDoc()
         }
         return true
@@ -552,8 +561,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                     } else map.value.amount = 0.0
                 }
                 _goDoc.value = true
-                //               println(Gson().toJson(requestDocument1c))
-//                val res=repository.postDoc(requestDocument1c)
             }
         }
 
@@ -619,8 +626,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             val im = individualPricesDao.getIm(company_id)
             if (apply_actions) {
                 im?.let {
-                    result = if (it) individualPricesDao.getActionPricesIm(division_id, good_id, date)
-                    else individualPricesDao.getActionPricesOther(division_id, good_id, date)
+                    result =
+                        if (it) individualPricesDao.getActionPricesIm(division_id, good_id, date)
+                        else individualPricesDao.getActionPricesOther(division_id, good_id, date)
                 }
             }
             if (result == null) {

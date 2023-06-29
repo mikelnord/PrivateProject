@@ -1,5 +1,6 @@
 package com.project.mobilemcm.data.remote.network
 
+import com.project.mobilemcm.data.local.database.model.AnswerServer
 import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.FileUsers
 import com.project.mobilemcm.data.local.database.model.RequestDocument1c
@@ -22,5 +23,5 @@ interface ApiService {
     suspend fun getUsers(): Response<FileUsers>
 
     @POST("place_order")
-    suspend fun postDoc(@Body requestDocument1c: RequestDocument1c): Response<String>
+    suspend fun postDoc(@Body requestDocument1c: RequestDocument1c): Response<AnswerServer>
 }

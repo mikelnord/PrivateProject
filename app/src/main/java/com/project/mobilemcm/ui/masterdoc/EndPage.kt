@@ -49,9 +49,9 @@ class EndPage : Fragment() {
             viewModel.requestDocument.counterpartiesStores_id = it.id
         }
         binding.buttonSave.setOnClickListener {
+            viewModel.requestDocument.comment = binding.textCardComm.text.toString().trim()
             if (!viewModel.saveDoc()) showAlert(requireContext())
             else {
-                viewModel.requestDocument.comment = binding.textCardComm.text.toString().trim()
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(R.id.homeFragment, false)
                     .build()

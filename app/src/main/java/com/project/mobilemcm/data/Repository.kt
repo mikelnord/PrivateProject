@@ -200,7 +200,7 @@ class Repository @Inject constructor(
     suspend fun addRequestDoc(requestDocument: RequestDocument): Long =
         requestDocumentDao.insert(requestDocument)
 
-    suspend fun getAllRequestDoc() = requestDocumentDao.getAll()
+    fun getAllRequestDoc() = requestDocumentDao.getAll()
 
     suspend fun insertGoodsDoc(requestGoodsList: List<RequestGoods>) =
         requestGoodsDao.insertAll(requestGoodsList)
@@ -254,5 +254,9 @@ class Repository @Inject constructor(
 
     suspend fun postDoc(requestDocument1c: RequestDocument1c) =
         remoteDataSource.postDoc(requestDocument1c)
+
+    suspend fun sendDocumentUpdate(idOneC: String, number: String, document_id: Int) =
+        requestDocumentDao.sendDocumentUpdate(idOneC, number, document_id)
+
 
 }

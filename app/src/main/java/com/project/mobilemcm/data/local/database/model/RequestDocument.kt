@@ -14,14 +14,18 @@ data class RequestDocument(
     var store_id: String,
     var isPickup: Boolean = false,
     var comment: String = "",
-    var isSent: Boolean = false
+    var isSent: Boolean = false,
+    var idOneC: String = "",
+    var summDoc:Double=0.0
 )
 
 data class RequestDocumentItem(
     val document_id: Long,
     val docDate: Calendar,
     val nameStore: String,
-    val nameCounterparties: String
+    val nameCounterparties: String,
+    var isSent: Boolean,
+    val summDoc: Double
 )
 
 data class RequestDocument1c(

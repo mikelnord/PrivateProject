@@ -26,22 +26,23 @@
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageSend"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.461"
                 tools:text="1010" />
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/number"
@@ -52,7 +53,7 @@
                 android:id="@+id/store"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/counterparties"
@@ -63,7 +64,7 @@
                 android:id="@+id/counterparties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/date"
@@ -79,6 +80,31 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageSend"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/circle_24_green"
+                tools:srcCompat="@drawable/circle_24_green" />
+
+            <TextView
+                android:id="@+id/textsumm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="200 000"
+                app:layout_constraintBaseline_toBaselineOf="@+id/store"
+                app:layout_constraintStart_toEndOf="@+id/store" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
