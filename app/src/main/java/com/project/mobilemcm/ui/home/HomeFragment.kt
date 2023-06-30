@@ -35,8 +35,6 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupUI()
         setupNavigationRail()
-        homeViewModel.isLoginFirst()
-        savedStateHandle[LOGIN_FIRST] = homeViewModel.emptyBase.value
         return binding.root
     }
 
@@ -69,7 +67,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupUI() {
-
+        homeViewModel.isLoginFirst()
+        homeViewModel.emptyBase.observe(viewLifecycleOwner) {
+            savedStateHandle[LOGIN_FIRST] = it
+        }
+        homeViewModel.dateObmen.observe(viewLifecycleOwner) { obmenDate ->
+            obmenDate?.let {
+                binding.textDateObmen.text = it.dateObmen
+            }
+        }
         binding.iconButtonExchange.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToExchangeFragment())
         }

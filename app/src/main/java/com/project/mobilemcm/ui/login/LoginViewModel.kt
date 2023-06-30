@@ -60,8 +60,12 @@ class LoginViewModel @Inject constructor(
                     LoginResult(success = loginRepository.user?.let { LoggedInUserView(displayName = it.displayName) })
                 )
                 loginRepository.getInactiveUser()?.let {
-                    if (it.division_id != (loginRepository.user?.division_id ?: "")) {
-                        viewModelScope.launch(Dispatchers.IO) { repository.clearBase() }
+                    loginRepository.user?.division_id?.let {userDivisionId->
+                        if (it.division_id != userDivisionId) {
+                            viewModelScope.launch(Dispatchers.IO) {
+                                //repository.clearBase()
+                             }
+                        }
                     }
                 }
                 loginRepository.user?.let { user -> loginRepository.insertUser(user) }

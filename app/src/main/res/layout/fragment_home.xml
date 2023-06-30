@@ -140,5 +140,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/mcm_logo" />
 
+    <TextView
+        android:id="@+id/textDateObmen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/navigation_rail"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

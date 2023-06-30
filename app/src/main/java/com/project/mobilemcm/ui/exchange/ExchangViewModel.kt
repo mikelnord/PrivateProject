@@ -19,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -78,25 +77,20 @@ class ExchangeViewModel @Inject constructor(
             _complateObmen.postValue(false)
             fileObmen.await()?.let {
                 try {
-                    //_dateObmen.postValue(fileObmen.await()?.goods?.size.toString())
-                    if (repository.addGoodToBase(it) != (fileObmen.await()?.goods?.size
-                            ?: 0)
-                    ) throw IOException("errorObmen")
+                    repository.addGoodToBase(it)
                     _countGoods.postValue(loadFile.value)
                     repository.addCategoryToBase(it)
                     repository.addPricegroupToBase(it)
                     repository.addPricegroups2ToBase(it)
                     repository.addStoresToBase(it)
-                    if (repository.addStockToBase(it) != (fileObmen.await()?.stocks?.size
-                            ?: 0)
-                    ) throw IOException("errorObmen")
+                    repository.addStockToBase(it)
                     repository.addCounterpartiesToBase(it)
                     repository.addCounterpartiesStoresToBase(it)
-                    repository.addDateObmenToBase(it)
                     repository.addDiscontsToBase(it)
                     repository.addActionPricesToBase(it)
                     repository.addIndividualPricesToBase(it)
                     repository.addDivisionToBase(it)
+                    repository.addDateObmenToBase(it)
                 } catch (e: Throwable) {
                     Log.e("errorObmen", e.message.toString())
                 }
@@ -116,7 +110,7 @@ class ExchangeViewModel @Inject constructor(
     }
 
     private fun applyExchangeWorker(context: Context) {
-        val workRequest = PeriodicWorkRequestBuilder<ExchangeWorker>(25, TimeUnit.MINUTES)
+        val workRequest = PeriodicWorkRequestBuilder<ExchangeWorker>(30, TimeUnit.MINUTES)
             .setConstraints(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)

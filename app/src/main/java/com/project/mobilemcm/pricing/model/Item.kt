@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 data class Item(
     @PrimaryKey(autoGenerate = true) val item_id: Long=0,
     val id: String,
-    val discount: Double,
+    val discount: Double?,
     val pricegroup: String?,
     val pricegroup2: String?,
     val good_id: String?

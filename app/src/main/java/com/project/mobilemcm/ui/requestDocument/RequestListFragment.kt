@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.project.mobilemcm.R
@@ -48,9 +49,26 @@ class RequestListFragment : Fragment() {
         binding.navigationRail.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_home -> {
-                    findNavController().navigate(RequestListFragmentDirections.actionRequestListFragmentToHomeFragment())
+                    findNavController()
+                        .navigate(RequestListFragmentDirections.actionRequestListFragmentToHomeFragment())
                     true
                 }
+
+                R.id.menu_send -> {
+                    viewModel.sendDocument()
+                    true
+                }
+
+                R.id.menu_add->{
+                    activityViewModel.clearDoc()
+                    val navOptions = NavOptions.Builder()
+                        //.setPopUpTo(R.id.homeAdapter, false)
+                        // .setLaunchSingleTop(true)
+                        .build()
+                    findNavController().navigate(R.id.homeAdapter)
+                    true
+                }
+
                 else -> false
             }
         }

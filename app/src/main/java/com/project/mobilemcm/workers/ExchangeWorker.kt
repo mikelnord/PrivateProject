@@ -6,7 +6,6 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.project.mobilemcm.data.Repository
-import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -28,8 +27,8 @@ class ExchangeWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return try {
-            makeStatusNotification("Обмен старт", applicationContext)
             getObmen()
+            makeStatusNotification("Обмен с сервером выполнен успешно", applicationContext)
             Result.success()
         } catch (exception: Exception) {
             exception.printStackTrace()
@@ -68,7 +67,6 @@ class ExchangeWorker @AssistedInject constructor(
         scope.launch() {
             fileObmen.await()?.let {
                 try {
-                    //_dateObmen.postValue(fileObmen.await()?.goods?.size.toString())
                     if (repository.addGoodToBase(it) != (fileObmen.await()?.goods?.size
                             ?: 0)
                     ) throw IOException("errorObmen")
@@ -81,11 +79,11 @@ class ExchangeWorker @AssistedInject constructor(
                     ) throw IOException("errorObmen")
                     repository.addCounterpartiesToBase(it)
                     repository.addCounterpartiesStoresToBase(it)
-                    repository.addDateObmenToBase(it)
                     repository.addDiscontsToBase(it)
                     repository.addActionPricesToBase(it)
                     repository.addIndividualPricesToBase(it)
                     repository.addDivisionToBase(it)
+                    repository.addDateObmenToBase(it)
                     if (repository.getCountVendors())
                         repository.addVendors(repository.getAllVendors())
                 } catch (e: Throwable) {

@@ -2,6 +2,8 @@ package com.project.mobilemcm.data.local.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
 @Entity
@@ -16,7 +18,7 @@ data class RequestDocument(
     var comment: String = "",
     var isSent: Boolean = false,
     var idOneC: String = "",
-    var summDoc:Double=0.0
+    var summDoc: Double = 0.0
 )
 
 data class RequestDocumentItem(
@@ -25,7 +27,8 @@ data class RequestDocumentItem(
     val nameStore: String,
     val nameCounterparties: String,
     var isSent: Boolean,
-    val summDoc: Double
+    val summDoc: Double,
+    val number: String?
 )
 
 data class RequestDocument1c(
@@ -39,3 +42,22 @@ data class RequestDocument1c(
     val comment: String,
     val itemList: List<Good1c>
 )
+
+fun RequestDocument.RequestDocumentToRequestDocument1c(
+    userId: String,
+    itemList: List<Good1c>
+) =
+    RequestDocument1c(
+        userId = userId,
+        id_doc = document_id,
+        docDate = LocalDateTime.ofInstant(
+            docDate.toInstant(),
+            docDate.timeZone.toZoneId()
+        ).format(DateTimeFormatter.ISO_DATE_TIME),
+        store_id = store_id,
+        counterparties_id = counterparties_id,
+        counterpartiesStores_id = counterpartiesStores_id,
+        isPickup = isPickup,
+        itemList = itemList,
+        comment = comment
+    )

@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 data class ActionPrices(
     @PrimaryKey
     val id: String,
-    val active: String,
-    val date: String,
-    val date_end: String,
-    val date_start: String,
-    val number: String,
+    val active: String?,
+    val date: String?,
+    val date_end: String?,
+    val date_start: String?,
+    val number: String?,
     var items: List<ItemAction>?,
-    val type: String
+    val type: String?
 )

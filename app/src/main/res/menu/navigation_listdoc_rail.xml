@@ -4,5 +4,15 @@
         android:id="@+id/menu_home"
         android:enabled="true"
         android:icon="@drawable/home_24"
-        android:title="Home"/>
+        android:title="Home" />
+    <item
+        android:id="@+id/menu_add"
+        android:enabled="true"
+        android:icon="@drawable/add_circle_24"
+        android:title="Add" />
+    <item
+        android:id="@+id/menu_send"
+        android:enabled="true"
+        android:icon="@drawable/send_to_mobile_24"
+        android:title="Send" />
 </menu>

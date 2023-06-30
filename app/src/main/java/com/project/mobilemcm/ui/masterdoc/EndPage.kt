@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavOptions
@@ -49,13 +50,17 @@ class EndPage : Fragment() {
             viewModel.requestDocument.counterpartiesStores_id = it.id
         }
         binding.buttonSave.setOnClickListener {
-            viewModel.requestDocument.comment = binding.textCardComm.text.toString().trim()
-            if (!viewModel.saveDoc()) showAlert(requireContext())
-            else {
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.homeFragment, false)
-                    .build()
-                findNavController().navigate(R.id.requestListFragment, null, navOptions)
+            if (viewModel.requestDocument.counterpartiesStores_id.isNotEmpty() || viewModel.requestDocument.isPickup) {
+                viewModel.requestDocument.comment = binding.textCardComm.text.toString().trim()
+                if (!viewModel.saveDoc()) showAlert(requireContext())
+                else {
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(R.id.homeFragment, false)
+                        .build()
+                    findNavController().navigate(R.id.requestListFragment, null, navOptions)
+                }
+            } else {
+                Toast.makeText(requireContext(), "Место доставки!", Toast.LENGTH_LONG).show()
             }
         }
         viewModel.docSumm.observe(viewLifecycleOwner) { summ ->

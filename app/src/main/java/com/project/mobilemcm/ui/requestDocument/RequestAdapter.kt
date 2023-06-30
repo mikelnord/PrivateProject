@@ -1,7 +1,7 @@
 package com.project.mobilemcm.ui.requestDocument
 
 import android.view.LayoutInflater
-import android.view.ViewGroup
+ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -21,8 +21,8 @@ class RequestAdapter(val onClick: (Long) -> Unit) :
             val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
             with(binding) {
                 date.text = dateFormat.format(requestDocumentItem.docDate.time)
-                number.text = requestDocumentItem.document_id.toString()
-                store.text = requestDocumentItem.nameStore
+                number.text = requestDocumentItem.number?.ifEmpty { requestDocumentItem.document_id.toString() }
+                //store.text = requestDocumentItem.nameStore
                 counterparties.text = requestDocumentItem.nameCounterparties
                 if (requestDocumentItem.isSent)
                     imageSend.setImageResource(R.drawable.circle_24_green)

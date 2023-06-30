@@ -3,6 +3,7 @@ package com.project.mobilemcm.ui.home
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.login.LoginRepository
@@ -29,7 +30,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
     fun setMode() {
         appMode.value?.let {
             if (it) {
@@ -41,4 +41,5 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    val dateObmen=repository.getFlowDate().asLiveData()
 }

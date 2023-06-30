@@ -343,7 +343,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                         division_id = loginRepository.user?.division_id ?: "",
                         good_id = goodWithStock.id,
                         company_id = selectedCompanies.value?.id ?: "",
-                        date = "2023-06-27T08:00:00",
+                        date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                         goodWithStock.pricegroup,
                         goodWithStock.pricegroup2,
                         selectedCompanies.value?.apply_actions ?: false
@@ -395,7 +395,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                             division_id = loginRepository.user?.division_id ?: "",
                             good_id = it.id,
                             company_id = selectedCompanies.value?.id ?: "",
-                            date = "2023-06-27T08:00:00",
+                            date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                             it.pricegroup,
                             it.pricegroup2,
                             selectedCompanies.value?.apply_actions ?: false
@@ -499,7 +499,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             )
 //            println(Gson().toJson(requestDocument1c))
             try {
-                if (false) {
+                if (true) {
                     val res = repository.postDoc(requestDocument1c)
                     res.data?.let {
                         repository.sendDocumentUpdate(
@@ -516,7 +516,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         }
         return true
     }
-
 
     fun clearDoc() {
         requestDocument = RequestDocument(
@@ -548,7 +547,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             }
             resultGoods.await().let {
                 it.map { goodWithStock ->
-                    addList(goodWithStock, goodWithStock.count)//пройти и заполнить остатки
+                    addList(goodWithStock, goodWithStock.count)
                     sumValue()
                 }
                 val mapStock = repository.getMapAmount(

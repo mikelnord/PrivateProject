@@ -84,6 +84,8 @@ class Repository @Inject constructor(
 
     suspend fun getObmenDate() = obmenDateDao.getDate()
 
+    fun getFlowDate() = obmenDateDao.getFlowDate()
+
     suspend fun firstLogin() = obmenDateDao.getCountObmenDate()
 
     suspend fun addCategoryToBase(fileObmen: FileObmen): Int {
@@ -145,8 +147,8 @@ class Repository @Inject constructor(
     suspend fun addDiscontsToBase(fileObmen: FileObmen): Int {
         fileObmen.discounts?.let { discontsList ->
             discontsList.forEach {
-                itemDao.insertAll(it.items)
-                companyDao.insertAll(it.companies)
+                it.items?.let { items -> itemDao.insertAll(items) }
+                it.companies?.let { companies -> companyDao.insertAll(companies) }
                 it.items = listOf()
                 it.companies = listOf()
             }
@@ -258,5 +260,5 @@ class Repository @Inject constructor(
     suspend fun sendDocumentUpdate(idOneC: String, number: String, document_id: Int) =
         requestDocumentDao.sendDocumentUpdate(idOneC, number, document_id)
 
-
+    suspend fun getAllDocumentForSend() = requestDocumentDao.getAllDocumentForSend()
 }

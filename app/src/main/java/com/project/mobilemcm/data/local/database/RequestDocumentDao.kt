@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface RequestDocumentDao {
 
     @Query("""Select r.document_id, r.docDate, s.name as nameStore, c.name as nameCounterparties, 
-        r.isSent, r.summDoc from requestdocument r left join store s on r.store_id=s.id
+        r.isSent, r.summDoc, r.number from requestdocument r left join store s on r.store_id=s.id
             left join counterparties c on r.counterparties_id=c.id   order by docDate""")
      fun getAll(): Flow<List<RequestDocumentItem>>
 
@@ -31,4 +31,7 @@ interface RequestDocumentDao {
 
     @Query("""Update requestdocument set idOneC=:idOneC, number=:number, isSent=1 where document_id=:document_id""")
     suspend fun sendDocumentUpdate(idOneC:String,number:String, document_id:Int)
+
+    @Query("""Select * from requestdocument where isSent=0""")
+    suspend fun getAllDocumentForSend():List<RequestDocument>
 }

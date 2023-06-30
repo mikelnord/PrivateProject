@@ -50,17 +50,6 @@
                 tools:text="17-04-2023 16:40" />
 
             <TextView
-                android:id="@+id/store"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/counterparties"
-                app:layout_constraintStart_toEndOf="@+id/counterparties"
-                tools:text="Владивосток" />
-
-            <TextView
                 android:id="@+id/counterparties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,9 +91,9 @@
                 android:layout_marginStart="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                tools:text="200 000"
-                app:layout_constraintBaseline_toBaselineOf="@+id/store"
-                app:layout_constraintStart_toEndOf="@+id/store" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/counterparties"
+                app:layout_constraintStart_toEndOf="@+id/counterparties"
+                tools:text="200 000" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
