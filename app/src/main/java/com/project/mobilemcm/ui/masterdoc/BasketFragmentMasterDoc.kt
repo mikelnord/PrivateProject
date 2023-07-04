@@ -1,5 +1,6 @@
 package com.project.mobilemcm.ui.masterdoc
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +38,7 @@ class BasketFragmentMasterDoc : Fragment() {
     }
 
     private fun setupUI() {
-        binding.floatingActionButton.setOnClickListener{
+        binding.floatingActionButton.setOnClickListener {
             val bundle = bundleOf("isMasterDoc" to true)
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.podborFragment, true)
@@ -46,6 +47,8 @@ class BasketFragmentMasterDoc : Fragment() {
         }
         setupAdapter()
     }
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun setupAdapter() {
         val adapterAction =
             AdapterAction({ goodWithStock, count -> viewModel.addList(goodWithStock, count) },
@@ -60,12 +63,15 @@ class BasketFragmentMasterDoc : Fragment() {
         binding.recyclerGoods.adapter = adapter
         viewModel.countList.observe(viewLifecycleOwner) {
             adapter.submitList(viewModel.addStringsList.values.toList())
+            adapter.notifyDataSetChanged()
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
     private fun showAlertDialog(
         good: GoodWithStock,
         update: () -> Unit

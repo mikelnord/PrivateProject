@@ -30,7 +30,6 @@ class ExchangeFragment : Fragment() {
     ): View {
         _binding = FragmentExchangeBinding.inflate(inflater, container, false)
         subscribeUi()
-        binding.buttonStartObmen.isEnabled = true
         updateUI()
         return binding.root
     }
@@ -45,15 +44,19 @@ class ExchangeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun updateUI() {
+        binding.buttonStartObmen.isEnabled = true
+        binding.buttonStartFullObmen.isEnabled = true
         binding.buttonStartObmen.setOnClickListener {
             binding.buttonStartObmen.isEnabled = false
+            binding.buttonStartFullObmen.isEnabled = false
             binding.indikator.visibility = View.VISIBLE
             viewModel.getObmen(requireContext())
-            if (!viewModel.isError) {
-                viewModel.countGoods.observe(viewLifecycleOwner) {
-                    viewModel.insertVendors()
-                }
-            }
+        }
+        binding.buttonStartFullObmen.setOnClickListener {
+            binding.buttonStartObmen.isEnabled = false
+            binding.buttonStartFullObmen.isEnabled = false
+            binding.indikator.visibility = View.VISIBLE
+            viewModel.getObmen(requireContext(), true)
         }
     }
 

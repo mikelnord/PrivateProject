@@ -431,6 +431,36 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             it
         }
 
+    private suspend fun recalculationOfPrices() {
+        if (addStringsList.values.isNotEmpty()) {
+            addStringsList.values.forEach { goodWithStock ->
+                val ip = getPricing(
+                    division_id = loginRepository.user?.division_id ?: "",
+                    good_id = goodWithStock.id,
+                    company_id = selectedCompanies.value?.id ?: "",
+                    date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
+                    goodWithStock.pricegroup,
+                    goodWithStock.pricegroup2,
+                    selectedCompanies.value?.apply_actions ?: false
+                )
+                ip?.let { gp ->
+                    goodWithStock.discont = gp.discount
+                    goodWithStock.priceInd = gp.price
+                    goodWithStock.number = gp.number
+                    goodWithStock.metod =
+                        if ((gp.discount.compareTo(0.0) == 0) and (gp.metod == 4)) 0 else gp.metod
+                }
+                if (ip == null) {
+                    goodWithStock.discont = null
+                    goodWithStock.priceInd = null
+                    goodWithStock.number = null
+                    goodWithStock.metod = null
+                }
+            }
+            _countList.value = 0
+            sumValue()
+        }
+    }
 
     private var _showProgress = MutableLiveData<Boolean>()
     val showProgress = _showProgress
@@ -438,6 +468,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     fun saveDoc(): Boolean {
         if (requestDocument.counterparties_id.isEmpty()) {
+            return false
+        }
+        if (requestDocument.isSent) {
             return false
         }
         docSumm.value?.let {
@@ -499,7 +532,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             )
 //            println(Gson().toJson(requestDocument1c))
             try {
-                if (true) {
+                if (!requestDocument.isSent) {
                     val res = repository.postDoc(requestDocument1c)
                     res.data?.let {
                         repository.sendDocumentUpdate(
@@ -577,6 +610,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     fun setSelectedCompanies(counterparties: Counterparties) {
         _selectedCompanies.value = counterparties
+        viewModelScope.launch {
+            recalculationOfPrices()
+        }
     }
 
     private var _selectedCompaniesAdr = MutableLiveData<CounterpartiesStores>()

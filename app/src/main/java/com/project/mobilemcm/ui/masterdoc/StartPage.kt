@@ -29,8 +29,12 @@ class StartPage : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentStartPageBinding.inflate(inflater, container, false)
-        setupUI()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupUI()
     }
 
     @SuppressLint("SetTextI18n")
@@ -53,10 +57,13 @@ class StartPage : Fragment() {
         }
 
         viewModelMain.selectedCompanies.observe(viewLifecycleOwner) {
-            binding.searchBar.text = it.name
-            binding.searchView.hide()
-            viewModelMain.requestDocument.counterparties_id = it.id
-            viewModelMain.requestDocument.counterpartiesStores_id = ""
+            if (it.id.isNotBlank()) {
+                binding.searchBar.text = it.name
+                binding.searchView.hide()
+                viewModelMain.requestDocument.counterparties_id = it.id
+                //viewModel.getCompanyInfo(it.id)
+                viewModelMain.requestDocument.counterpartiesStores_id = ""
+            }
         }
 
         viewModel.activeUser.observe(viewLifecycleOwner) { loggedInUser ->
@@ -72,11 +79,20 @@ class StartPage : Fragment() {
             storeList?.let {
                 val adapter = ArrayAdapter(requireContext(), R.layout.list_item, it)
                 binding.storeList.setAdapter(adapter)
+                if (viewModelMain.requestDocument.store_id.isNotEmpty()) {
+                    binding.store.editText?.setText(viewModel.getPositionFromIdStore(viewModelMain.requestDocument.store_id))
+                }
             }
         }
 
         binding.storeList.setOnItemClickListener { parent, view, position, id ->
             viewModel.getItemFromListStore(position)?.let { viewModelMain.setStoreId(it) }
+        }
+
+        viewModel.companyInfo.observe(viewLifecycleOwner) {
+            binding.textDebt.text = it?.debt.toString()
+            binding.textOverdueDebt.text = it?.overdue_debt.toString()
+            binding.textOverdueDebt5.text = it?.overdue_debt5.toString()
         }
 
     }

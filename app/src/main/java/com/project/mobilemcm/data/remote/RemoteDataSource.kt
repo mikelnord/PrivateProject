@@ -2,6 +2,7 @@ package com.project.mobilemcm.data.remote
 
 import android.util.Log
 import com.project.mobilemcm.data.local.database.model.AnswerServer
+import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.FileUsers
 import com.project.mobilemcm.data.local.database.model.RequestDocument1c
@@ -60,6 +61,13 @@ class RemoteDataSource @Inject constructor(
         return getResponse(
             request = { apiService.postDoc(requestDocument1c) },
             defaultErrorMessage = "Error post doc"
+        )
+    }
+
+    suspend fun getCompanyInfo(companyId: String): Result<CompanyInfo?> {
+        return getResponse(
+            request = { apiService.getCompanyInfo(companyId) },
+            defaultErrorMessage = "Error get info company"
         )
     }
 }

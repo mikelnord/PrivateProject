@@ -48,18 +48,26 @@ class ExchangeViewModel @Inject constructor(
 
     var isError = false
 
-    fun getObmen(context: Context) {
+    fun getObmen(context: Context, full: Boolean = false) {
         val strPodr = loginRepository.user?.division_id//stock
         val strUserId = loginRepository.user?.id ?: ""
         val dateObmen = viewModelScope.async { repository.getObmenDate() }
         val fileObmen = viewModelScope.async(Dispatchers.IO) {
             val result =
                 strPodr?.let {
-                    repository.fetchObmenFile(
-                        dateObmen.await()?.dateObmen ?: "2001-01-01T00:00:00",
-                        it,
-                        strUserId
-                    )
+                    if (full) {
+                        repository.fetchObmenFile(
+                            "2001-01-01T00:00:00",
+                            it,
+                            strUserId
+                        )
+                    } else {
+                        repository.fetchObmenFile(
+                            dateObmen.await()?.dateObmen ?: "2001-01-01T00:00:00",
+                            it,
+                            strUserId
+                        )
+                    }
                 }
             result?.let { res ->
                 if (res.status == Result.Status.SUCCESS) {
@@ -92,22 +100,27 @@ class ExchangeViewModel @Inject constructor(
                     repository.addDivisionToBase(it)
                     repository.addDateObmenToBase(it)
                 } catch (e: Throwable) {
+                    isError = true
+                    message.postValue(e.message.toString())
                     Log.e("errorObmen", e.message.toString())
+                }
+                if (!isError) {
+                    repository.addDateObmenToBase(it)
                 }
             }
             _dateObmen.postValue(repository.getObmenDate()?.dateObmen)
+            if (!isError) {
+                viewModelScope.launch {
+                    if (repository.getCountVendors())
+                        repository.addVendors(repository.getAllVendors())
+                }
+                applyExchangeWorker(context)
+            }
             delay(5000)
             _complateObmen.postValue(true)
-            applyExchangeWorker(context)
         }
     }
 
-    fun insertVendors() {
-        viewModelScope.launch {
-            if (repository.getCountVendors())
-                repository.addVendors(repository.getAllVendors())
-        }
-    }
 
     private fun applyExchangeWorker(context: Context) {
         val workRequest = PeriodicWorkRequestBuilder<ExchangeWorker>(30, TimeUnit.MINUTES)

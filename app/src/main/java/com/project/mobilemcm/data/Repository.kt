@@ -261,4 +261,7 @@ class Repository @Inject constructor(
         requestDocumentDao.sendDocumentUpdate(idOneC, number, document_id)
 
     suspend fun getAllDocumentForSend() = requestDocumentDao.getAllDocumentForSend()
+
+    suspend fun getCompanyInfo(companyId: String) = remoteDataSource.getCompanyInfo(companyId)
+
 }

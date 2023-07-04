@@ -5,10 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.project.mobilemcm.data.Repository
+import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.RequestDocument
+import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +30,9 @@ class AdapterViewModel @Inject constructor(
 
     private var _onlyMine = MutableLiveData(true)
     private val onlyMine = _onlyMine
+
+    private var _companyInfo = MutableLiveData<CompanyInfo?>()
+    val companyInfo = _companyInfo
 
     init {
         _queryCompanies.value = ""
@@ -80,5 +89,18 @@ class AdapterViewModel @Inject constructor(
     }
 
     fun getItemFromListStore(position: Int) = storeList.value?.get(position)?.id
+
+    fun getPositionFromIdStore(id:String)= storeList.value?.find { it.id==id }?.name
+
+    fun getCompanyInfo(idCompany: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repository.getCompanyInfo(idCompany)
+            result.let { res ->
+                if (res.status == Result.Status.SUCCESS) {
+                    _companyInfo.postValue(result.data)
+                }
+            }
+        }
+    }
 
 }

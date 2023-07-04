@@ -89,6 +89,9 @@ class EndPage : Fragment() {
                 }
             }
         }
+        viewModel.selectedCompanies.observe(viewLifecycleOwner){
+            binding.searchBarAdr.clearText()
+        }
     }
 
     override fun onDestroyView() {

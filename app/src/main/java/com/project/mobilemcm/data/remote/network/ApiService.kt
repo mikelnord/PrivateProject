@@ -1,6 +1,7 @@
 package com.project.mobilemcm.data.remote.network
 
 import com.project.mobilemcm.data.local.database.model.AnswerServer
+import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.FileUsers
 import com.project.mobilemcm.data.local.database.model.RequestDocument1c
@@ -24,4 +25,10 @@ interface ApiService {
 
     @POST("place_order")
     suspend fun postDoc(@Body requestDocument1c: RequestDocument1c): Response<AnswerServer>
+
+    @GET("get_balans/{companyId}")
+    suspend fun getCompanyInfo(
+        @Path("companyId") companyId: String
+    ): Response<CompanyInfo>
+   // http://mx.wlbs.ru/upr_mcm/hs/API/get_balans/30141f6f-2891-11de-8a96-000e0c3bc9dd
 }
