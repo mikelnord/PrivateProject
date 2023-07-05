@@ -1,5 +1,6 @@
 package com.project.mobilemcm.ui.masterdoc
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentEndPageBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
 import com.project.mobilemcm.ui.requestDocument.CompaniesAdressAdapter
+import com.project.mobilemcm.util.currencyFormat
 import com.project.mobilemcm.util.showAlert
 
 class EndPage : Fragment() {
@@ -31,6 +33,7 @@ class EndPage : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupUI() {
         binding.searchViewAdr.setupWithSearchBar(binding.searchBarAdr)
         val adapterCompaniesAdr = CompaniesAdressAdapter {
@@ -52,7 +55,11 @@ class EndPage : Fragment() {
         binding.buttonSave.setOnClickListener {
             if (viewModel.requestDocument.counterpartiesStores_id.isNotEmpty() || viewModel.requestDocument.isPickup) {
                 viewModel.requestDocument.comment = binding.textCardComm.text.toString().trim()
-                if (!viewModel.saveDoc()) showAlert(requireContext())
+                if (!viewModel.saveDoc()) showAlert(
+                    requireContext(),
+                    "Контрагент не выбран!",
+                    "Выберете контрагента и повторите запись документа"
+                )
                 else {
                     val navOptions = NavOptions.Builder()
                         .setPopUpTo(R.id.homeFragment, false)
@@ -65,7 +72,7 @@ class EndPage : Fragment() {
         }
         viewModel.docSumm.observe(viewLifecycleOwner) { summ ->
             summ?.let {
-                binding.textCardSumm.text = String.format("На сумму %.2f", it)
+                binding.textCardSumm.text = "Сумма ${currencyFormat(it)}"
             }
         }
         viewModel.docCount.observe(viewLifecycleOwner) { count ->
@@ -89,7 +96,7 @@ class EndPage : Fragment() {
                 }
             }
         }
-        viewModel.selectedCompanies.observe(viewLifecycleOwner){
+        viewModel.selectedCompanies.observe(viewLifecycleOwner) {
             binding.searchBarAdr.clearText()
         }
     }

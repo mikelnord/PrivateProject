@@ -348,12 +348,12 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                         goodWithStock.pricegroup2,
                         selectedCompanies.value?.apply_actions ?: false
                     )
-                    gp?.let { gp ->
-                        goodWithStock.discont = gp.discount
-                        goodWithStock.priceInd = gp.price
-                        goodWithStock.number = gp.number
+                    gp?.let { indPrices ->
+                        goodWithStock.discont = indPrices.discount
+                        goodWithStock.priceInd = indPrices.price
+                        goodWithStock.number = indPrices.number
                         goodWithStock.metod =
-                            if ((gp.discount.compareTo(0.0) == 0) and (gp.metod == 4)) 0 else gp.metod
+                            if ((indPrices.discount.compareTo(0.0) == 0) and (indPrices.metod == 4)) 0 else indPrices.metod
                     }
                 }
 
@@ -400,12 +400,12 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                             it.pricegroup2,
                             selectedCompanies.value?.apply_actions ?: false
                         )
-                        gp?.let { gp ->
-                            it.discont = gp.discount
-                            it.priceInd = gp.price
-                            it.number = gp.number
+                        gp?.let { indPrices ->
+                            it.discont = indPrices.discount
+                            it.priceInd = indPrices.price
+                            it.number = indPrices.number
                             it.metod =
-                                if ((gp.discount.compareTo(0.0) == 0) and (gp.metod == 4)) 0 else gp.metod
+                                if ((indPrices.discount.compareTo(0.0) == 0) and (indPrices.metod == 4)) 0 else indPrices.metod
                         }
                     }
                     newList = if (isStateFilter.isPrisegroup) {
@@ -553,7 +553,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     fun clearDoc() {
         requestDocument = RequestDocument(
             counterparties_id = "0",
-            store_id = "c3a21002-ef22-11e5-a605-f07959941a7c"
+            store_id = ""
         )
         addStringsList.clear()
         sumValue()

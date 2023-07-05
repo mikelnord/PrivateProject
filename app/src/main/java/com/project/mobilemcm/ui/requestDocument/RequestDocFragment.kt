@@ -1,10 +1,12 @@
 package com.project.mobilemcm.ui.requestDocument
 
+import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -35,12 +37,16 @@ class RequestDocFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRequestDocBinding.inflate(inflater, container, false)
-        setupUI()
-        setupNavigationRail()
-        setupAdapter()
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupUI()
+        setupNavigationRail()
+        setupAdapter()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun setupAdapter() {
         val adapterAction =
             AdapterAction({ goodWithStock, count -> viewModel.addList(goodWithStock, count) },
@@ -55,6 +61,7 @@ class RequestDocFragment : Fragment() {
         binding.recyclerGoods.adapter = adapter
         viewModel.countList.observe(viewLifecycleOwner) {
             adapter.submitList(viewModel.addStringsList.values.toList())
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -117,9 +124,23 @@ class RequestDocFragment : Fragment() {
     }
 
     private fun setupNavigationRail() {
+        binding.navigationRail.headerView?.isEnabled = !viewModel.requestDocument.isSent
         binding.navigationRail.headerView?.setOnClickListener {
-            if (!viewModel.saveDoc()) showAlert(requireContext())
-            else findNavController().navigate(RequestDocFragmentDirections.actionRequestDocFragmentToRequestListFragment())
+            if (viewModel.requestDocument.counterpartiesStores_id.isNotEmpty() || viewModel.requestDocument.isPickup) {
+                if (!viewModel.saveDoc()) showAlert(
+                    requireContext(),
+                    "Контрагент не выбран!",
+                    "Выберете контрагента и повторите запись документа"
+                )
+                else {
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(R.id.homeFragment, false)
+                        .build()
+                    findNavController().navigate(R.id.requestListFragment, null, navOptions)
+                }
+            } else {
+                Toast.makeText(requireContext(), "Место доставки!", Toast.LENGTH_LONG).show()
+            }
         }
         binding.navigationRail.setOnItemSelectedListener { item ->
             when (item.itemId) {

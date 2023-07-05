@@ -9,6 +9,9 @@ import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.project.mobilemcm.R
 import com.project.mobilemcm.data.local.database.model.GoodWithStock
+import java.text.NumberFormat
+import java.util.Currency
+import java.util.Locale
 
 fun sanitizeSearchQuery(query: String): String {
     if (query.isEmpty()) {
@@ -47,10 +50,10 @@ fun showPlusDialog(
         .show()
 }
 
-fun showAlert(context: Context) {
+fun showAlert(context: Context, title: String, message: String) {
     MaterialAlertDialogBuilder(context)
-        .setTitle("Контрагент не выбран!")
-        .setMessage("Выберете контрагента и повторите запись документа")
+        .setTitle(title)
+        .setMessage(message)
         .setNegativeButton("No") { _, _ ->
             // Respond to negative button press
         }
@@ -65,7 +68,13 @@ fun ImageView.loadImage(url: String) {
         .override(100, 100).centerInside()
         .placeholder(R.drawable.loading_animation)
         .error(R.drawable.ic_broken_image)
-      //  .skipMemoryCache(true)
         .transform(FitCenter())
         .into(this)
+}
+
+fun currencyFormat(currency: Double): String {
+    val currencyFormat = NumberFormat.getCurrencyInstance(Locale("ru", "ru"))
+    currencyFormat.maximumFractionDigits = 0
+    currencyFormat.currency = Currency.getInstance("RUB")
+    return currencyFormat.format(currency)
 }

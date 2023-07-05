@@ -13,7 +13,6 @@ import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -90,9 +89,15 @@ class AdapterViewModel @Inject constructor(
 
     fun getItemFromListStore(position: Int) = storeList.value?.get(position)?.id
 
-    fun getPositionFromIdStore(id:String)= storeList.value?.find { it.id==id }?.name
+    fun getPositionFromIdStore(id: String): Int {
+        storeList.value?.forEachIndexed { index, storeItem ->
+            if (storeItem.id == id) return index
+        }
+        return 0
+    }
 
     fun getCompanyInfo(idCompany: String) {
+        companyInfo.value = CompanyInfo(null, null, null)
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.getCompanyInfo(idCompany)
             result.let { res ->

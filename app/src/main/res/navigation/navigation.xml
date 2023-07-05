@@ -40,6 +40,7 @@
         <action
             android:id="@+id/action_homeFragment_to_requestListFragment"
             app:destination="@id/requestListFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment

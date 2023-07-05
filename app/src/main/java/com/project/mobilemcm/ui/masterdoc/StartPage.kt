@@ -14,6 +14,7 @@ import com.project.mobilemcm.databinding.FragmentStartPageBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
 import com.project.mobilemcm.ui.requestDocument.CompaniesAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import com.project.mobilemcm.util.currencyFormat
 
 @AndroidEntryPoint
 class StartPage : Fragment() {
@@ -33,7 +34,6 @@ class StartPage : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         setupUI()
     }
 
@@ -61,7 +61,7 @@ class StartPage : Fragment() {
                 binding.searchBar.text = it.name
                 binding.searchView.hide()
                 viewModelMain.requestDocument.counterparties_id = it.id
-                //viewModel.getCompanyInfo(it.id)
+                viewModel.getCompanyInfo(it.id)
                 viewModelMain.requestDocument.counterpartiesStores_id = ""
             }
         }
@@ -76,11 +76,14 @@ class StartPage : Fragment() {
         }
 
         viewModel.storeList.observe(viewLifecycleOwner) { storeList ->
-            storeList?.let {
+            storeList?.let { it ->
                 val adapter = ArrayAdapter(requireContext(), R.layout.list_item, it)
                 binding.storeList.setAdapter(adapter)
                 if (viewModelMain.requestDocument.store_id.isNotEmpty()) {
-                    binding.store.editText?.setText(viewModel.getPositionFromIdStore(viewModelMain.requestDocument.store_id))
+                    binding.storeList.setText(
+                        it[viewModel.getPositionFromIdStore(viewModelMain.requestDocument.store_id)].name,
+                        false
+                    )
                 }
             }
         }
@@ -89,12 +92,19 @@ class StartPage : Fragment() {
             viewModel.getItemFromListStore(position)?.let { viewModelMain.setStoreId(it) }
         }
 
-        viewModel.companyInfo.observe(viewLifecycleOwner) {
-            binding.textDebt.text = it?.debt.toString()
-            binding.textOverdueDebt.text = it?.overdue_debt.toString()
-            binding.textOverdueDebt5.text = it?.overdue_debt5.toString()
-        }
 
+        viewModel.companyInfo.observe(viewLifecycleOwner) {
+            binding.textDebt.text =
+                if (it?.debt != null) {
+                    "Текущий долг --- ${currencyFormat(it.debt)}"
+                } else "---"
+            binding.textOverdueDebt.text = if (it?.overdue_debt != null) {
+                "Просроченный долг --- ${currencyFormat(it.overdue_debt)}"
+            } else "---"
+            binding.textOverdueDebt5.text = if (it?.overdue_debt5 != null) {
+                "Долг до просрочки 5 дней ---  ${currencyFormat(it.overdue_debt5)}"
+            } else "---"
+        }
     }
 
     override fun onDestroyView() {

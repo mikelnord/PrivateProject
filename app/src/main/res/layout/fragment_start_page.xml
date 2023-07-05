@@ -58,12 +58,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/store"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:hint="Склад продажи"
+        android:hint="@string/storage_value"
         app:boxCornerRadiusBottomEnd="25dp"
         app:boxCornerRadiusBottomStart="25dp"
         app:boxCornerRadiusTopEnd="25dp"
@@ -106,10 +106,11 @@
     <com.google.android.material.card.MaterialCardView
 
         style="?attr/materialCardViewElevatedStyle"
-        android:layout_width="320dp"
-        android:layout_height="200dp"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/store"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/store">
 
