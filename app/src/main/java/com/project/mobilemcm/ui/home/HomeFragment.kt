@@ -77,7 +77,7 @@ class HomeFragment : Fragment() {
             }
         }
         binding.iconButtonExchange.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToExchangeFragment())
+            findNavController().navigate(R.id.exchangeFragment)
         }
 
         binding.iconButtonList.setOnClickListener {
@@ -131,7 +131,7 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.menu_exchange -> {
-                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToExchangeFragment())
+                    findNavController().navigate(R.id.exchangeFragment)
                     true
                 }
 

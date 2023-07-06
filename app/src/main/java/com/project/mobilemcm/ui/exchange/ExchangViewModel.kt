@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.project.mobilemcm.data.Repository
@@ -15,6 +17,7 @@ import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
 import com.project.mobilemcm.workers.ExchangeWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -47,8 +50,14 @@ class ExchangeViewModel @Inject constructor(
     val complateObmen = _complateObmen
 
     var isError = false
+    private val errorHandler =
+        CoroutineExceptionHandler { _, exception ->
+            exception.printStackTrace()
+            isError = true
+            message.postValue(exception.message.toString())
+        }
 
-    fun getObmen(context: Context, full: Boolean = false) {
+    fun getObmenOld(context: Context, full: Boolean = false) {
         val strPodr = loginRepository.user?.division_id//stock
         val strUserId = loginRepository.user?.id ?: ""
         val dateObmen = viewModelScope.async { repository.getObmenDate() }
@@ -121,9 +130,77 @@ class ExchangeViewModel @Inject constructor(
         }
     }
 
+    fun getObmen(context: Context, full: Boolean = false) {
+        val strPodr = loginRepository.user?.division_id//stock
+        val strUserId = loginRepository.user?.id ?: ""
+        val dateObmen = viewModelScope.async(Dispatchers.IO) { repository.getObmenDate() }
+        val fileObmen = viewModelScope.async(Dispatchers.IO) {
+            val result =
+                strPodr?.let {
+                    if (full) {
+                        repository.fetchObmenFile(
+                            "2001-01-01T00:00:00",
+                            it,
+                            strUserId
+                        )
+                    } else {
+                        repository.fetchObmenFile(
+                            dateObmen.await()?.dateObmen ?: "2001-01-01T00:00:00",
+                            it,
+                            strUserId
+                        )
+                    }
+                }
+            result?.let { res ->
+                if (res.status == Result.Status.SUCCESS) {
+                    isError = false
+                    return@async result.data
+                } else {
+                    isError = true
+                    message.postValue(result.message)
+                    Log.e("errorSend", "Error send!")
+                    return@async null
+                }
+            }
+        }
+
+        if (!isError) {
+            viewModelScope.launch(errorHandler) {
+                _complateObmen.postValue(false)
+                fileObmen.await()?.let {
+                    repository.addGoodToBase(it)
+                    repository.addCategoryToBase(it)
+                    repository.addPricegroupToBase(it)
+                    repository.addPricegroups2ToBase(it)
+                    repository.addStoresToBase(it)
+                    repository.addStockToBase(it)
+                    repository.addCounterpartiesToBase(it)
+                    repository.addCounterpartiesStoresToBase(it)
+                    repository.addDiscontsToBase(it)
+                    repository.addActionPricesToBase(it)
+                    repository.addIndividualPricesToBase(it)
+                    repository.addDivisionToBase(it)
+                    if (repository.getCountVendors())
+                        repository.addVendors(repository.getAllVendors())
+                    if (!isError) {
+                        repository.addDateObmenToBase(it)
+                        _complateObmen.postValue(true)
+                        _dateObmen.postValue(repository.getObmenDate()?.dateObmen)
+                        viewModelScope.launch {
+                            if (repository.getCountVendors())
+                                repository.addVendors(repository.getAllVendors())
+                        }
+                    } else {
+                        Log.e("errorSend", "Error send!")
+                    }
+                }
+            }
+            if (!isError) applyExchangeWorker(context)
+        }
+    }
 
     private fun applyExchangeWorker(context: Context) {
-        val workRequest = PeriodicWorkRequestBuilder<ExchangeWorker>(30, TimeUnit.MINUTES)
+        val workRequest = PeriodicWorkRequestBuilder<ExchangeWorker>(15, TimeUnit.MINUTES)
             .setConstraints(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -137,4 +214,19 @@ class ExchangeViewModel @Inject constructor(
         )
     }
 
+    fun applyWorker(context: Context) {
+        val workRequest = OneTimeWorkRequestBuilder<ExchangeWorker>()
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+            )
+            .build()
+
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            "sendDateFromBase2",
+            ExistingWorkPolicy.KEEP,
+            workRequest
+        )
+    }
 }

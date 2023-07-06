@@ -35,9 +35,6 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_exchangeFragment"
-            app:destination="@id/exchangeFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_requestListFragment"
             app:destination="@id/requestListFragment"
             app:launchSingleTop="true"

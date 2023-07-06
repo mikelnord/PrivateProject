@@ -17,8 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val navHost =
-        supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
-        handleBackPressed(navHost)
+            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+//        handleBackPressed(navHost)
+        val navController=navHost.navController
     }
 
     private fun handleBackPressed(navHost: NavHostFragment) {
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             if (backStack == 0) {
                 finish()
             } else {
-               // if(navHost.navController.currentDestination==navHost.navController.findDestination(""))
+                // if(navHost.navController.currentDestination==navHost.navController.findDestination(""))
                 navHost.navController.navigateUp()
             }
         }

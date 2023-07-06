@@ -101,7 +101,8 @@ class ListDocRequestAdapter(
                                     val summSkid =
                                         (good.count * good.price) - good.count * good.price / 100 * discont
                                     price2.text = String.format("%.2f", (summSkid / good.count))
-                                    summPos.text = String.format("%.2f", (summSkid / good.count) * good.count)
+                                    summPos.text =
+                                        String.format("%.2f", (summSkid / good.count) * good.count)
                                 }
                             }
                             price2.setTextColor(Color.GREEN)

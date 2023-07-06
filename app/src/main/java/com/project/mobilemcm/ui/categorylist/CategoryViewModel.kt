@@ -16,7 +16,6 @@ import com.project.mobilemcm.data.local.database.model.DomainCategoryChild
 import com.project.mobilemcm.data.local.database.model.FilterState
 import com.project.mobilemcm.data.local.database.model.Good1c
 import com.project.mobilemcm.data.local.database.model.GoodWithStock
-import com.project.mobilemcm.data.local.database.model.LoggedInUser
 import com.project.mobilemcm.data.local.database.model.ParentCategory
 import com.project.mobilemcm.data.local.database.model.Pricegroup
 import com.project.mobilemcm.data.local.database.model.RequestDocument
@@ -266,15 +265,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         )
     }
 
-    private var activeUser: LoggedInUser? = null
-
-
-    private fun getActiveUser() {
-        viewModelScope.launch {
-            activeUser = loginRepository.getActiveUser()
-        }
-    }
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryChildList = _isStateFilter.switchMap { isStateFilter ->
         repository.categoryBaseList(requestDocument.store_id).mapLatest { list ->
@@ -337,7 +327,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                         }
                     }
                 } else list
-                getActiveUser()
                 newList.forEach { goodWithStock ->
                     val gp = getPricing(
                         division_id = loginRepository.user?.division_id ?: "",
@@ -389,7 +378,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                             }
                         }
                     } else list
-                    getActiveUser()
+                    //getActiveUser()
                     newList.forEach {
                         val gp = getPricing(
                             division_id = loginRepository.user?.division_id ?: "",

@@ -29,7 +29,7 @@ interface CategoryDao {
     @Query(
         """Select  c.id, c.parent_id, cat.name, cat.code, st.amount, g.pricegroup, g.vendor from good g 
 left join  stock st on st.good_id=g.id and st.store_id=:store
-left join category c on g.category=c.id
+left join category c on g.category=c.id and c.deletionmark=0
 join category cat on c.parent_id=cat.id
 where g.deletionmark=0 order by c.code"""
     )

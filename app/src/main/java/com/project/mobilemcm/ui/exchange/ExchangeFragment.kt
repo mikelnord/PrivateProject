@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.project.mobilemcm.R
@@ -65,8 +66,12 @@ class ExchangeFragment : Fragment() {
             showError(it)
         }
         viewModel.complateObmen.observe(viewLifecycleOwner) {
-            if (it)
-                findNavController().navigate(R.id.homeFragment)
+            if (it) {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.homeFragment, true)
+                    .build()
+                findNavController().navigate(R.id.homeFragment, null, navOptions)
+            }
         }
         viewModel.dateObmen.observe(viewLifecycleOwner) {
             binding.textViewDate.text = it
