@@ -8,7 +8,6 @@ import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.login.LoginRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -22,8 +21,8 @@ class ExchangeWorker @AssistedInject constructor(
     val loginRepository: LoginRepository
 ) : CoroutineWorker(appContext, workerParams) {
 
-    override suspend fun doWork(): Result {
-        return try {
+    override suspend fun doWork() =
+        try {
             getObmen()
             if (!isError) {
                 makeStatusNotification("Обмен с сервером выполнен успешно", applicationContext)
@@ -33,19 +32,11 @@ class ExchangeWorker @AssistedInject constructor(
             Result.success()
         } catch (exception: Exception) {
             makeStatusNotification(exception.message.toString(), applicationContext)
-            Result.retry()
+            Result.failure()
         }
-    }
 
     private var strMessage: String = ""
     private var isError = false
-
-    private val errorHandler =
-        CoroutineExceptionHandler { _, exception ->
-            exception.printStackTrace()
-            isError = true
-            strMessage = exception.message.toString()
-        }
 
     private suspend fun getObmen() {
         coroutineScope {

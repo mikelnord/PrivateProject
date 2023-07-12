@@ -1,15 +1,19 @@
 package com.project.mobilemcm.ui.exchange
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentExchangeBinding
@@ -23,7 +27,12 @@ class ExchangeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: ExchangeViewModel by viewModels()
     private lateinit var savedStateHandle: SavedStateHandle
-
+    private val requestMultiplePermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.entries.forEach {
+                Log.e("DEBUG", "${it.key} = ${it.value}")
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,13 +60,22 @@ class ExchangeFragment : Fragment() {
             binding.buttonStartObmen.isEnabled = false
             binding.buttonStartFullObmen.isEnabled = false
             binding.indikator.visibility = View.VISIBLE
-            viewModel.getObmen(requireContext())
+            //viewModel.getObmen(requireContext())
+            viewModel.applyExchangeWorker(requireContext())
         }
         binding.buttonStartFullObmen.setOnClickListener {
-            binding.buttonStartObmen.isEnabled = false
-            binding.buttonStartFullObmen.isEnabled = false
-            binding.indikator.visibility = View.VISIBLE
-            viewModel.getObmen(requireContext(), true)
+//            binding.buttonStartObmen.isEnabled = false
+//            binding.buttonStartFullObmen.isEnabled = false
+//            binding.indikator.visibility = View.VISIBLE
+//            viewModel.getObmen(requireContext(), true)
+            requestMultiplePermissions.launch(
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            )
+
+
         }
     }
 

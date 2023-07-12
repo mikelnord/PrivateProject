@@ -1,21 +1,31 @@
 package com.project.mobilemcm.ui.exchange
 
+
 import android.content.Context
+import android.net.ConnectivityManager
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.Constraints
+import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.project.mobilemcm.R
 import com.project.mobilemcm.data.Repository
+import com.project.mobilemcm.data.local.database.model.FileDownload
 import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
 import com.project.mobilemcm.workers.ExchangeWorker
+import com.project.mobilemcm.workers.FileDownloadWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +34,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
 
 @HiltViewModel
 class ExchangeViewModel @Inject constructor(
@@ -57,7 +68,7 @@ class ExchangeViewModel @Inject constructor(
             message.postValue(exception.message.toString())
         }
 
-    fun getObmenOld(context: Context, full: Boolean = false) {
+    fun getObmen(context: Context, full: Boolean = false) {
         val strPodr = loginRepository.user?.division_id//stock
         val strUserId = loginRepository.user?.id ?: ""
         val dateObmen = viewModelScope.async { repository.getObmenDate() }
@@ -130,7 +141,7 @@ class ExchangeViewModel @Inject constructor(
         }
     }
 
-    fun getObmen(context: Context, full: Boolean = false) {
+    fun getObmenNew(context: Context, full: Boolean = false) {
         val strPodr = loginRepository.user?.division_id//stock
         val strUserId = loginRepository.user?.id ?: ""
         val dateObmen = viewModelScope.async(Dispatchers.IO) { repository.getObmenDate() }
@@ -199,19 +210,22 @@ class ExchangeViewModel @Inject constructor(
         }
     }
 
-    private fun applyExchangeWorker(context: Context) {
-        val workRequest = PeriodicWorkRequestBuilder<ExchangeWorker>(15, TimeUnit.MINUTES)
-            .setConstraints(
-                Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build()
-            )
-            .build()
+    fun applyExchangeWorker(context: Context) {
+        val workRequest =
+            PeriodicWorkRequestBuilder<ExchangeWorker>(15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES)
+                .setConstraints(
+                    Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+                )
+                //.setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.MINUTES)
+                .build()
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             "sendDateFromBase",
             ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )
+        _complateObmen.value = true
     }
 
     fun applyWorker(context: Context) {
@@ -224,9 +238,85 @@ class ExchangeViewModel @Inject constructor(
             .build()
 
         WorkManager.getInstance(context).enqueueUniqueWork(
-            "sendDateFromBase2",
+            "sendDateFromBaseOneTime",
             ExistingWorkPolicy.KEEP,
             workRequest
         )
     }
+
+    fun isNetworkAvailable(context: Context): Boolean {
+        val connMgr = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connMgr.activeNetworkInfo
+        if (activeNetworkInfo != null) { // connected to the internet
+            if (activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                return true
+            } else if (activeNetworkInfo.type == ConnectivityManager.TYPE_MOBILE) {
+                // connected to the mobile provider's data plan
+                return true
+            }
+        }
+        Toast.makeText(context, R.string.no_Internet, Toast.LENGTH_SHORT).show()
+        return false
+    }
+
+    fun startDownloadingFile(
+        file: FileDownload,
+        success: (String) -> Unit,
+        failed: (String) -> Unit,
+        running: () -> Unit,
+        context: Context,
+        owner: LifecycleOwner
+
+    ) {
+        val data = Data.Builder()
+
+        data.apply {
+            putString(FileDownloadWorker.FileParams.KEY_FILE_NAME, file.name)
+            putString(FileDownloadWorker.FileParams.KEY_FILE_URL, file.url)
+            putString(FileDownloadWorker.FileParams.KEY_FILE_TYPE, file.type)
+        }
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val fileDownloadWorker = OneTimeWorkRequestBuilder<FileDownloadWorker>()
+            .setConstraints(constraints)
+            .setInputData(data.build())
+            .build()
+        val workManager = WorkManager.getInstance(context)
+        workManager.enqueueUniqueWork(
+            "oneFileDownloadWork_${System.currentTimeMillis()}",
+            ExistingWorkPolicy.KEEP,
+            fileDownloadWorker
+        )
+
+        workManager.getWorkInfoByIdLiveData(fileDownloadWorker.id)
+            .observe(owner) { info ->
+                info?.let {
+                    when (it.state) {
+                        WorkInfo.State.SUCCEEDED -> {
+                            success(
+                                it.outputData.getString(FileDownloadWorker.FileParams.KEY_FILE_URI)
+                                    ?: ""
+                            )
+                        }
+
+                        WorkInfo.State.FAILED -> {
+                            failed("Downloading failed!")
+                        }
+
+                        WorkInfo.State.RUNNING -> {
+                            running()
+                        }
+
+                        else -> {
+                            failed("Something went wrong")
+                        }
+                    }
+                }
+            }
+    }
+
 }

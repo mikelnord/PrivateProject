@@ -58,4 +58,5 @@
     <string name="visit_plan_text">План посещений</string>
     <string name="start_obmen">Start Obmen</string>
     <string name="storage_value">Склад продажи</string>
+    <string name="no_Internet">Интернет соединение отсутствует</string>
 </resources>
