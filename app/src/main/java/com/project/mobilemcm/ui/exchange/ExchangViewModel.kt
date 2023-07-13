@@ -2,10 +2,7 @@ package com.project.mobilemcm.ui.exchange
 
 
 import android.content.Context
-import android.net.ConnectivityManager
 import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +16,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.project.mobilemcm.R
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.local.database.model.FileDownload
 import com.project.mobilemcm.data.local.database.model.Result
@@ -210,9 +206,9 @@ class ExchangeViewModel @Inject constructor(
         }
     }
 
-    fun applyExchangeWorker(context: Context) {
+    private fun applyExchangeWorker(context: Context) {
         val workRequest =
-            PeriodicWorkRequestBuilder<ExchangeWorker>(15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<ExchangeWorker>(30, TimeUnit.MINUTES, 5, TimeUnit.MINUTES)
                 .setConstraints(
                     Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -225,7 +221,7 @@ class ExchangeViewModel @Inject constructor(
             ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )
-        _complateObmen.value = true
+            //_complateObmen.value = true
     }
 
     fun applyWorker(context: Context) {
@@ -242,22 +238,6 @@ class ExchangeViewModel @Inject constructor(
             ExistingWorkPolicy.KEEP,
             workRequest
         )
-    }
-
-    fun isNetworkAvailable(context: Context): Boolean {
-        val connMgr = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetworkInfo = connMgr.activeNetworkInfo
-        if (activeNetworkInfo != null) { // connected to the internet
-            if (activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI) {
-                // connected to wifi
-                return true
-            } else if (activeNetworkInfo.type == ConnectivityManager.TYPE_MOBILE) {
-                // connected to the mobile provider's data plan
-                return true
-            }
-        }
-        Toast.makeText(context, R.string.no_Internet, Toast.LENGTH_SHORT).show()
-        return false
     }
 
     fun startDownloadingFile(
@@ -319,4 +299,13 @@ class ExchangeViewModel @Inject constructor(
             }
     }
 
+    val data = MutableLiveData(
+        FileDownload(
+            id = "10",
+            name = "UpdateMCM.apk",
+            type = "APK",
+            url = "https://data.mcmshop.ru/storage/mobile_app/app-release.apk",
+            downloadedUri = null
+        )
+    )
 }

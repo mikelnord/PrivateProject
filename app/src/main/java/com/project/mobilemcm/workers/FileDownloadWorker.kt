@@ -3,13 +3,13 @@ package com.project.mobilemcm.workers
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.net.toUri
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -17,8 +17,6 @@ import androidx.work.workDataOf
 import com.project.mobilemcm.R
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import java.io.File
-import java.io.FileOutputStream
 import java.net.URL
 
 @HiltWorker
@@ -76,19 +74,25 @@ class FileDownloadWorker @AssistedInject constructor(
     private fun getSavedFileUri(
         fileName: String,
         fileUrl: String
-    ): Uri {
-
-        val target = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-            fileName
-        )
-        URL(fileUrl).openStream().use { input ->
-            FileOutputStream(target).use { output ->
-                input.copyTo(output)
-            }
+    ): Uri? {
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+            put(MediaStore.MediaColumns.RELATIVE_PATH, "Download/DownloaderDemo")
         }
 
-        return target.toUri()
+        val resolver = context.contentResolver
+
+        val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+        return if (uri != null) {
+            URL(fileUrl).openStream().use { input ->
+                resolver.openOutputStream(uri).use { output ->
+                    input.copyTo(output!!, DEFAULT_BUFFER_SIZE)
+                }
+            }
+            uri
+        } else {
+            null
+        }
     }
 
 
@@ -103,7 +107,7 @@ class FileDownloadWorker @AssistedInject constructor(
         const val CHANNEL_NAME = "download_file_worker_demo_channel"
         const val CHANNEL_DESCRIPTION = "download_file_worker_demo_description"
         const val CHANNEL_ID = "download_file_worker_demo_channel_123456"
-        const val NOTIFICATION_ID = 1
+        const val NOTIFICATION_ID = 100
     }
 }
 
