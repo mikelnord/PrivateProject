@@ -77,7 +77,7 @@ class FileDownloadWorker @AssistedInject constructor(
     ): Uri? {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-            put(MediaStore.MediaColumns.RELATIVE_PATH, "Download/DownloaderDemo")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, "Download/DownloaderUpdate")
         }
 
         val resolver = context.contentResolver
@@ -104,9 +104,9 @@ class FileDownloadWorker @AssistedInject constructor(
     }
 
     object NotificationConstants {
-        const val CHANNEL_NAME = "download_file_worker_demo_channel"
-        const val CHANNEL_DESCRIPTION = "download_file_worker_demo_description"
-        const val CHANNEL_ID = "download_file_worker_demo_channel_123456"
+        const val CHANNEL_NAME = "download_file_worker_update_channel"
+        const val CHANNEL_DESCRIPTION = "download_file_worker_update_description"
+        const val CHANNEL_ID = "download_file_worker_update_channel_123456"
         const val NOTIFICATION_ID = 100
     }
 }

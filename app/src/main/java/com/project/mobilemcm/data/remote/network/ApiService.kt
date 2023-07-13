@@ -5,6 +5,7 @@ import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.FileUsers
 import com.project.mobilemcm.data.local.database.model.RequestDocument1c
+import com.project.mobilemcm.data.local.database.model.UpdateDate
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -22,6 +23,9 @@ interface ApiService {
 
     @GET("getusers")
     suspend fun getUsers(): Response<FileUsers>
+
+    @GET("get_version_аpplication")
+    suspend fun getVersionInfo(): Response<UpdateDate>
 
     @POST("place_order")
     suspend fun postDoc(@Body requestDocument1c: RequestDocument1c): Response<AnswerServer>

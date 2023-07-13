@@ -10,6 +10,7 @@ import com.project.mobilemcm.data.remote.network.ApiService
 import retrofit2.Response
 import javax.inject.Inject
 import com.project.mobilemcm.data.local.database.model.Result
+import com.project.mobilemcm.data.local.database.model.UpdateDate
 import com.project.mobilemcm.util.ErrorUtils
 import retrofit2.Retrofit
 
@@ -68,6 +69,13 @@ class RemoteDataSource @Inject constructor(
         return getResponse(
             request = { apiService.getCompanyInfo(companyId) },
             defaultErrorMessage = "Error get info company"
+        )
+    }
+
+    suspend fun getVersionInfo(): Result<UpdateDate> {
+        return getResponse(
+            request = { apiService.getVersionInfo() },
+            defaultErrorMessage = "Error get version info"
         )
     }
 }

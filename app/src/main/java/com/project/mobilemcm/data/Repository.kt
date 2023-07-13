@@ -264,4 +264,6 @@ class Repository @Inject constructor(
 
     suspend fun getCompanyInfo(companyId: String) = remoteDataSource.getCompanyInfo(companyId)
 
+    suspend fun getUpdateVersionInfo() = remoteDataSource.getVersionInfo()
+
 }
