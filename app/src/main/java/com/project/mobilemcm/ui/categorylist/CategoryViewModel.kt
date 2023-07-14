@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.local.database.model.Counterparties
 import com.project.mobilemcm.data.local.database.model.CounterpartiesStores
@@ -27,8 +28,12 @@ import com.project.mobilemcm.pricing.data.IndividualPricesDao
 import com.project.mobilemcm.pricing.logic.IndPrices
 import com.project.mobilemcm.util.sanitizeSearchQuery
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEmpty
@@ -192,6 +197,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     init {
         sumValue()
+        updateAvailable()
     }
 
     fun addList(goodWithStock: GoodWithStock, count: Double) {
@@ -454,7 +460,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     private var _showProgress = MutableLiveData<Boolean>()
     val showProgress = _showProgress
 
-
     fun saveDoc(): Boolean {
         if (requestDocument.counterparties_id.isEmpty()) {
             return false
@@ -660,12 +665,12 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                     company_id = company_id, date = date, pricegroup = pricegroup,
                     pricegroup2 = pricegroup2, good_id = good_id
                 )
-                if (result == null) {
+                return if (result == null) {
                     //ничего не нашли базовая цена
-                    return null
+                    null
                 } else {
 
-                    return result
+                    result
                 }
             } else {
                 //pricing action find and return
@@ -677,4 +682,26 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         }
     }
 
+    val versionCode = BuildConfig.VERSION_CODE
+    private val versionName = BuildConfig.VERSION_NAME
+
+    private var _updateAvailable=MutableLiveData(false)
+    val updateAvailable=_updateAvailable
+
+    private fun updateAvailable(){
+        viewModelScope.launch {
+            while (true) {
+                repository.getUpdateVersionInfo().flowOn(Dispatchers.IO)
+                    .catch { e ->
+                        Log.e("DEBUG", e.message.toString())
+                    }
+                    .collect {
+                        it.data?.let { updateDate ->
+                            _updateAvailable.postValue(updateDate.version != versionName)
+                        }
+                    }
+                delay(300000)
+            }
+        }
+    }
 }

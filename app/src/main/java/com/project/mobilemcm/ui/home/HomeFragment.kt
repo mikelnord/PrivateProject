@@ -121,17 +121,14 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        val versionCode = BuildConfig.VERSION_CODE
-        val versionName = BuildConfig.VERSION_NAME
-        homeViewModel.updateAvailable.observe(viewLifecycleOwner) {
-            if (it != null) {
-                if (it.version != versionName) {
-                    binding.imageButtonUpdate.visibility = View.VISIBLE
-                    binding.textViewUpdate.visibility = View.VISIBLE
-                } else {
-                    binding.imageButtonUpdate.visibility = View.INVISIBLE
-                    binding.textViewUpdate.visibility = View.INVISIBLE
-                }
+
+        viewModel.updateAvailable.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.imageButtonUpdate.visibility = View.VISIBLE
+                binding.textViewUpdate.visibility = View.VISIBLE
+            } else {
+                binding.imageButtonUpdate.visibility = View.INVISIBLE
+                binding.textViewUpdate.visibility = View.INVISIBLE
             }
         }
 
