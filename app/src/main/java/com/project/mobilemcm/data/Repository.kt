@@ -31,7 +31,6 @@ import com.project.mobilemcm.pricing.data.ItemActionDao
 import com.project.mobilemcm.pricing.data.ItemDao
 import com.project.mobilemcm.pricing.data.ItemIndDao
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -265,6 +264,6 @@ class Repository @Inject constructor(
 
     suspend fun getCompanyInfo(companyId: String) = remoteDataSource.getCompanyInfo(companyId)
 
-    fun getUpdateVersionInfo() = flow { emit(remoteDataSource.getVersionInfo()) }
+    suspend fun getUpdateVersionInfo() = remoteDataSource.getVersionInfo()
 
 }
