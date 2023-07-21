@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentStartPageBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
@@ -55,6 +56,17 @@ class StartPage : Fragment() {
         viewModel.listCompanies.observe(viewLifecycleOwner) {
             adapterCompanies.submitList(it)
         }
+
+        val adapterDiscountCompany = DiscountCompanyAdapter(ArrayList())
+        binding.discontsRecycler.adapter = adapterDiscountCompany
+        val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        binding.discontsRecycler.addItemDecoration(decoration)
+        viewModel.discountsCompany.observe(viewLifecycleOwner) { listDiscounts ->
+            listDiscounts?.let {
+                adapterDiscountCompany.updateData(it)
+            }
+        }
+
 
         viewModelMain.selectedCompanies.observe(viewLifecycleOwner) {
             if (it.id.isNotBlank()) {

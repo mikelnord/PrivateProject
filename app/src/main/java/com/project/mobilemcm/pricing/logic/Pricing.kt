@@ -6,3 +6,9 @@ data class IndPrices(
     val discount: Double,
     val metod:Int
 )
+
+data class DiscountCompany(
+    val date:String,
+    val name:String,
+    val discount: Double
+)

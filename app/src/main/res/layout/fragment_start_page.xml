@@ -5,6 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.card.MaterialCardView
+
+        android:id="@+id/materialCardView3"
+        style="?attr/materialCardViewElevatedStyle"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/search_bar"
+        app:layout_constraintStart_toEndOf="@+id/materialCardView2"
+        app:layout_constraintTop_toBottomOf="@+id/store">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/discontsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/store" />
+    </com.google.android.material.card.MaterialCardView>
+
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/materialSwitchMy"
         android:layout_width="wrap_content"
@@ -19,12 +41,12 @@
 
     <com.google.android.material.search.SearchBar
         android:id="@+id/search_bar"
+        style="@style/Widget.Material3.SearchView.Toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        style="@style/Widget.Material3.SearchView.Toolbar"
         android:hint="@string/companies_value"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toStartOf="@+id/materialSwitchMy"
@@ -105,6 +127,7 @@
 
     <com.google.android.material.card.MaterialCardView
 
+        android:id="@+id/materialCardView2"
         style="?attr/materialCardViewElevatedStyle"
         android:layout_width="0dp"
         android:layout_height="150dp"

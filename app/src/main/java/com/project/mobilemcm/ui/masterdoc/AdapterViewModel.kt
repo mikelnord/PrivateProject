@@ -11,9 +11,12 @@ import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.RequestDocument
 import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
+import com.project.mobilemcm.pricing.logic.DiscountCompany
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -96,6 +99,10 @@ class AdapterViewModel @Inject constructor(
         return 0
     }
 
+    private var _discountsCompany = MutableLiveData<List<DiscountCompany>?>()
+    val discountsCompany = _discountsCompany
+
+
     fun getCompanyInfo(idCompany: String) {
         companyInfo.value = CompanyInfo(null, null, null)
         viewModelScope.launch(Dispatchers.IO) {
@@ -104,6 +111,11 @@ class AdapterViewModel @Inject constructor(
                 if (res.status == Result.Status.SUCCESS) {
                     _companyInfo.postValue(result.data)
                 }
+            }
+            launch {
+                val listDiscount=repository.getDiscontsFromCompany(date = LocalDateTime.now().format(
+                    DateTimeFormatter.ISO_DATE_TIME), company_id = idCompany)
+                _discountsCompany.postValue(listDiscount)
             }
         }
     }

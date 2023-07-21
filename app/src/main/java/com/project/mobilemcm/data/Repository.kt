@@ -266,4 +266,7 @@ class Repository @Inject constructor(
 
     suspend fun getUpdateVersionInfo() = remoteDataSource.getVersionInfo()
 
+    suspend fun getDiscontsFromCompany(company_id: String, date: String) =
+        discontsDao.getDiscontsFromCompany(company_id, date)
+
 }
