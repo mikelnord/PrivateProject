@@ -41,7 +41,7 @@ class PodborFragment : Fragment() {
     }
 
     private fun setupFind() {
-
+        viewModel.setStateRemainder()
         binding.searchView.setupWithSearchBar(binding.searchBar)
         binding.chipAmount.isChecked = (viewModel.isStateFilter.value?.isRemainder ?: false) == true
         binding.chipPricegroup.isChecked =

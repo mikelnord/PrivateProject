@@ -691,7 +691,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 repository.getUpdateVersionInfo().data?.let {
                     _updateAvailable.postValue(it.version != versionName)
                 }
-                delay(300000)
+                delay(300000)//worker need
             }
         }
     }
