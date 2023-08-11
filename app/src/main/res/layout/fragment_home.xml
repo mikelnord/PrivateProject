@@ -5,88 +5,142 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D9D9D9"
     tools:context=".ui.home.HomeFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/mcm_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="2dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/group_177"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/managerTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text=""
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Meneger" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.navigationrail.NavigationRailView
         android:id="@+id/navigation_rail"
         style="@style/Widget.MaterialComponents.NavigationRailView.Compact"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:elevation="4dp"
         app:labelVisibilityMode="auto"
         app:menu="@menu/navigation_home_menu"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/dayButton"
-        style="?attr/materialIconButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:icon="@drawable/wb_sunny_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/nightButton"
-        style="?attr/materialIconButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:icon="@drawable/night_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/iconButtonList"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="72dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/iconButtonDoc"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="16dp"
-        app:icon="@drawable/library_books_48"
-        app:iconGravity="textStart"
-        app:iconSize="48dp"
+        android:elevation="5dp"
+        android:textColorLink="@color/md_theme_dark_background"
+        app:icon="@drawable/icon_add_order"
+        app:iconGravity="textEnd"
+        app:iconSize="70dp"
+        app:iconTintMode="multiply"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/iconButtonDoc"
+        app:layout_constraintEnd_toStartOf="@+id/iconButtonList"
         app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toEndOf="@+id/navigation_rail"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/iconButtonDoc"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        app:icon="@drawable/list_alt_48"
-        app:iconGravity="textStart"
-        app:iconSize="48dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonList"
-        app:layout_constraintEnd_toStartOf="@+id/iconButtonExchange"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/iconButtonList" />
-
-    <Button
-        android:id="@+id/iconButtonExchange"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        app:icon="@drawable/cloud_sync_48"
-        app:iconGravity="textStart"
-        app:iconSize="48dp"
+        android:id="@+id/iconButtonList"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:elevation="5dp"
+        android:textColorLink="@color/md_theme_dark_background"
+        app:icon="@drawable/icon_orders"
+        app:iconGravity="textEnd"
+        app:iconSize="70dp"
+        app:iconTintMode="multiply"
         app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonDoc"
-        app:layout_constraintEnd_toStartOf="@+id/iconButtonExchange2"
+        app:layout_constraintEnd_toStartOf="@+id/iconButtonExchange"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/iconButtonDoc" />
 
     <Button
+        android:id="@+id/iconButtonExchange"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:elevation="5dp"
+        android:textColorLink="@color/md_theme_dark_background"
+        app:icon="@drawable/obmen_icon"
+        app:iconGravity="textEnd"
+        app:iconPadding="8dp"
+        app:iconSize="70dp"
+        app:iconTintMode="multiply"
+        app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonList"
+        app:layout_constraintEnd_toStartOf="@+id/iconButtonExchange2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iconButtonList" />
+
+    <Button
         android:id="@+id/iconButtonExchange2"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        app:icon="@drawable/directions_car_24"
-        app:iconGravity="textStart"
-        app:iconSize="48dp"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:elevation="5dp"
+        android:textColorLink="@color/md_theme_dark_background"
+        app:icon="@drawable/plan_icon"
+        app:iconGravity="textEnd"
+        app:iconPadding="8dp"
+        app:iconSize="70dp"
+        app:iconTintMode="multiply"
         app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonExchange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -97,25 +151,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/orders_text"
-        app:layout_constraintEnd_toEndOf="@+id/iconButtonList"
-        app:layout_constraintStart_toStartOf="@+id/iconButtonList"
-        app:layout_constraintTop_toBottomOf="@+id/iconButtonList" />
+        android:text="@string/create_order_text"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/iconButtonDoc"
+        app:layout_constraintStart_toStartOf="@+id/iconButtonDoc"
+        app:layout_constraintTop_toBottomOf="@+id/iconButtonDoc" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/create_order_text"
+        android:textSize="24sp"
+        android:text="@string/orders_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="@+id/iconButtonDoc"
-        app:layout_constraintStart_toStartOf="@+id/iconButtonDoc" />
+        app:layout_constraintEnd_toEndOf="@+id/iconButtonList"
+        app:layout_constraintStart_toStartOf="@+id/iconButtonList" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="24sp"
         android:text="@string/exchange_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="@+id/iconButtonExchange"
@@ -126,52 +183,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/visit_plan_text"
+        android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="@+id/iconButtonExchange2"
         app:layout_constraintStart_toStartOf="@+id/iconButtonExchange2" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/mcm_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/mcm_logo" />
 
     <TextView
         android:id="@+id/textDateObmen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/navigation_rail"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="TextDateObmen" />
 
     <ImageButton
         android:id="@+id/imageButtonUpdate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@android:drawable/stat_notify_sync"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/navigation_rail"
-        app:layout_constraintTop_toBottomOf="@+id/textDateObmen" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/navigation_rail" />
 
     <TextView
         android:id="@+id/textViewUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Update app"
+        android:text="@string/update_app"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/imageButtonUpdate"
         app:layout_constraintStart_toEndOf="@+id/imageButtonUpdate"
-        app:layout_constraintTop_toBottomOf="@+id/textDateObmen" />
+        app:layout_constraintTop_toTopOf="@+id/imageButtonUpdate" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

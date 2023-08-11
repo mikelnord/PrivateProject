@@ -15,7 +15,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentHomeBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
@@ -101,23 +100,19 @@ class HomeFragment : Fragment() {
 
         binding.iconButtonDoc.setOnClickListener {
             viewModel.clearDoc()
-            val navOptions = NavOptions.Builder()
-                //.setPopUpTo(R.id.homeAdapter, false)
-                // .setLaunchSingleTop(true)
-                .build()
             findNavController().navigate(R.id.homeAdapter)
         }
 
         homeViewModel.appMode.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
-                    binding.dayButton.visibility = View.VISIBLE
-                    binding.nightButton.visibility = View.GONE
+                    // binding.dayButton.visibility = View.VISIBLE
+                    // binding.nightButton.visibility = View.GONE
                 }
 
                 false -> {
-                    binding.dayButton.visibility = View.GONE
-                    binding.nightButton.visibility = View.VISIBLE
+                    //  binding.dayButton.visibility = View.GONE
+                    //  binding.nightButton.visibility = View.VISIBLE
                 }
             }
         }
@@ -132,13 +127,13 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.dayButton.setOnClickListener {
-            homeViewModel.setMode()
-        }
-
-        binding.nightButton.setOnClickListener {
-            homeViewModel.setMode()
-        }
+//        binding.dayButton.setOnClickListener {
+//            homeViewModel.setMode()
+//        }
+//
+//        binding.nightButton.setOnClickListener {
+//            homeViewModel.setMode()
+//        }
 
         binding.imageButtonUpdate.setOnClickListener {
             requestMultiplePermissions.launch(
@@ -187,6 +182,15 @@ class HomeFragment : Fragment() {
 
             }
 
+        }
+
+        viewModel.getActiveUser().observe(viewLifecycleOwner) { loggedInUser ->
+            loggedInUser?.let {
+                binding.managerTextView.text = it.displayName
+                if (it.division_id == "c3a21002-ef22-11e5-a605-f07959941a7c" && viewModel.requestDocument.store_id.isEmpty()) {
+                    viewModel.requestDocument.store_id = "ac7265a0-66bb-11df-b7ab-001517890160"
+                }
+            }
         }
 
     }

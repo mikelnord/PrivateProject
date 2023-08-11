@@ -107,6 +107,11 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         setSelectedVendors(vendors)
     }
 
+
+    fun getActiveUser() = liveData {
+        emit(loginRepository.user)
+    }
+
     private val _currentCategory = MutableLiveData<String>()
     private val currentCategory = _currentCategory
 
@@ -333,9 +338,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 } else list
                 newList.forEach { goodWithStock ->
                     val gp = getPricing(
-                        division_id = loginRepository.user?.division_id ?: "",
-                        good_id = goodWithStock.id,
-                        company_id = selectedCompanies.value?.id ?: "",
+                        divisionId = loginRepository.user?.division_id ?: "",
+                        goodId = goodWithStock.id,
+                        companyId = selectedCompanies.value?.id ?: "",
                         date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                         goodWithStock.pricegroup,
                         goodWithStock.pricegroup2,
@@ -385,9 +390,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                     //getActiveUser()
                     newList.forEach {
                         val gp = getPricing(
-                            division_id = loginRepository.user?.division_id ?: "",
-                            good_id = it.id,
-                            company_id = selectedCompanies.value?.id ?: "",
+                            divisionId = loginRepository.user?.division_id ?: "",
+                            goodId = it.id,
+                            companyId = selectedCompanies.value?.id ?: "",
                             date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                             it.pricegroup,
                             it.pricegroup2,
@@ -428,9 +433,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         if (addStringsList.values.isNotEmpty()) {
             addStringsList.values.forEach { goodWithStock ->
                 val ip = getPricing(
-                    division_id = loginRepository.user?.division_id ?: "",
-                    good_id = goodWithStock.id,
-                    company_id = selectedCompanies.value?.id ?: "",
+                    divisionId = loginRepository.user?.division_id ?: "",
+                    goodId = goodWithStock.id,
+                    companyId = selectedCompanies.value?.id ?: "",
                     date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                     goodWithStock.pricegroup,
                     goodWithStock.pricegroup2,
@@ -644,24 +649,24 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
 
     private suspend fun getPricing(
-        division_id: String, good_id: String, company_id: String, date: String, pricegroup: String,
-        pricegroup2: String, apply_actions: Boolean
+        divisionId: String, goodId: String, companyId: String, date: String, pricegroup: String,
+        pricegroup2: String, applyActions: Boolean
     ): IndPrices? {
-        var result = individualPricesDao.getIndividualPices(good_id, company_id, date)
+        var result = individualPricesDao.getIndividualPices(goodId, companyId, date)
         if (result == null) {
             //individual prices not allowed
-            val im = individualPricesDao.getIm(company_id)
-            if (apply_actions) {
+            val im = individualPricesDao.getIm(companyId)
+            if (applyActions) {
                 im?.let {
                     result =
-                        if (it) individualPricesDao.getActionPricesIm(division_id, good_id, date)
-                        else individualPricesDao.getActionPricesOther(division_id, good_id, date)
+                        if (it) individualPricesDao.getActionPricesIm(divisionId, goodId, date)
+                        else individualPricesDao.getActionPricesOther(divisionId, goodId, date)
                 }
             }
             return if (result == null) {
                 result = individualPricesDao.getDisconts(
-                    company_id = company_id, date = date, pricegroup = pricegroup,
-                    pricegroup2 = pricegroup2, good_id = good_id
+                    company_id = companyId, date = date, pricegroup = pricegroup,
+                    pricegroup2 = pricegroup2, good_id = goodId
                 )
                 if (result == null) {
                     //ничего не нашли базовая цена
@@ -679,7 +684,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         }
     }
 
-    val versionCode = BuildConfig.VERSION_CODE
+    //val versionCode = BuildConfig.VERSION_CODE
     private val versionName = BuildConfig.VERSION_NAME
 
     private var _updateAvailable = MutableLiveData(false)

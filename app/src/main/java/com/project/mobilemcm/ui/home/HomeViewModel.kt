@@ -1,7 +1,6 @@
 package com.project.mobilemcm.ui.home
 
 import android.content.Context
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -20,9 +19,6 @@ import com.project.mobilemcm.data.local.database.model.FileDownload
 import com.project.mobilemcm.data.login.LoginRepository
 import com.project.mobilemcm.workers.FileDownloadWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
