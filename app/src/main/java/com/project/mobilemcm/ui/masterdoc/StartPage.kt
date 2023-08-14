@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentStartPageBinding
@@ -57,15 +60,15 @@ class StartPage : Fragment() {
             adapterCompanies.submitList(it)
         }
 
-        val adapterDiscountCompany = DiscountCompanyAdapter(ArrayList())
-        binding.discontsRecycler.adapter = adapterDiscountCompany
-        val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        binding.discontsRecycler.addItemDecoration(decoration)
-        viewModel.discountsCompany.observe(viewLifecycleOwner) { listDiscounts ->
-            listDiscounts?.let {
-                adapterDiscountCompany.updateData(it)
-            }
-        }
+//        val adapterDiscountCompany = DiscountCompanyAdapter(ArrayList())
+//        binding.discontsRecycler.adapter = adapterDiscountCompany
+//        val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+//        binding.discontsRecycler.addItemDecoration(decoration)
+//        viewModel.discountsCompany.observe(viewLifecycleOwner) { listDiscounts ->
+//            listDiscounts?.let {
+//                adapterDiscountCompany.updateData(it)
+//            }
+//        }
 
 
         viewModelMain.selectedCompanies.observe(viewLifecycleOwner) {
@@ -75,19 +78,8 @@ class StartPage : Fragment() {
                 viewModelMain.requestDocument.counterparties_id = it.id
                 viewModel.getCompanyInfo(it.id)
                 viewModelMain.requestDocument.counterpartiesStores_id = ""
+                binding.next.isEnabled = viewModelMain.requestDocument.counterparties_id!="0"
             }
-        }
-
-        viewModel.activeUser.observe(viewLifecycleOwner) { loggedInUser ->
-            loggedInUser?.let {
-                binding.managerTextView.text = "Менеджер: ${it.displayName}"
-                if (it.division_id == "c3a21002-ef22-11e5-a605-f07959941a7c" && viewModelMain.requestDocument.store_id.isEmpty()) {
-                    viewModelMain.requestDocument.store_id = "ac7265a0-66bb-11df-b7ab-001517890160"
-                }
-            }
-        }
-        viewModel.activeStore.observe(viewLifecycleOwner) {
-            binding.skladTextView.text = "Подразделение: $it"
         }
 
         viewModel.storeList.observe(viewLifecycleOwner) { storeList ->
@@ -107,19 +99,26 @@ class StartPage : Fragment() {
             viewModel.getItemFromListStore(position)?.let { viewModelMain.setStoreId(it) }
         }
 
-
-        viewModel.companyInfo.observe(viewLifecycleOwner) {
-            binding.textDebt.text =
-                if (it?.debt != null) {
-                    "Текущий долг --- ${currencyFormat(it.debt)}"
-                } else "---"
-            binding.textOverdueDebt.text = if (it?.overdue_debt != null) {
-                "Просроченный долг --- ${currencyFormat(it.overdue_debt)}"
-            } else "---"
-            binding.textOverdueDebt5.text = if (it?.overdue_debt5 != null) {
-                "Долг до просрочки 5 дней ---  ${currencyFormat(it.overdue_debt5)}"
-            } else "---"
+        binding.next.setOnClickListener{
+            val bundle = bundleOf("isMasterDoc" to true)
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.podborFragment, true)
+                .build()
+            findNavController().navigate(R.id.podborFragment, bundle, navOptions)
         }
+
+//        viewModel.companyInfo.observe(viewLifecycleOwner) {
+//            binding.textDebt.text =
+//                if (it?.debt != null) {
+//                    "Текущий долг --- ${currencyFormat(it.debt)}"
+//                } else "---"
+//            binding.textOverdueDebt.text = if (it?.overdue_debt != null) {
+//                "Просроченный долг --- ${currencyFormat(it.overdue_debt)}"
+//            } else "---"
+//            binding.textOverdueDebt5.text = if (it?.overdue_debt5 != null) {
+//                "Долг до просрочки 5 дней ---  ${currencyFormat(it.overdue_debt5)}"
+//            } else "---"
+//        }
     }
 
     override fun onDestroyView() {

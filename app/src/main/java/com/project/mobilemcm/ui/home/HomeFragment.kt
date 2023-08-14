@@ -192,7 +192,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun setupNavigationRail() {
@@ -205,7 +204,7 @@ class HomeFragment : Fragment() {
 
                 R.id.menu_add_doc -> {
                     viewModel.clearDoc()
-                    //findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToRequestDocFragment())
+                    findNavController().navigate(R.id.homeAdapter)
                     true
                 }
 

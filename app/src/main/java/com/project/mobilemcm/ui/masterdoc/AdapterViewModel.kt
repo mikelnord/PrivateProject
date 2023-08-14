@@ -26,7 +26,7 @@ class AdapterViewModel @Inject constructor(
 ) : ViewModel() {
 
     var requestDocument =
-        RequestDocument(counterparties_id = "0", store_id = "c3a21002-ef22-11e5-a605-f07959941a7c")
+        RequestDocument(counterparties_id = "0", store_id = "")
     private var _queryCompanies = MutableLiveData<String>()
     private val queryCompanies = _queryCompanies
 
@@ -71,10 +71,6 @@ class AdapterViewModel @Inject constructor(
             }
         }
 
-    }
-
-    val activeUser = liveData {
-        emit(loginRepository.user)
     }
 
     val activeStore =

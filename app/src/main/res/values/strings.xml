@@ -23,7 +23,7 @@
     <string name="vendor">Производитель</string>
     <string name="summ_all">Сумма всего:</string>
     <string name="back">Back</string>
-    <string name="companies_value">Контрагент</string>
+    <string name="companies_value">Введите название компании</string>
     <string name="button_text_ok">OK</string>
     <string name="text_vendor">Производитель</string>
     <string name="orders_value">Заказы</string>

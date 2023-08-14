@@ -45,7 +45,19 @@ class HomeAdapter : Fragment() {
         }.attach()
         if (args.podborReturn) viewPager.currentItem = 1
         binding.viewPager.isUserInputEnabled = false
-        setTabLayout(tabLayout)
+        //  setTabLayout(tabLayout)
+        viewModelMain.getActiveUser().observe(viewLifecycleOwner) { loggedInUser ->
+            loggedInUser?.let {
+                binding.managerTextView.text = it.displayName
+                if (it.division_id == "c3a21002-ef22-11e5-a605-f07959941a7c" && viewModelMain.requestDocument.store_id.isEmpty()) {
+                    viewModelMain.requestDocument.store_id = "ac7265a0-66bb-11df-b7ab-001517890160"
+                }
+            }
+        }
+    }
+
+    fun goToBasket(){
+        viewPager.currentItem = 1
     }
 
     private fun setTabLayout(tabLayout: TabLayout) {

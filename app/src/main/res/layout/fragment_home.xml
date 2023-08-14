@@ -71,7 +71,7 @@
         style="@style/Widget.MaterialComponents.NavigationRailView.Compact"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:elevation="4dp"
         app:labelVisibilityMode="auto"
         app:menu="@menu/navigation_home_menu"
