@@ -1,11 +1,9 @@
 package com.project.mobilemcm.ui.categorylist
 
-import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
@@ -566,20 +564,20 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
             )
 //            println(Gson().toJson(requestDocument1c))
-            try {
-                if (!requestDocument.isSent) {
-                    val res = repository.postDoc(requestDocument1c)
-                    res.data?.let {
-                        repository.sendDocumentUpdate(
-                            it.id ?: "",
-                            it.number ?: "",
-                            requestDocument1c.id_doc.toInt()
-                        )
-                    }
-                }
-            } catch (e: Throwable) {
-                Log.e("errorSendDocument", e.message.toString())
-            }
+//            try {
+//                if (!requestDocument.isSent) {
+//                    val res = repository.postDoc(requestDocument1c)
+//                    res.data?.let {
+//                        repository.sendDocumentUpdate(
+//                            it.id ?: "",
+//                            it.number ?: "",
+//                            requestDocument1c.id_doc.toInt()
+//                        )
+//                    }
+//                }
+//            } catch (e: Throwable) {
+//                Log.e("errorSendDocument", e.message.toString())
+//            }
             clearDoc()
         }
         return true

@@ -1,6 +1,8 @@
 package com.project.mobilemcm.ui.masterdoc
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +37,7 @@ class EndPage : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setupUI() {
+        binding.textStore.text = viewModel.requestDocument.store_name
         binding.searchViewAdr.setupWithSearchBar(binding.searchBarAdr)
         val adapterCompaniesAdr = CompaniesAdressAdapter {
             viewModel.setSelectedCompaniesAdr(it)
@@ -42,7 +45,30 @@ class EndPage : Fragment() {
         binding.searchRecyclerAdr.adapter = adapterCompaniesAdr
         viewModel.getCompanyAdres().observe(viewLifecycleOwner) {
             adapterCompaniesAdr.submitList(it)
+            if(it.isEmpty()){
+                viewModel.requestDocument.isPickup = true
+                binding.materialCardView4.isEnabled=false
+                binding.searchBarAdr.isEnabled=false
+                binding.materialCardView.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FB8C00")))
+            }
         }
+        binding.materialCardView4.setOnClickListener {
+            binding.materialCardView.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFBFF")))
+            binding.materialCardView.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#FFFBFF")))
+            binding.materialCardView4.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FB8C00")))
+            binding.materialCardView4.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#1E1E1E")))
+            viewModel.requestDocument.isPickup = true
+
+        }
+        binding.materialCardView.setOnClickListener {
+            binding.materialCardView4.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFBFF")))
+            binding.materialCardView4.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#FFFBFF")))
+            binding.materialCardView.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FB8C00")))
+            binding.materialCardView.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#1E1E1E")))
+            viewModel.requestDocument.isPickup = false
+
+        }
+
         binding.searchViewAdr.editText.setOnEditorActionListener { _, _, _ ->
             viewModel.setQueryCompaniesAdr(binding.searchViewAdr.text.toString())
             false
@@ -72,30 +98,30 @@ class EndPage : Fragment() {
         }
         viewModel.docSumm.observe(viewLifecycleOwner) { summ ->
             summ?.let {
-                binding.textCardSumm.text = "Сумма ${currencyFormat(it.docSumm)}"
+                binding.textViewSummValue.text = currencyFormat(it.docSumm)
             }
         }
         viewModel.docCount.observe(viewLifecycleOwner) { count ->
             count?.let {
-                binding.textCardCount.text = String.format("Количество товаров %.2f", it)
+                binding.textViewProductValue.text = String.format("%.0f", it)
             }
 
         }
-        binding.switchAdress.setOnCheckedChangeListener { buttonView, isChecked ->
-            when (isChecked) {
-                true -> {
-                    binding.searchBarAdr.isEnabled = false
-                    binding.searchBarAdr.text = "Самовывоз"
-                    viewModel.requestDocument.isPickup = true
-                }
-
-                false -> {
-                    binding.searchBarAdr.isEnabled = true
-                    binding.searchBarAdr.clearText()
-                    viewModel.requestDocument.isPickup = false
-                }
-            }
-        }
+//        binding.switchAdress.setOnCheckedChangeListener { buttonView, isChecked ->
+//            when (isChecked) {
+//                true -> {
+//                    binding.searchBarAdr.isEnabled = false
+//                    binding.searchBarAdr.text = "Самовывоз"
+//                    viewModel.requestDocument.isPickup = true
+//                }
+//
+//                false -> {
+//                    binding.searchBarAdr.isEnabled = true
+//                    binding.searchBarAdr.clearText()
+//                    viewModel.requestDocument.isPickup = false
+//                }
+//            }
+//        }
         viewModel.selectedCompanies.observe(viewLifecycleOwner) {
             binding.searchBarAdr.clearText()
         }

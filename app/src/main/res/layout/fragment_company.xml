@@ -11,20 +11,14 @@
 
         android:id="@+id/materialCardView3"
         style="?attr/materialCardViewElevatedStyle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/materialCardView"
@@ -42,6 +36,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <Button
+                        android:id="@+id/toSpisokDoc"
+                        style="@style/Widget.Material3.Button.Icon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:enabled="false"
+                        android:text="К заказам"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Заказ № 1234567" />
+
                     <TextView
                         android:id="@+id/textCompany"
                         android:layout_width="0dp"
@@ -52,8 +61,9 @@
                         android:gravity="left|center_vertical"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewNumber"
                         tools:text="Company" />
 
                     <TextView
@@ -67,6 +77,7 @@
                         android:gravity="left|center_vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                        app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textCompany"
                         tools:text="Store" />
@@ -78,9 +89,21 @@
                         android:layout_marginEnd="8dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/company_card"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/textStore"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textCompany" />
+
+                    <TextView
+                        android:id="@+id/textViewNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="TextView"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/toSpisokDoc" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -98,7 +121,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/textDebt"
@@ -219,13 +242,12 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="8dp"
                 android:enabled="false"
                 android:text="@string/next"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewSumm" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewSumm"
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewProductValue"
@@ -255,6 +277,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textViewSumm"
                 app:layout_constraintEnd_toEndOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

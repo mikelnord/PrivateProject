@@ -1,7 +1,6 @@
 package com.project.mobilemcm.ui.requestDocument
 
 import android.annotation.SuppressLint
-import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,6 @@ import com.project.mobilemcm.ui.goodlist.AdapterAction
 import com.project.mobilemcm.util.showAlert
 import com.project.mobilemcm.util.showPlusDialog
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 @AndroidEntryPoint
 class RequestDocFragment : Fragment() {
@@ -84,13 +82,11 @@ class RequestDocFragment : Fragment() {
 
         binding.searchView.setupWithSearchBar(binding.searchBar)
         binding.searchViewAdr.setupWithSearchBar(binding.searchBarAdr)
-        binding.textDate.text = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
-            .format(viewModel.requestDocument.docDate.time)
-        binding.editTextNumber.text = viewModel.requestDocument.document_id.toString()
+//        binding.textDate.text = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+//            .format(viewModel.requestDocument.docDate.time)
+//        binding.editTextNumber.text = viewModel.requestDocument.document_id.toString()
 
-        viewModel.docSumm.observe(viewLifecycleOwner) {
-            binding.textViewSumm.text = String.format("%.2f", it)
-        }
+
         binding.searchView.editText.setOnEditorActionListener { _, _, _ ->
             requestDocViewModel.setQueryCompanies(binding.searchView.text.toString())
             false

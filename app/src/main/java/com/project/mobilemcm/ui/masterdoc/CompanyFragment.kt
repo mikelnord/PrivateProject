@@ -1,17 +1,17 @@
 package com.project.mobilemcm.ui.masterdoc
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.project.mobilemcm.R
-import com.project.mobilemcm.databinding.FragmentBasketMasterdocBinding
 import com.project.mobilemcm.databinding.FragmentCompanyBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
+import com.project.mobilemcm.ui.requestDocument.RequestDocFragment
 import com.project.mobilemcm.util.currencyFormat
 
 
@@ -72,6 +72,13 @@ class CompanyFragment : Fragment() {
                 .build()
             findNavController().navigate(R.id.endPage, null, navOptions)
 
+        }
+        if (parentFragment is RequestDocFragment) {
+            binding.next.visibility = View.GONE
+            binding.textViewNumber.text = viewModel.requestDocument.number
+        } else {
+            binding.textViewNumber.visibility = View.GONE
+            binding.toSpisokDoc.visibility = View.GONE
         }
     }
 

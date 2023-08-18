@@ -19,53 +19,16 @@
         app:menuGravity="center"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/textViewDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView3"
+        android:name="com.project.mobilemcm.ui.masterdoc.CompanyFragment"
+        android:layout_width="254dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/date_doc"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/navigation_rail"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:clickable="false"
-        android:ems="10"
-        android:singleLine="true"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewDate"
-        app:layout_constraintStart_toEndOf="@+id/textViewDate" />
-
-    <TextView
-        android:id="@+id/textViewNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/number_doc"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textDate"
-        app:layout_constraintStart_toEndOf="@+id/textDate" />
-
-    <TextView
-        android:id="@+id/editTextNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="3"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewNumber"
-        app:layout_constraintStart_toEndOf="@+id/textViewNumber" />
-
-    <TextView
-        android:id="@+id/textViewStock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/store_doc"
-        app:layout_constraintEnd_toStartOf="@+id/textViewSklad"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.search.SearchBar
@@ -73,10 +36,10 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
         android:hint="@string/companies_value"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@+id/navigation_rail"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
+        tools:layout_editor_absoluteY="29dp" />
 
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"
@@ -85,7 +48,6 @@
         android:layout_marginStart="8dp"
         android:elevation="6dp"
         android:hint="@string/find_text"
-        app:layout_constraintBottom_toTopOf="@+id/textAllSumm"
         app:layout_constraintEnd_toEndOf="@+id/search_bar"
         app:layout_constraintStart_toEndOf="@+id/navigation_rail"
         app:layout_constraintTop_toTopOf="@+id/search_bar"
@@ -110,10 +72,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="2dp"
         android:checked="true"
-        android:visibility="gone"
         android:text="Самовывоз"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/search_view_adr"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumber"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.search.SearchBar
@@ -121,12 +82,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
         android:hint="@string/adress_value"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_bar"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
+        tools:layout_editor_absoluteY="29dp" />
 
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view_adr"
@@ -134,7 +95,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:hint="@string/find_text"
-        app:layout_constraintBottom_toTopOf="@+id/textAllSumm"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/search_bar_adr"
         app:layout_constraintStart_toEndOf="@+id/search_view"
         app:layout_constraintTop_toTopOf="@+id/search_bar_adr"
@@ -157,38 +118,14 @@
         android:id="@+id/recyclerGoods"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/textAllSumm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/navigation_rail"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar" />
-
-    <TextView
-        android:id="@+id/textViewSklad"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/sklad_main_doc"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewStock"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewSumm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textAllSumm"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="TextSumm" />
-
-    <TextView
-        android:id="@+id/textAllSumm"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@string/summ_all"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textViewSumm" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragmentContainerView3"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
