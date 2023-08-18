@@ -1,7 +1,6 @@
 package com.project.mobilemcm.ui.formpodbor
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.google.android.material.chip.Chip
 import com.google.android.material.search.SearchView
 import com.project.mobilemcm.R
 import com.project.mobilemcm.data.local.database.model.GoodWithStock
@@ -45,19 +43,6 @@ class PodborFragment : Fragment() {
     private fun setupFind() {
         viewModel.setStateRemainder()
         binding.searchView.setupWithSearchBar(binding.searchBar)
-        for (i in 1..10){
-            val chip=Chip(context).apply {
-                id = View.generateViewId()
-                text = "New filtr $i"
-                isClickable = true
-                isCheckable = true
-                isCheckedIconVisible = true
-                isFocusable = true
-            }
-            binding.chipGroup.addView(chip)
-        }
-
-        //Log.d("DEBUG",chip.id.toString())
         binding.chipAmount.isChecked = (viewModel.isStateFilter.value?.isRemainder ?: false) == true
         binding.chipPricegroup.isChecked =
             (viewModel.isStateFilter.value?.isPrisegroup ?: false) == true
@@ -91,6 +76,14 @@ class PodborFragment : Fragment() {
                 binding.chipVendor.isChecked = true
             }
         }
+
+        viewModel.currentCategoryName.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                binding.chipCategory.text = it
+                binding.chipCategory.isChecked = true
+            }
+        }
+
     }
 
     private fun setupNavigationRail() {
@@ -124,8 +117,6 @@ class PodborFragment : Fragment() {
                 }
 
                 R.id.menu_shop -> {
-//                    val action = PodborFragmentDirections.actionPodborFragmentToBasketFragment()
-//                    findNavController().navigate(action)
                     val navOptions = NavOptions.Builder()
                         .setPopUpTo(R.id.basketFragment, true)
                         .build()

@@ -14,6 +14,7 @@ data class RequestDocument(
     var counterparties_id: String,
     var counterpartiesStores_id: String = "",
     var store_id: String,
+    var store_name: String = "",
     var isPickup: Boolean = false,
     var comment: String = "",
     var isSent: Boolean = false,

@@ -72,7 +72,7 @@ class EndPage : Fragment() {
         }
         viewModel.docSumm.observe(viewLifecycleOwner) { summ ->
             summ?.let {
-                binding.textCardSumm.text = "Сумма ${currencyFormat(it)}"
+                binding.textCardSumm.text = "Сумма ${currencyFormat(it.docSumm)}"
             }
         }
         viewModel.docCount.observe(viewLifecycleOwner) { count ->

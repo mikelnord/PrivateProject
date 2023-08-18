@@ -11,17 +11,18 @@ import com.project.mobilemcm.databinding.ItemCategotyListBinding
 
 class CategoryAdapter(
     private val list: ArrayList<DomainCategoryChild>,
-    private val childClick: (String) -> Unit,
+    private val childClick: (String, String) -> Unit,
     private val hideClick: (String) -> Unit
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     class CategoryViewHolder(
-        private val binding: ItemCategotyListBinding, private val childClick: (String) -> Unit,
+        private val binding: ItemCategotyListBinding,
+        private val childClick: (String, String) -> Unit,
         private val hideClick: (String) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(parentName:String, childList: List<DomainCategory>) {
+        fun bind(parentName: String, childList: List<DomainCategory>) {
             binding.rvSubItem.visibility = View.GONE
             binding.tvParentTitle.setOnClickListener {
                 binding.rvSubItem.visibility =

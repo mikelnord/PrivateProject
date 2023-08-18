@@ -29,8 +29,8 @@ class CategoryListFragment : Fragment() {
     private fun setupUI() {
         val adapter = CategoryAdapter(
             ArrayList(),
-            { id -> viewModel.setCurrentCategory(id) },
-            { head->viewModel.hideCategoryList() })
+            { id, name -> viewModel.setCurrentCategory(id, name) },
+            { _ ->viewModel.hideCategoryList() })
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         binding.recycler.adapter = adapter
         binding.recycler.addItemDecoration(decoration)

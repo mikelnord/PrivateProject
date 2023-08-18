@@ -6,21 +6,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.project.mobilemcm.data.local.database.model.DomainCategory
 import com.project.mobilemcm.databinding.SubListItemBinding
 
-class ChildItemAdapter(private val subList: List<DomainCategory>, private val childClick: (String) -> Unit,
-                       private val hideClick: (String)->Unit) :
+class ChildItemAdapter(
+    private val subList: List<DomainCategory>, private val childClick: (String,String) -> Unit,
+    private val hideClick: (String) -> Unit
+) :
     RecyclerView.Adapter<ChildItemAdapter.ChildViewHolder>() {
 
     class ChildViewHolder(
         private val binding: SubListItemBinding,
-        private val childClick: (String) -> Unit,
-        private val hideClick: (String)->Unit
+        private val childClick: (String, String) -> Unit,
+        private val hideClick: (String) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(category: DomainCategory) {
             binding.tvSubItemTitle.setOnClickListener {
                 hideClick.invoke(category.name)
-                childClick(category.id)
+                childClick(category.id, category.name)
             }
             binding.tvSubItemTitle.text = category.name
         }

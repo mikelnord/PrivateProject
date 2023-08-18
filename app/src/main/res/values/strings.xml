@@ -61,4 +61,13 @@
     <string name="no_Internet">Интернет соединение отсутствует</string>
     <string name="login_string">Войдите, чтобы продолжить</string>
     <string name="update_app">Update app</string>
+    <string name="category">Категория</string>
+    <string name="count_product">Всего товаров</string>
+    <string name="skidka">Скидка</string>
+    <string name="summ_oplata">Сумма к оплате</string>
+    <string name="zakaz">Заказ</string>
+    <string name="dolg">Текущий долг</string>
+    <string name="prosDolg">Просроченный долг</string>
+    <string name="dolg5">Долг до просрочки 5 дней</string>
+    <string name="next">Продолжить</string>
 </resources>

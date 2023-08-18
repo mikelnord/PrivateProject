@@ -11,13 +11,15 @@
         style="@style/Widget.MaterialComponents.NavigationRailView.Compact"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:padding="4dp"
         app:elevation="4dp"
         app:headerLayout="@layout/layout_header"
         app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/navigation_rail_menu" />
+        app:menu="@menu/navigation_rail_menu"
+        app:menuGravity="center" />
 
     <HorizontalScrollView
         android:id="@+id/horizontal"
@@ -32,12 +34,19 @@
             android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
+            android:padding="8dp"
             app:singleLine="true">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:clickable="false"
+                android:text="@string/category" />
+
+            <com.google.android.material.chip.Chip
                 android:id="@+id/chip_amount"
-                style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
@@ -48,14 +57,12 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_pricegroup"
-                style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/pricegroup" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_vendor"
-                style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/vendor" />

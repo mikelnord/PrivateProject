@@ -95,4 +95,9 @@
                 android:name="isMasterDoc"
                 app:argType="boolean" />
         </fragment>
+    <fragment
+        android:id="@+id/endPage"
+        android:name="com.project.mobilemcm.ui.masterdoc.EndPage"
+        android:label="EndPage"
+        tools:layout="@layout/fragment_end_page"/>
 </navigation>

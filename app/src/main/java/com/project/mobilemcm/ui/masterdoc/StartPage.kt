@@ -76,9 +76,9 @@ class StartPage : Fragment() {
                 binding.searchBar.text = it.name
                 binding.searchView.hide()
                 viewModelMain.requestDocument.counterparties_id = it.id
-                viewModel.getCompanyInfo(it.id)
+                //viewModel.getCompanyInfo(it.id)
                 viewModelMain.requestDocument.counterpartiesStores_id = ""
-                binding.next.isEnabled = viewModelMain.requestDocument.counterparties_id!="0"
+                binding.next.isEnabled = viewModelMain.requestDocument.counterparties_id != "0"
             }
         }
 
@@ -87,10 +87,13 @@ class StartPage : Fragment() {
                 val adapter = ArrayAdapter(requireContext(), R.layout.list_item, it)
                 binding.storeList.setAdapter(adapter)
                 if (viewModelMain.requestDocument.store_id.isNotEmpty()) {
+                    val nameStore =
+                        it[viewModel.getPositionFromIdStore(viewModelMain.requestDocument.store_id)].name
                     binding.storeList.setText(
-                        it[viewModel.getPositionFromIdStore(viewModelMain.requestDocument.store_id)].name,
+                        nameStore,
                         false
                     )
+                    viewModelMain.requestDocument.store_name = nameStore
                 }
             }
         }
@@ -99,7 +102,7 @@ class StartPage : Fragment() {
             viewModel.getItemFromListStore(position)?.let { viewModelMain.setStoreId(it) }
         }
 
-        binding.next.setOnClickListener{
+        binding.next.setOnClickListener {
             val bundle = bundleOf("isMasterDoc" to true)
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.podborFragment, true)

@@ -5,11 +5,13 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.data.Repository
+import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.Counterparties
 import com.project.mobilemcm.data.local.database.model.CounterpartiesStores
 import com.project.mobilemcm.data.local.database.model.DomainCategory
@@ -22,9 +24,12 @@ import com.project.mobilemcm.data.local.database.model.Pricegroup
 import com.project.mobilemcm.data.local.database.model.RequestDocument
 import com.project.mobilemcm.data.local.database.model.RequestDocument1c
 import com.project.mobilemcm.data.local.database.model.RequestGoods
+import com.project.mobilemcm.data.local.database.model.Result
+import com.project.mobilemcm.data.local.database.model.SummDoc
 import com.project.mobilemcm.data.local.database.model.Vendors
 import com.project.mobilemcm.data.login.LoginRepository
 import com.project.mobilemcm.pricing.data.IndividualPricesDao
+import com.project.mobilemcm.pricing.logic.DiscountCompany
 import com.project.mobilemcm.pricing.logic.IndPrices
 import com.project.mobilemcm.util.sanitizeSearchQuery
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,6 +53,32 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     private val individualPricesDao: IndividualPricesDao,
     private val loginRepository: LoginRepository
 ) : ViewModel() {
+
+    private var _companyInfo = MutableLiveData<CompanyInfo?>()
+    val companyInfo = _companyInfo
+
+    private var _discountsCompany = MutableLiveData<List<DiscountCompany>?>()
+    val discountsCompany = _discountsCompany
+
+    fun getCompanyInfo(idCompany: String) {
+        companyInfo.value = CompanyInfo(null, null, null)
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repository.getCompanyInfo(idCompany)
+            result.let { res ->
+                if (res.status == Result.Status.SUCCESS) {
+                    _companyInfo.postValue(result.data)
+                }
+            }
+            launch {
+                val listDiscount = repository.getDiscontsFromCompany(
+                    date = LocalDateTime.now().format(
+                        DateTimeFormatter.ISO_DATE_TIME
+                    ), company_id = idCompany
+                )
+                _discountsCompany.postValue(listDiscount)
+            }
+        }
+    }
 
 
     private var _query = MutableLiveData<String>()
@@ -107,13 +138,15 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         setSelectedVendors(vendors)
     }
 
-
     fun getActiveUser() = liveData {
         emit(loginRepository.user)
     }
 
     private val _currentCategory = MutableLiveData<String>()
     private val currentCategory = _currentCategory
+
+    private val _currentCategoryName = MutableLiveData<String>()
+    val currentCategoryName = _currentCategoryName
 
     val addStringsList: MutableMap<String, GoodWithStock> = mutableMapOf()
 
@@ -151,6 +184,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     val docSumm = countList.switchMap {
         var sum = 0.0
+        var sumFull = 0.0
         addStringsList.map {
             when (it.value.metod) {
                 0 -> {
@@ -177,7 +211,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                             sum += (it.value.count * price) - it.value.count * price / 100 * discont
                         }
                     }
-
                 }
 
                 else -> {
@@ -186,9 +219,13 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                     }
                 }
             }
+            it.value.price?.let { price ->
+                sumFull += price * it.value.count
+            }
         }
-        liveData { emit(sum) }
+        liveData { emit(SummDoc(sum, sumFull - sum)) }
     }
+
 
     fun setStoreId(storeId: String) {
         requestDocument.store_id = storeId
@@ -237,9 +274,10 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     fun inList(goodWithStock: GoodWithStock) = addStringsList.contains(goodWithStock.id)
 
-    fun setCurrentCategory(id: String?) {
+    fun setCurrentCategory(id: String?, name: String) {
         id?.let {
             _currentCategory.value = it
+            _currentCategoryName.value = name
         }
     }
 
@@ -471,7 +509,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             return false
         }
         docSumm.value?.let {
-            requestDocument.summDoc = it
+            requestDocument.summDoc = it.docSumm
         }
         val idDoc = viewModelScope.async {
             repository.addRequestDoc(requestDocument)
