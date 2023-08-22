@@ -75,6 +75,7 @@
         app:elevation="4dp"
         app:labelVisibilityMode="auto"
         app:menu="@menu/navigation_home_menu"
+        app:menuGravity="center"
         tools:ignore="MissingConstraints" />
 
     <Button

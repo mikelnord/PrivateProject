@@ -74,7 +74,7 @@ fun ImageView.loadImage(url: String) {
 
 fun currencyFormat(currency: Double): String {
     val currencyFormat = NumberFormat.getCurrencyInstance(Locale("ru", "ru"))
-    currencyFormat.maximumFractionDigits = 0
+    currencyFormat.maximumFractionDigits = 2
     currencyFormat.currency = Currency.getInstance("RUB")
     return currencyFormat.format(currency)
 }

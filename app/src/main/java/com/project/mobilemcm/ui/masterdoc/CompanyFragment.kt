@@ -73,6 +73,12 @@ class CompanyFragment : Fragment() {
             findNavController().navigate(R.id.endPage, null, navOptions)
 
         }
+        binding.toSpisokDoc.setOnClickListener {
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.basketFragment, true)
+                .build()
+            findNavController().navigate(R.id.requestListFragment, null, navOptions)
+        }
         if (parentFragment is RequestDocFragment) {
             binding.next.visibility = View.GONE
             binding.textViewNumber.text = viewModel.requestDocument.number

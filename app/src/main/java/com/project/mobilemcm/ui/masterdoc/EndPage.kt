@@ -45,27 +45,57 @@ class EndPage : Fragment() {
         binding.searchRecyclerAdr.adapter = adapterCompaniesAdr
         viewModel.getCompanyAdres().observe(viewLifecycleOwner) {
             adapterCompaniesAdr.submitList(it)
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
                 viewModel.requestDocument.isPickup = true
-                binding.materialCardView4.isEnabled=false
-                binding.searchBarAdr.isEnabled=false
-                binding.materialCardView.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FB8C00")))
+                binding.materialCardView4.isEnabled = false
+                binding.searchBarAdr.isEnabled = false
+                binding.materialCardView.setCardBackgroundColor(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            "#FB8C00"
+                        )
+                    )
+                )
             }
         }
         binding.materialCardView4.setOnClickListener {
-            binding.materialCardView.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFBFF")))
+            binding.materialCardView.setCardBackgroundColor(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        "#FFFBFF"
+                    )
+                )
+            )
             binding.materialCardView.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#FFFBFF")))
-            binding.materialCardView4.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FB8C00")))
+            binding.materialCardView4.setCardBackgroundColor(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        "#FB8C00"
+                    )
+                )
+            )
             binding.materialCardView4.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#1E1E1E")))
-            viewModel.requestDocument.isPickup = true
+            viewModel.requestDocument.isPickup = false
 
         }
         binding.materialCardView.setOnClickListener {
-            binding.materialCardView4.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFBFF")))
+            binding.materialCardView4.setCardBackgroundColor(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        "#FFFBFF"
+                    )
+                )
+            )
             binding.materialCardView4.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#FFFBFF")))
-            binding.materialCardView.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FB8C00")))
+            binding.materialCardView.setCardBackgroundColor(
+                ColorStateList.valueOf(
+                    Color.parseColor(
+                        "#FB8C00"
+                    )
+                )
+            )
             binding.materialCardView.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#1E1E1E")))
-            viewModel.requestDocument.isPickup = false
+            viewModel.requestDocument.isPickup = true
 
         }
 
@@ -74,13 +104,33 @@ class EndPage : Fragment() {
             false
         }
         viewModel.selectedCompaniesAdr.observe(viewLifecycleOwner) {
-            binding.searchBarAdr.text = it.address
-            binding.searchViewAdr.hide()
-            viewModel.requestDocument.counterpartiesStores_id = it.id
+            if (!it.address.isNullOrEmpty()) {
+                binding.searchBarAdr.text = it.address
+                binding.searchViewAdr.hide()
+                viewModel.requestDocument.counterpartiesStores_id = it.id
+                binding.materialCardView.setCardBackgroundColor(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            "#FFFBFF"
+                        )
+                    )
+                )
+                binding.materialCardView.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#FFFBFF")))
+                binding.materialCardView4.setCardBackgroundColor(
+                    ColorStateList.valueOf(
+                        Color.parseColor(
+                            "#FB8C00"
+                        )
+                    )
+                )
+                binding.materialCardView4.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#1E1E1E")))
+                viewModel.requestDocument.isPickup = false
+            }
         }
         binding.buttonSave.setOnClickListener {
             if (viewModel.requestDocument.counterpartiesStores_id.isNotEmpty() || viewModel.requestDocument.isPickup) {
-                viewModel.requestDocument.comment = binding.textCardComm.text.toString().trim()
+                viewModel.requestDocument.comment =
+                    binding.textCardComm.editText?.text.toString().trim()
                 if (!viewModel.saveDoc()) showAlert(
                     requireContext(),
                     "Контрагент не выбран!",

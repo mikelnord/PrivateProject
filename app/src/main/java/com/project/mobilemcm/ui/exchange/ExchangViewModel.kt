@@ -51,7 +51,7 @@ class ExchangeViewModel @Inject constructor(
     private val _complateObmen = MutableLiveData<Boolean>()
     val complateObmen = _complateObmen
 
-    var isError = false
+    private var isError = false
     private val errorHandler =
         CoroutineExceptionHandler { _, exception ->
             exception.printStackTrace()

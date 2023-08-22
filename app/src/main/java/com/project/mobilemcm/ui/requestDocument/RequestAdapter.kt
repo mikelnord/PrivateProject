@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.project.mobilemcm.R
 import com.project.mobilemcm.data.local.database.model.RequestDocumentItem
 import com.project.mobilemcm.databinding.ItemRequestDocBinding
+import com.project.mobilemcm.util.currencyFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -28,7 +29,7 @@ class RequestAdapter(val onClick: (Long) -> Unit) :
                     imageSend.setImageResource(R.drawable.circle_24_green)
                 else
                     imageSend.setImageResource(R.drawable.circle_24_red)
-                textsumm.text = String.format("%.2f", requestDocumentItem.summDoc)
+                textsumm.text = currencyFormat( requestDocumentItem.summDoc)
 
                 card.setOnClickListener {
                     onClick(requestDocumentItem.document_id)
