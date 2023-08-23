@@ -79,15 +79,16 @@ class ExchangeWorker @AssistedInject constructor(
                         repository.addActionPricesToBase(it)
                         repository.addIndividualPricesToBase(it)
                         repository.addDivisionToBase(it)
+                        repository.addDateObmenToBase(it)
                         if (repository.getCountVendors())
                             repository.addVendors(repository.getAllVendors())
                     } catch (e: Throwable) {
                         isError = true
                         strMessage = e.message.toString()
                     }
-                    if (!isError) {
-                        repository.addDateObmenToBase(it)
-                    }
+//                    if (!isError) {
+//                        repository.addDateObmenToBase(it)
+//                    }
                 }
             }
         }

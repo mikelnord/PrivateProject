@@ -1,5 +1,6 @@
 package com.project.mobilemcm.ui.categorylist
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.local.database.model.CompanyInfo
@@ -366,10 +368,12 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             repository.getChildGoods(it, requestDocument.store_id).mapLatest { list ->
                 var newList = if (isStateFilter.isRemainder) {
                     list.filter { goodWithStock ->
-                        goodWithStock.amount.let { amount ->
-                            if (amount == null) false
-                            else amount > 0
-                        }
+//                        goodWithStock.amount.let { amount ->
+//                            if (amount == null) false
+//                            else amount > 0
+//                        }
+                        if (goodWithStock.amount == null || goodWithStock.price == null) false
+                        else (goodWithStock.amount!! > 0 && goodWithStock.price != 0.0)
                     }
                 } else list
                 newList.forEach { goodWithStock ->
@@ -417,10 +421,12 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 .mapLatest { list ->
                     var newList = if (isStateFilter.isRemainder) {
                         list.filter { goodWithStock ->
-                            goodWithStock.amount.let { amount ->
-                                if (amount == null) false
-                                else amount > 0
-                            }
+//                            goodWithStock.amount.let { amount ->
+//                                if (amount == null) false
+//                                else (amount > 0)
+//                            }
+                            if (goodWithStock.amount == null || goodWithStock.price == null) false
+                            else (goodWithStock.amount!! > 0 && goodWithStock.price != 0.0)
                         }
                     } else list
                     //getActiveUser()
@@ -552,8 +558,8 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             )
             val requestDocument1c = RequestDocument1c(
                 userId = loginRepository.getActiveUser()?.id ?: "",
-                id_doc = if (requestDocument.document_id.compareTo(0) == 0) repository.getLastDocid()
-                    ?: 1 else requestDocument.document_id,
+                id_doc = (if (requestDocument.document_id.compareTo(0) == 0) repository.getLastDocid()
+                    ?: 1 else requestDocument.document_id)+100,
                 docDate = date.format(DateTimeFormatter.ISO_DATE_TIME),
                 store_id = requestDocument.store_id,
                 counterparties_id = requestDocument.counterparties_id,
@@ -564,20 +570,20 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
             )
 //            println(Gson().toJson(requestDocument1c))
-//            try {
-//                if (!requestDocument.isSent) {
-//                    val res = repository.postDoc(requestDocument1c)
-//                    res.data?.let {
-//                        repository.sendDocumentUpdate(
-//                            it.id ?: "",
-//                            it.number ?: "",
-//                            requestDocument1c.id_doc.toInt()
-//                        )
-//                    }
-//                }
-//            } catch (e: Throwable) {
-//                Log.e("errorSendDocument", e.message.toString())
-//            }
+            try {
+                if (!requestDocument.isSent) {
+                    val res = repository.postDoc(requestDocument1c)
+                    res.data?.let {
+                        repository.sendDocumentUpdate(
+                            it.id ?: "",
+                            it.number ?: "",
+                            requestDocument1c.id_doc.toInt()-100
+                        )
+                    }
+                }
+            } catch (e: Throwable) {
+                Log.e("errorSendDocument", e.message.toString())
+            }
             clearDoc()
         }
         return true

@@ -58,7 +58,7 @@ class RequestListViewModel @Inject constructor(
                             repository.sendDocumentUpdate(
                                 it.id ?: "",
                                 it.number ?: "",
-                                doc1C.id_doc.toInt()
+                                doc1C.id_doc.toInt()-100
                             )
                         }
                     }

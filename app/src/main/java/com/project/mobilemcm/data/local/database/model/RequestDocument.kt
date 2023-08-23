@@ -50,7 +50,7 @@ fun RequestDocument.RequestDocumentToRequestDocument1c(
 ) =
     RequestDocument1c(
         userId = userId,
-        id_doc = document_id,
+        id_doc = document_id+100,
         docDate = LocalDateTime.ofInstant(
             docDate.toInstant(),
             docDate.timeZone.toZoneId()

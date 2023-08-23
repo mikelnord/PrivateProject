@@ -188,10 +188,10 @@ class ExchangeViewModel @Inject constructor(
                         repository.addDateObmenToBase(it)
                         _complateObmen.postValue(true)
                         _dateObmen.postValue(repository.getObmenDate()?.dateObmen)
-                        viewModelScope.launch {
-                            if (repository.getCountVendors())
-                                repository.addVendors(repository.getAllVendors())
-                        }
+//                        viewModelScope.launch {
+//                            if (repository.getCountVendors())
+//                                repository.addVendors(repository.getAllVendors())
+//                        }
                     } else {
                         Log.e("errorSend", "Error send!")
                     }

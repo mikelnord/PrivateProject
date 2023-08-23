@@ -31,9 +31,7 @@ class CompanyFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         setupUI()
-
     }
 
     private fun setupUI() {
