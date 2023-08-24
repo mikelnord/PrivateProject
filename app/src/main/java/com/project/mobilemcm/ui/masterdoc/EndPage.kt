@@ -96,7 +96,6 @@ class EndPage : Fragment() {
             )
             binding.materialCardView.setStrokeColor(ColorStateList.valueOf(Color.parseColor("#1E1E1E")))
             viewModel.requestDocument.isPickup = true
-
         }
 
         binding.searchViewAdr.editText.setOnEditorActionListener { _, _, _ ->
@@ -157,21 +156,6 @@ class EndPage : Fragment() {
             }
 
         }
-//        binding.switchAdress.setOnCheckedChangeListener { buttonView, isChecked ->
-//            when (isChecked) {
-//                true -> {
-//                    binding.searchBarAdr.isEnabled = false
-//                    binding.searchBarAdr.text = "Самовывоз"
-//                    viewModel.requestDocument.isPickup = true
-//                }
-//
-//                false -> {
-//                    binding.searchBarAdr.isEnabled = true
-//                    binding.searchBarAdr.clearText()
-//                    viewModel.requestDocument.isPickup = false
-//                }
-//            }
-//        }
         viewModel.selectedCompanies.observe(viewLifecycleOwner) {
             binding.searchBarAdr.clearText()
         }

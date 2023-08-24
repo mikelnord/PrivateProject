@@ -78,6 +78,7 @@ class StartPage : Fragment() {
                 viewModelMain.requestDocument.counterparties_id = it.id
                 //viewModel.getCompanyInfo(it.id)
                 viewModelMain.requestDocument.counterpartiesStores_id = ""
+                viewModelMain.requestDocument.isPickup = false
                 binding.next.isEnabled = viewModelMain.requestDocument.counterparties_id != "0"
             }
         }

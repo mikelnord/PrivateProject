@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.UUID
 
 @Entity
 data class RequestDocument(
@@ -18,8 +19,9 @@ data class RequestDocument(
     var isPickup: Boolean = false,
     var comment: String = "",
     var isSent: Boolean = false,
-    var idOneC: String = "",
-    var summDoc: Double = 0.0
+    val idOneC: String = UUID.randomUUID().toString(),
+    var summDoc: Double = 0.0,
+    var markToDelete: Boolean = false
 )
 
 data class RequestDocumentItem(
@@ -33,6 +35,8 @@ data class RequestDocumentItem(
 )
 
 data class RequestDocument1c(
+    val version: Int = 1,
+    val idOneC: String,
     val id_doc: Long,
     val docDate: String,
     val counterparties_id: String,
@@ -41,6 +45,7 @@ data class RequestDocument1c(
     val isPickup: Boolean,
     val userId: String,
     val comment: String,
+    val markToDelete: Boolean = false,
     val itemList: List<Good1c>
 )
 
@@ -50,7 +55,8 @@ fun RequestDocument.RequestDocumentToRequestDocument1c(
 ) =
     RequestDocument1c(
         userId = userId,
-        id_doc = document_id+100,
+        id_doc = document_id,
+        idOneC = idOneC,
         docDate = LocalDateTime.ofInstant(
             docDate.toInstant(),
             docDate.timeZone.toZoneId()

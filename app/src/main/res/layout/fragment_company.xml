@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="4dp"
-                        android:text="@string/prosDolg"
+                        android:text="@string/dolg5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textDebt"
                         tools:text="textOverdueDebt5" />
@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="4dp"
-                        android:text="@string/dolg5"
+                        android:text="@string/prosDolg"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textOverdueDebt5"
                         tools:text="textOverdueDebt" />

@@ -257,8 +257,8 @@ class Repository @Inject constructor(
     suspend fun postDoc(requestDocument1c: RequestDocument1c) =
         remoteDataSource.postDoc(requestDocument1c)
 
-    suspend fun sendDocumentUpdate(idOneC: String, number: String, document_id: Int) =
-        requestDocumentDao.sendDocumentUpdate(idOneC, number, document_id)
+    suspend fun sendDocumentUpdate(idOneC: String, number: String) =
+        requestDocumentDao.sendDocumentUpdate(idOneC, number)
 
     suspend fun getAllDocumentForSend() = requestDocumentDao.getAllDocumentForSend()
 

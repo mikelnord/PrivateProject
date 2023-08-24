@@ -368,10 +368,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             repository.getChildGoods(it, requestDocument.store_id).mapLatest { list ->
                 var newList = if (isStateFilter.isRemainder) {
                     list.filter { goodWithStock ->
-//                        goodWithStock.amount.let { amount ->
-//                            if (amount == null) false
-//                            else amount > 0
-//                        }
                         if (goodWithStock.amount == null || goodWithStock.price == null) false
                         else (goodWithStock.amount!! > 0 && goodWithStock.price != 0.0)
                     }
@@ -421,10 +417,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 .mapLatest { list ->
                     var newList = if (isStateFilter.isRemainder) {
                         list.filter { goodWithStock ->
-//                            goodWithStock.amount.let { amount ->
-//                                if (amount == null) false
-//                                else (amount > 0)
-//                            }
                             if (goodWithStock.amount == null || goodWithStock.price == null) false
                             else (goodWithStock.amount!! > 0 && goodWithStock.price != 0.0)
                         }
@@ -459,6 +451,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                             goodWithStock.vendors == (selectedVendors.value?.name ?: "")
                         }
                     } else newList
+                    _showProgress.value = false
                     sync(newList)
                 }.asLiveData()
         }
@@ -558,8 +551,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             )
             val requestDocument1c = RequestDocument1c(
                 userId = loginRepository.getActiveUser()?.id ?: "",
+                idOneC = requestDocument.idOneC,
                 id_doc = (if (requestDocument.document_id.compareTo(0) == 0) repository.getLastDocid()
-                    ?: 1 else requestDocument.document_id)+100,
+                    ?: 1 else requestDocument.document_id),
                 docDate = date.format(DateTimeFormatter.ISO_DATE_TIME),
                 store_id = requestDocument.store_id,
                 counterparties_id = requestDocument.counterparties_id,
@@ -569,21 +563,22 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 comment = requestDocument.comment
 
             )
-//            println(Gson().toJson(requestDocument1c))
-            try {
-                if (!requestDocument.isSent) {
-                    val res = repository.postDoc(requestDocument1c)
-                    res.data?.let {
-                        repository.sendDocumentUpdate(
-                            it.id ?: "",
-                            it.number ?: "",
-                            requestDocument1c.id_doc.toInt()-100
-                        )
-                    }
-                }
-            } catch (e: Throwable) {
-                Log.e("errorSendDocument", e.message.toString())
-            }
+            //           println(Gson().toJson(requestDocument1c))
+//            try {
+//                if (!requestDocument.isSent) {
+//                    val res = repository.postDoc(requestDocument1c)
+//                    res.data?.let { answerServer ->
+//                        answerServer.id?.let {
+//                            repository.sendDocumentUpdate(
+//                                it,
+//                                answerServer.number ?: "",
+//                            )
+//                        }
+//                    }
+//                }
+//            } catch (e: Throwable) {
+//                Log.e("errorSendDocument", e.message.toString())
+//            }
             clearDoc()
         }
         return true

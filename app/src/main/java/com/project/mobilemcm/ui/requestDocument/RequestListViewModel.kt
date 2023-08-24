@@ -54,12 +54,13 @@ class RequestListViewModel @Inject constructor(
                             itemList.toList()
                         )
                         val res = repository.postDoc(doc1C)
-                        res.data?.let {
-                            repository.sendDocumentUpdate(
-                                it.id ?: "",
-                                it.number ?: "",
-                                doc1C.id_doc.toInt()-100
-                            )
+                        res.data?.let { answerServer ->
+                            answerServer.id?.let {
+                                repository.sendDocumentUpdate(
+                                    it,
+                                    answerServer.number ?: "",
+                                )
+                            }
                         }
                     }
                 }

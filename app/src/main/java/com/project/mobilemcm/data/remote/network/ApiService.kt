@@ -34,5 +34,5 @@ interface ApiService {
     suspend fun getCompanyInfo(
         @Path("companyId") companyId: String
     ): Response<CompanyInfo>
-   // http://mx.wlbs.ru/upr_mcm/hs/API/get_balans/30141f6f-2891-11de-8a96-000e0c3bc9dd
+
 }

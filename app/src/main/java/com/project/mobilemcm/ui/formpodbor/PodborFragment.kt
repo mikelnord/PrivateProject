@@ -91,7 +91,7 @@ class PodborFragment : Fragment() {
             if (args.isMasterDoc) {
                 val bundle = bundleOf("podborReturn" to true)
                 val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.homeAdapter, true)
+                    .setPopUpTo(R.id.podborFragment, false)
                     .build()
                 findNavController().navigate(R.id.homeAdapter, bundle, navOptions)
             } else {
