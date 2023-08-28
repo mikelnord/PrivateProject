@@ -5,7 +5,6 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D9D9D9"
     tools:context=".ui.home.HomeFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -85,7 +84,6 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginBottom="16dp"
-        android:textColorLink="@color/md_theme_dark_background"
         app:icon="@drawable/icon_add_order"
         app:iconGravity="textEnd"
         app:iconSize="60dp"
@@ -163,8 +161,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textSize="24sp"
         android:text="@string/orders_text"
+        android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@+id/iconButtonList"
         app:layout_constraintStart_toStartOf="@+id/iconButtonList" />
@@ -173,8 +171,8 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
         android:text="@string/exchange_text"
+        android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="@+id/iconButtonExchange"
         app:layout_constraintStart_toStartOf="@+id/iconButtonExchange" />

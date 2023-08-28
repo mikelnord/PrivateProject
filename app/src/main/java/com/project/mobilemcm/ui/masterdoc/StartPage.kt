@@ -12,13 +12,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentStartPageBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
 import com.project.mobilemcm.ui.requestDocument.CompaniesAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import com.project.mobilemcm.util.currencyFormat
 
 @AndroidEntryPoint
 class StartPage : Fragment() {

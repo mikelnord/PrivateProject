@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.project.mobilemcm.data.local.database.model.GoodWithStock
 import com.project.mobilemcm.databinding.ItemGoodListBinding
+import com.project.mobilemcm.util.currencyFormat
 import com.project.mobilemcm.util.loadImage
 
 class NewGoodAdapter(
@@ -57,38 +58,42 @@ class NewGoodAdapter(
                 }
                 when (good.metod) {
                     0, null -> {
-                        price2.text = (good.price ?: 0.0).toString()
+                        price2.text = currencyFormat(good.price ?: 0.0)
                         price2.setTextColor(Color.BLACK)
-                        summPos.text = String.format("%.2f", ((good.price ?: 0.0) * good.count))
+                        summPos.text = currencyFormat((good.price ?: 0.0) * good.count)
                         summPos.setTextColor(Color.BLACK)
                     }
 
                     1 -> {
-                        price2.text = good.priceInd.toString()
+                        price2.text = good.priceInd?.let { currencyFormat(it) }
                         price2.setTextColor(Color.GREEN)
-                        summPos.text = String.format("%.2f", ((good.priceInd ?: 0.0) * good.count))
+                        summPos.text = currencyFormat((good.priceInd ?: 0.0) * good.count)
                         summPos.setTextColor(Color.GREEN)
                     }
 
                     2 -> {
-                        price2.text = good.priceInd.toString()
+                        price2.text = good.priceInd?.let { currencyFormat(it) }
                         price2.setTextColor(Color.GREEN)
-                        summPos.text = String.format("%.2f", ((good.priceInd ?: 0.0) * good.count))
+                        summPos.text = currencyFormat((good.priceInd ?: 0.0) * good.count)
                         summPos.setTextColor(Color.GREEN)
                     }
 
                     3 -> {
-                        price2.text = good.priceInd.toString()
+                        price2.text = good.priceInd?.let { currencyFormat(it) }
                         price2.setTextColor(Color.GREEN)
-                        summPos.text = String.format("%.2f", ((good.priceInd ?: 0.0) * good.count))
+                        summPos.text = currencyFormat((good.priceInd ?: 0.0) * good.count)
                         summPos.setTextColor(Color.GREEN)
                     }
 
                     4 -> {
                         if (good.count.compareTo(0.0) == 0) {
                             price2.setTextColor(Color.GREEN)
-                            price2.text = (good.price ?: 0.0).toString()
-                            price.text = (good.price ?: 0.0).toString()
+                            good.discont?.let { discont ->
+                                price2.text = currencyFormat(
+                                    good.price?.minus((good.price.div(100)) * discont) ?: 0.0
+                                )
+                            }
+                            price.text = currencyFormat(good.price ?: 0.0)
                             summPos.text = String.format("%.2f", 0.0)
                             summPos.setTextColor(Color.GREEN)
 
@@ -97,8 +102,9 @@ class NewGoodAdapter(
                                 good.discont?.let { discont ->
                                     val summSkid =
                                         (good.count * good.price) - good.count * good.price / 100 * discont
-                                    price2.text = String.format("%.2f", (summSkid / good.count))
-                                    summPos.text = String.format("%.2f", (summSkid / good.count) * good.count)
+                                    price2.text = currencyFormat(summSkid / good.count)
+                                    summPos.text =
+                                        currencyFormat((summSkid / good.count) * good.count)
                                 }
                             }
                             price2.setTextColor(Color.GREEN)

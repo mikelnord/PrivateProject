@@ -8,7 +8,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.local.database.model.CompanyInfo
@@ -421,7 +420,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                             else (goodWithStock.amount!! > 0 && goodWithStock.price != 0.0)
                         }
                     } else list
-                    //getActiveUser()
                     newList.forEach {
                         val gp = getPricing(
                             divisionId = loginRepository.user?.division_id ?: "",
@@ -564,21 +562,21 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
             )
             //           println(Gson().toJson(requestDocument1c))
-//            try {
-//                if (!requestDocument.isSent) {
-//                    val res = repository.postDoc(requestDocument1c)
-//                    res.data?.let { answerServer ->
-//                        answerServer.id?.let {
-//                            repository.sendDocumentUpdate(
-//                                it,
-//                                answerServer.number ?: "",
-//                            )
-//                        }
-//                    }
-//                }
-//            } catch (e: Throwable) {
-//                Log.e("errorSendDocument", e.message.toString())
-//            }
+            try {
+                if (!requestDocument.isSent) {
+                    val res = repository.postDoc(requestDocument1c)
+                    res.data?.let { answerServer ->
+                        answerServer.id?.let {
+                            repository.sendDocumentUpdate(
+                                it,
+                                answerServer.number ?: "",
+                            )
+                        }
+                    }
+                }
+            } catch (e: Throwable) {
+                Log.e("errorSendDocument", e.message.toString())
+            }
             clearDoc()
         }
         return true

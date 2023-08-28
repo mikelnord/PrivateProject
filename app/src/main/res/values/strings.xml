@@ -25,7 +25,7 @@
     <string name="back">Back</string>
     <string name="companies_value">Введите название компании</string>
     <string name="button_text_ok">OK</string>
-    <string name="text_vendor">Производитель</string>
+    <string name="text_vendor">Бренд</string>
     <string name="orders_value">Заказы</string>
     <string name="order_value">Заказ</string>
     <string name="exchange_value">Обмен</string>

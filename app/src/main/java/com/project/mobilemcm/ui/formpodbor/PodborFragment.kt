@@ -18,7 +18,7 @@ import com.project.mobilemcm.data.local.database.model.GoodWithStock
 import com.project.mobilemcm.databinding.FragmentPodborBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
 import com.project.mobilemcm.ui.goodlist.AdapterAction
-import com.project.mobilemcm.ui.goodlist.GoodAdapter
+import com.project.mobilemcm.ui.goodlist.NewGoodAdapter
 import com.project.mobilemcm.util.showPlusDialog
 
 
@@ -151,16 +151,16 @@ class PodborFragment : Fragment() {
             { good -> viewModel.deleteFromList(good) },
             { good, update -> showAlertDialog(good, update) },
             { good, update -> showAlertDialogMinus(good, update) })
-        val adapter = GoodAdapter(ArrayList(), adapterAction)
+        val adapter = NewGoodAdapter(adapterAction)
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
 
         binding.searchRecycler.adapter = adapter
         viewModel.findGoods.observe(viewLifecycleOwner) { listGoodWithStock ->
-            adapter.updateData(listGoodWithStock)
+            adapter.submitList(listGoodWithStock)
         }
         viewModel.countList.observe(viewLifecycleOwner) {
             viewModel.findGoods.value?.let {
-                adapter.updateData(viewModel.sync(it))
+                adapter.submitList(viewModel.sync(it))
             }
         }
         binding.searchView.editText.setOnEditorActionListener { _, _, _ ->
@@ -181,7 +181,7 @@ class PodborFragment : Fragment() {
             if (newState == SearchView.TransitionState.HIDDEN) {
                 binding.searchBar.visibility = View.INVISIBLE
                 binding.navigationRail.menu[0].setIcon(R.drawable.ic_search_black_24dp)
-                adapter.clearList()
+                //adapter.
             }
         }
         viewModel.showCategoryList.observe(viewLifecycleOwner) {
