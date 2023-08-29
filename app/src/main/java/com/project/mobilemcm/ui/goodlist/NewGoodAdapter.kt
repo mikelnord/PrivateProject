@@ -49,7 +49,7 @@ class NewGoodAdapter(
                 tvGoodCode.text = good.vendorCode
                 imgShare.loadImage("https://data.mcmshop.ru/products/${good.id}/main_image?size=thumb")
                 amount.text = (good.amount ?: 0.0).toString()
-                price.text = (good.price ?: 0.0).toString()
+                price.text = currencyFormat((good.price ?: 0.0))
                 count.text = good.count.toString()
                 if (action.checkGood(good)) {
                     buttonDel.visibility = View.VISIBLE
@@ -93,18 +93,17 @@ class NewGoodAdapter(
                                     good.price?.minus((good.price.div(100)) * discont) ?: 0.0
                                 )
                             }
-                            price.text = currencyFormat(good.price ?: 0.0)
+                            //price.text = currencyFormat(good.price ?: 0.0)
                             summPos.text = String.format("%.2f", 0.0)
                             summPos.setTextColor(Color.GREEN)
 
                         } else {
                             good.price?.let {
                                 good.discont?.let { discont ->
-                                    val summSkid =
-                                        (good.count * good.price) - good.count * good.price / 100 * discont
-                                    price2.text = currencyFormat(summSkid / good.count)
-                                    summPos.text =
-                                        currencyFormat((summSkid / good.count) * good.count)
+                                    val priceSkid =
+                                        good.price.minus((good.price.div(100)) * discont)
+                                    price2.text = currencyFormat(priceSkid)
+                                    summPos.text = currencyFormat(priceSkid * good.count)
                                 }
                             }
                             price2.setTextColor(Color.GREEN)

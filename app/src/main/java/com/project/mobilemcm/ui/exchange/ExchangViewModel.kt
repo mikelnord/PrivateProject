@@ -33,6 +33,8 @@ class ExchangeViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
+    //version=1
+
     private val _loadFile = MutableLiveData<Int>()
     private val loadFile = _loadFile
 

@@ -3,7 +3,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_hint">Enter find string</string>
     <string name="hint_search_box">Search text</string>
-    <string name="find">Find</string>
+    <string name="find">Поиск</string>
     <string name="tree_value">Каталог</string>
     <string name="date_doc">Дата</string>
     <string name="number_doc">№</string>
@@ -16,13 +16,13 @@
     <string name="count_value">Количество</string>
     <string name="discount_value">Скидка</string>
     <string name="summ_value">Сумма</string>
-    <string name="filtr_value">Filtr</string>
+    <string name="filtr_value">Фильтр</string>
     <string name="amount_text">Только с остатками</string>
     <string name="find_text">Поиск</string>
     <string name="pricegroup">Ценовая группа</string>
     <string name="vendor">Производитель</string>
     <string name="summ_all">Сумма всего:</string>
-    <string name="back">Back</string>
+    <string name="back">Назад</string>
     <string name="companies_value">Введите название компании</string>
     <string name="button_text_ok">OK</string>
     <string name="text_vendor">Бренд</string>
@@ -36,13 +36,13 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Пароль</string>
     <string name="action_sign_in">Войти</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
+    <string name="action_sign_in_short">Войти</string>
+    <string name="welcome">"Добро пожаловать! "</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >2 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="invalid_password">Пароль должен быть больше 2 символов</string>
+    <string name="login_failed">"Ошибка входа"</string>
     <string name="name_user">Имя пользователя</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Выход</string>
     <!-- Strings PageAdapter -->
     <string name="start_page_title">Заказ</string>
     <string name="basket_page_title">Корзина</string>
@@ -56,7 +56,7 @@
     <string name="create_order_text">Создать заказ</string>
     <string name="exchange_text">Обмен</string>
     <string name="visit_plan_text">План посещений</string>
-    <string name="start_obmen">Start Obmen</string>
+    <string name="start_obmen">Старт обмена</string>
     <string name="storage_value">Склад продажи</string>
     <string name="no_Internet">Интернет соединение отсутствует</string>
     <string name="login_string">Войдите, чтобы продолжить</string>
@@ -70,4 +70,6 @@
     <string name="prosDolg">ПДЗ</string>
     <string name="dolg5">5 дней</string>
     <string name="next">Продолжить</string>
+    <string name="yuor_price">Ваша цена</string>
+    <string name="summ">Сумма</string>
 </resources>

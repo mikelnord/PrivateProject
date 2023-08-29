@@ -6,4 +6,5 @@
     android:layout_height="wrap_content"
     android:contentDescription="Ok"
     app:fabSize="mini"
-    app:srcCompat="@drawable/baseline_check_24" />
+    app:iconTint="@null"
+    app:srcCompat="@drawable/shopping_cart_24" />

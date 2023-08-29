@@ -116,13 +116,13 @@ class PodborFragment : Fragment() {
                     true
                 }
 
-                R.id.menu_shop -> {
-                    val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.basketFragment, true)
-                        .build()
-                    findNavController().navigate(R.id.basketFragment, null, navOptions)
-                    true
-                }
+//                R.id.menu_shop -> {
+//                    val navOptions = NavOptions.Builder()
+//                        .setPopUpTo(R.id.basketFragment, true)
+//                        .build()
+//                    findNavController().navigate(R.id.basketFragment, null, navOptions)
+//                    true
+//                }
 
                 R.id.menu_category_list -> {
                     viewModel.showCategoryList()

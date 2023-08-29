@@ -20,6 +20,8 @@ import com.project.mobilemcm.databinding.FragmentHomeBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
 import com.project.mobilemcm.ui.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -87,7 +89,13 @@ class HomeFragment : Fragment() {
         }
         homeViewModel.dateObmen.observe(viewLifecycleOwner) { obmenDate ->
             obmenDate?.let {
-                binding.textDateObmen.text = it.dateObmen
+                val dateObmen = SimpleDateFormat(
+                    "yyyy-MM-dd'T'HH:mm:ss",
+                    Locale.getDefault()
+                ).parse(it.dateObmen)
+                binding.textDateObmen.text =
+                    dateObmen?.let { date -> SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(date) }
+
             }
         }
         binding.iconButtonExchange.setOnClickListener {
@@ -103,19 +111,19 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.homeAdapter)
         }
 
-        homeViewModel.appMode.observe(viewLifecycleOwner) {
-            when (it) {
-                true -> {
-                    // binding.dayButton.visibility = View.VISIBLE
-                    // binding.nightButton.visibility = View.GONE
-                }
-
-                false -> {
-                    //  binding.dayButton.visibility = View.GONE
-                    //  binding.nightButton.visibility = View.VISIBLE
-                }
-            }
-        }
+//        homeViewModel.appMode.observe(viewLifecycleOwner) {
+//            when (it) {
+//                true -> {
+//                    // binding.dayButton.visibility = View.VISIBLE
+//                    // binding.nightButton.visibility = View.GONE
+//                }
+//
+//                false -> {
+//                    //  binding.dayButton.visibility = View.GONE
+//                    //  binding.nightButton.visibility = View.VISIBLE
+//                }
+//            }
+//        }
 
         viewModel.updateAvailable.observe(viewLifecycleOwner) {
             if (it) {
