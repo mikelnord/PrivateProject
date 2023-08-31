@@ -42,7 +42,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/number"
@@ -53,7 +53,7 @@
                 android:id="@+id/counterparties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/date"
@@ -63,9 +63,9 @@
             <Button
                 android:id="@+id/buttonDel"
                 style="@style/Widget.Material3.Button.IconButton"
+                app:icon="@drawable/baseline_delete_24"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:icon="@drawable/baseline_delete_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -89,13 +89,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageSend"
-                app:layout_constraintTop_toBottomOf="@+id/number"
+                app:layout_constraintBaseline_toBaselineOf="@+id/counterparties"
+                app:layout_constraintStart_toEndOf="@+id/counterparties"
                 tools:text="200 000" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

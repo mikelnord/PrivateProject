@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.google.android.material.navigation.NavigationBarView
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentRequestListDocBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
@@ -46,7 +47,8 @@ class RequestListFragment : Fragment() {
                     .navigate(RequestListFragmentDirections.actionRequestListFragmentToRequestDocFragment())
             }
         }
-        binding.navigationRail.setOnItemSelectedListener { item ->
+        val navBar = binding.root.findViewById<NavigationBarView>(R.id.navigation_rail)
+        navBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_home -> {
                     findNavController()
