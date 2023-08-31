@@ -12,13 +12,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
+const val version = "1"
 
 @HiltWorker
 class ExchangeWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    val repository: Repository,
-    val loginRepository: LoginRepository
+    private val repository: Repository,
+    private val loginRepository: LoginRepository
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork() =
@@ -67,21 +68,26 @@ class ExchangeWorker @AssistedInject constructor(
             if (!isError) {
                 fileObmen.await()?.let {
                     try {
-                        repository.addGoodToBase(it)
-                        repository.addCategoryToBase(it)
-                        repository.addPricegroupToBase(it)
-                        repository.addPricegroups2ToBase(it)
-                        repository.addStoresToBase(it)
-                        repository.addStockToBase(it)
-                        repository.addCounterpartiesToBase(it)
-                        repository.addCounterpartiesStoresToBase(it)
-                        repository.addDiscontsToBase(it)
-                        repository.addActionPricesToBase(it)
-                        repository.addIndividualPricesToBase(it)
-                        repository.addDivisionToBase(it)
-                        repository.addDateObmenToBase(it)
-                        if (repository.getCountVendors())
-                            repository.addVendors(repository.getAllVendors())
+                        if(it.version== version) {
+                            repository.addGoodToBase(it)
+                            repository.addCategoryToBase(it)
+                            repository.addPricegroupToBase(it)
+                            repository.addPricegroups2ToBase(it)
+                            repository.addStoresToBase(it)
+                            repository.addStockToBase(it)
+                            repository.addCounterpartiesToBase(it)
+                            repository.addCounterpartiesStoresToBase(it)
+                            repository.addDiscontsToBase(it)
+                            repository.addActionPricesToBase(it)
+                            repository.addIndividualPricesToBase(it)
+                            repository.addDivisionToBase(it)
+                            repository.addDateObmenToBase(it)
+                            if (repository.getCountVendors())
+                                repository.addVendors(repository.getAllVendors())
+                        } else {
+                            isError=true
+                            strMessage="Версия файла обмена отличается от версии используемой программой! Обновите программу и продолжите работу!"
+                        }
                     } catch (e: Throwable) {
                         isError = true
                         strMessage = e.message.toString()

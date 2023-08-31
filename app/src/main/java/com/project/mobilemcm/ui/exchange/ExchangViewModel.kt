@@ -13,6 +13,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.project.mobilemcm.R
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
@@ -26,14 +27,13 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+const val version = "1"
 
 @HiltViewModel
 class ExchangeViewModel @Inject constructor(
     private val repository: Repository,
     private val loginRepository: LoginRepository
 ) : ViewModel() {
-
-    //version=1
 
     private val _loadFile = MutableLiveData<Int>()
     private val loadFile = _loadFile
@@ -98,20 +98,24 @@ class ExchangeViewModel @Inject constructor(
             _complateObmen.postValue(false)
             fileObmen.await()?.let {
                 try {
-                    repository.addGoodToBase(it)
-                    _countGoods.postValue(loadFile.value)
-                    repository.addCategoryToBase(it)
-                    repository.addPricegroupToBase(it)
-                    repository.addPricegroups2ToBase(it)
-                    repository.addStoresToBase(it)
-                    repository.addStockToBase(it)
-                    repository.addCounterpartiesToBase(it)
-                    repository.addCounterpartiesStoresToBase(it)
-                    repository.addDiscontsToBase(it)
-                    repository.addActionPricesToBase(it)
-                    repository.addIndividualPricesToBase(it)
-                    repository.addDivisionToBase(it)
-                    repository.addDateObmenToBase(it)
+                    if (it.version.trim() == version) {
+                        repository.addGoodToBase(it)
+                        // _countGoods.postValue(loadFile.value)
+                        repository.addCategoryToBase(it)
+                        repository.addPricegroupToBase(it)
+                        repository.addPricegroups2ToBase(it)
+                        repository.addStoresToBase(it)
+                        repository.addStockToBase(it)
+                        repository.addCounterpartiesToBase(it)
+                        repository.addCounterpartiesStoresToBase(it)
+                        repository.addDiscontsToBase(it)
+                        repository.addActionPricesToBase(it)
+                        repository.addIndividualPricesToBase(it)
+                        repository.addDivisionToBase(it)
+                        // repository.addDateObmenToBase(it)
+                    } else {
+                        message.postValue("Версия файла обмена отличается от версии используемой программой! Обновите программу и продолжите работу!")
+                    }
                 } catch (e: Throwable) {
                     isError = true
                     message.postValue(e.message.toString())
@@ -121,6 +125,7 @@ class ExchangeViewModel @Inject constructor(
                     repository.addDateObmenToBase(it)
                 }
             }
+
             _dateObmen.postValue(repository.getObmenDate()?.dateObmen)
             if (!isError) {
                 viewModelScope.launch {
@@ -218,7 +223,7 @@ class ExchangeViewModel @Inject constructor(
             ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )
-            //_complateObmen.value = true
+        //_complateObmen.value = true
     }
 
     fun applyWorker(context: Context) {

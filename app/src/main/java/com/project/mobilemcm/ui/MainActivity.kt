@@ -14,13 +14,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (requestedOrientation !=
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        ) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
-
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        if (requestedOrientation !=
+//            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+//        ) {
+//            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+//        }
+//
+//    }
 }

@@ -25,7 +25,6 @@ class DialogPodborFiltr:DialogFragment(R.layout.fragment_dialog_filtr) {
     ): View {
         _binding=FragmentDialogFiltrBinding.inflate(inflater,container,false)
         setupUI()
-        //viewModel.insertVendors() //add to obmen later
         return binding.root
     }
 

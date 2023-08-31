@@ -86,8 +86,8 @@
                 android:visibility="visible"
                 app:icon="@drawable/baseline_horizontal_rule_24"
                 app:iconGravity="textStart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/count" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/buttonPlus"
@@ -105,9 +105,12 @@
                 android:id="@+id/count"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/buttonMinus"
                 app:layout_constraintEnd_toEndOf="@+id/buttonPlus"
                 app:layout_constraintStart_toStartOf="@+id/buttonPlus"
                 app:layout_constraintTop_toBottomOf="@+id/buttonPlus"
@@ -116,14 +119,14 @@
             <Button
                 android:id="@+id/buttonDel"
                 style="?attr/materialIconButtonFilledStyle"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="4dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
                 android:visibility="invisible"
                 app:icon="@drawable/baseline_delete_24"
                 app:iconGravity="textStart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonMinus"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/buttonMinus"
                 tools:visibility="visible" />
 
             <TextView
@@ -153,12 +156,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
                 android:text="@string/yuor_price"
                 android:textSize="14sp"
                 android:textStyle="normal"
-                app:layout_constraintStart_toEndOf="@+id/imgShare"
-                app:layout_constraintTop_toBottomOf="@+id/textPrice" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/price"
+                app:layout_constraintStart_toEndOf="@+id/price" />
 
             <TextView
                 android:id="@+id/textSumm"
@@ -170,7 +172,7 @@
                 android:textSize="14sp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toEndOf="@+id/imgShare"
-                app:layout_constraintTop_toBottomOf="@+id/textPrice2" />
+                app:layout_constraintTop_toBottomOf="@+id/textPrice" />
 
             <TextView
                 android:id="@+id/price2"

@@ -12,6 +12,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.search.SearchView
 import com.project.mobilemcm.R
 import com.project.mobilemcm.data.local.database.model.GoodWithStock
@@ -28,12 +29,13 @@ class PodborFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CategoryViewModel by activityViewModels()
     private val args: PodborFragmentArgs by navArgs()
-
+    private var navBar: NavigationBarView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPodborBinding.inflate(inflater, container, false)
+        navBar = binding.root.findViewById(R.id.navigation_rail)
         setupUI()
         setupFind()
         setupNavigationRail()
@@ -87,26 +89,27 @@ class PodborFragment : Fragment() {
     }
 
     private fun setupNavigationRail() {
-        binding.navigationRail.headerView?.setOnClickListener {
-            if (args.isMasterDoc) {
-                val bundle = bundleOf("podborReturn" to true)
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.podborFragment, false)
-                    .build()
-                findNavController().navigate(R.id.homeAdapter, bundle, navOptions)
-            } else {
-                findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToRequestDocFragment())
-            }
-        }
-        binding.navigationRail.setOnItemSelectedListener { item ->
+//        binding.navigationRail.headerView?.setOnClickListener {
+//            if (args.isMasterDoc) {
+//                val bundle = bundleOf("podborReturn" to true)
+//                val navOptions = NavOptions.Builder()
+//                    .setPopUpTo(R.id.podborFragment, false)
+//                    .build()
+//                findNavController().navigate(R.id.homeAdapter, bundle, navOptions)
+//            } else {
+//                findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToRequestDocFragment())
+//            }
+//        }
+
+        navBar?.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_find -> {
                     if (binding.searchBar.visibility == View.VISIBLE) {
                         binding.searchBar.visibility = View.INVISIBLE
-                        binding.navigationRail.menu[0].setIcon(R.drawable.ic_search_black_24dp)
+                        navBar?.menu?.get(0)?.setIcon(R.drawable.ic_search_black_24dp)
                     } else {
                         binding.searchBar.visibility = View.VISIBLE
-                        binding.navigationRail.menu[0].setIcon(R.drawable.search_off_24)
+                        navBar?.menu?.get(0)?.setIcon(R.drawable.search_off_24)
                     }
                     true
                 }
@@ -116,13 +119,18 @@ class PodborFragment : Fragment() {
                     true
                 }
 
-//                R.id.menu_shop -> {
-//                    val navOptions = NavOptions.Builder()
-//                        .setPopUpTo(R.id.basketFragment, true)
-//                        .build()
-//                    findNavController().navigate(R.id.basketFragment, null, navOptions)
-//                    true
-//                }
+                R.id.menu_shop -> {
+                    if (args.isMasterDoc) {
+                        val bundle = bundleOf("podborReturn" to true)
+                        val navOptions = NavOptions.Builder()
+                            .setPopUpTo(R.id.podborFragment, false)
+                            .build()
+                        findNavController().navigate(R.id.homeAdapter, bundle, navOptions)
+                    } else {
+                        findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToRequestDocFragment())
+                    }
+                    true
+                }
 
                 R.id.menu_category_list -> {
                     viewModel.showCategoryList()
@@ -138,9 +146,9 @@ class PodborFragment : Fragment() {
             }
         }
         viewModel.countList.observe(viewLifecycleOwner) {
-            val badge = binding.navigationRail.getOrCreateBadge(R.id.menu_shop)
-            badge.number = it.toInt()
-            badge.isVisible = it > 0
+            val badge = navBar?.getOrCreateBadge(R.id.menu_shop)
+            badge?.number = it.toInt()
+            badge?.isVisible = it > 0
         }
     }
 
@@ -180,7 +188,7 @@ class PodborFragment : Fragment() {
         binding.searchView.addTransitionListener { _, _, newState ->
             if (newState == SearchView.TransitionState.HIDDEN) {
                 binding.searchBar.visibility = View.INVISIBLE
-                binding.navigationRail.menu[0].setIcon(R.drawable.ic_search_black_24dp)
+                navBar?.menu?.get(0)?.setIcon(R.drawable.ic_search_black_24dp)
                 //adapter.
             }
         }

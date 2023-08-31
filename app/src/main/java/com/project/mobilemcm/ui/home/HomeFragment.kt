@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationBarView
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentHomeBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
@@ -94,7 +95,11 @@ class HomeFragment : Fragment() {
                     Locale.getDefault()
                 ).parse(it.dateObmen)
                 binding.textDateObmen.text =
-                    dateObmen?.let { date -> SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(date) }
+                    dateObmen?.let { date ->
+                        SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(
+                            date
+                        )
+                    }
 
             }
         }
@@ -203,7 +208,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupNavigationRail() {
-        binding.navigationRail.setOnItemSelectedListener { item ->
+        val navBar = binding.root.findViewById<NavigationBarView>(R.id.navigation_rail)
+        navBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_list_doc -> {
                     findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToRequestListFragment())

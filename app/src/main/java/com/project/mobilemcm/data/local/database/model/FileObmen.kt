@@ -5,6 +5,7 @@ import com.project.mobilemcm.pricing.model.Disconts
 import com.project.mobilemcm.pricing.model.IndividualPrices
 
 data class FileObmen(
+    val version:String,
     val categories: List<Category>?,
     val date: String,
     val divisions:List<Division>?,
