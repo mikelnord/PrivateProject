@@ -26,16 +26,12 @@
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"
                 android:gravity="center"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageSend"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.461"
                 tools:text="1010" />
 
             <TextView
@@ -54,31 +50,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/date"
-                app:layout_constraintStart_toEndOf="@+id/date"
+                app:layout_constraintStart_toEndOf="@+id/imageSend"
+                app:layout_constraintTop_toBottomOf="@+id/number"
                 tools:text="Counterparties 1" />
-
-            <Button
-                android:id="@+id/buttonDel"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:icon="@drawable/baseline_delete_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageSend"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
                 android:scaleType="centerInside"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/circle_24_green"
@@ -88,14 +73,12 @@
                 android:id="@+id/textsumm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageSend"
-                app:layout_constraintTop_toBottomOf="@+id/number"
+                app:layout_constraintTop_toBottomOf="@+id/counterparties"
                 tools:text="200 000" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

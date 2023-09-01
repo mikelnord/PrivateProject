@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -13,7 +14,6 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.project.mobilemcm.R
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
@@ -48,10 +48,14 @@ class ExchangeViewModel @Inject constructor(
     val firstObmen = _firstObmen
 
     private val _dateObmen = MutableLiveData<String>()
-    val dateObmen = _dateObmen
+    val dateObmen = repository.getFlowDate().asLiveData()
 
     private val _complateObmen = MutableLiveData<Boolean>()
     val complateObmen = _complateObmen
+
+    fun setComplateObmen(){
+        _complateObmen.value=true
+    }
 
     private var isError = false
     private val errorHandler =
@@ -208,7 +212,7 @@ class ExchangeViewModel @Inject constructor(
         }
     }
 
-    private fun applyExchangeWorker(context: Context) {
+     fun applyExchangeWorker(context: Context) {
         val workRequest =
             PeriodicWorkRequestBuilder<ExchangeWorker>(30, TimeUnit.MINUTES, 5, TimeUnit.MINUTES)
                 .setConstraints(
@@ -223,7 +227,7 @@ class ExchangeViewModel @Inject constructor(
             ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )
-        //_complateObmen.value = true
+       // _complateObmen.value = true
     }
 
     fun applyWorker(context: Context) {
@@ -240,6 +244,7 @@ class ExchangeViewModel @Inject constructor(
             ExistingWorkPolicy.KEEP,
             workRequest
         )
+         _complateObmen.value = true
     }
 
 }

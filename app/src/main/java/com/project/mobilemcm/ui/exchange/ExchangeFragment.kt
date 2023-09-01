@@ -51,8 +51,10 @@ class ExchangeFragment : Fragment() {
             binding.buttonStartObmen.isEnabled = false
             binding.buttonStartFullObmen.isEnabled = false
             binding.indikator.visibility = View.VISIBLE
-            viewModel.getObmen(requireContext())
-            //viewModel.applyExchangeWorker(requireContext())
+            //viewModel.getObmen(requireContext())
+            viewModel.setComplateObmen()
+            viewModel.applyExchangeWorker(requireContext())
+            viewModel.applyWorker(requireContext())
         }
         binding.buttonStartFullObmen.setOnClickListener {
         }
@@ -63,15 +65,19 @@ class ExchangeFragment : Fragment() {
             showError(it)
         }
         viewModel.complateObmen.observe(viewLifecycleOwner) {
-            if (it) {
+            if (it)
+                binding.textViewDate.text = "Идет заполнение базы данных"
+        }
+        viewModel.dateObmen.observe(viewLifecycleOwner) {
+            if (!it?.dateObmen.isNullOrEmpty()) {
+                binding.textViewDate.text = it?.dateObmen
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(R.id.homeFragment, true)
                     .build()
                 findNavController().navigate(R.id.homeFragment, null, navOptions)
+            } else {
+
             }
-        }
-        viewModel.dateObmen.observe(viewLifecycleOwner) {
-            binding.textViewDate.text = it
         }
     }
 

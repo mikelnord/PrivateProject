@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.android.material.navigation.NavigationBarView
 import com.project.mobilemcm.R
 import com.project.mobilemcm.data.local.database.model.GoodWithStock
 import com.project.mobilemcm.databinding.FragmentRequestDocBinding
@@ -120,26 +122,48 @@ class RequestDocFragment : Fragment() {
     }
 
     private fun setupNavigationRail() {
-        binding.navigationRail.headerView?.isEnabled = !viewModel.requestDocument.isSent
-        binding.navigationRail.headerView?.setOnClickListener {
-            if (viewModel.requestDocument.counterpartiesStores_id.isNotEmpty() || viewModel.requestDocument.isPickup) {
-                if (!viewModel.saveDoc()) showAlert(
-                    requireContext(),
-                    "Контрагент не выбран!",
-                    "Выберете контрагента и повторите запись документа"
-                )
-                else {
-                    val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.homeFragment, false)
-                        .build()
-                    findNavController().navigate(R.id.requestListFragment, null, navOptions)
-                }
-            } else {
-                Toast.makeText(requireContext(), "Место доставки!", Toast.LENGTH_LONG).show()
-            }
-        }
-        binding.navigationRail.setOnItemSelectedListener { item ->
+        //binding.navigationRail.headerView?.isEnabled = !viewModel.requestDocument.isSent
+//        binding.navigationRail.headerView?.setOnClickListener {
+//            if (viewModel.requestDocument.counterpartiesStores_id.isNotEmpty() || viewModel.requestDocument.isPickup) {
+//                if (!viewModel.saveDoc()) showAlert(
+//                    requireContext(),
+//                    "Контрагент не выбран!",
+//                    "Выберете контрагента и повторите запись документа"
+//                )
+//                else {
+//                    val navOptions = NavOptions.Builder()
+//                        .setPopUpTo(R.id.homeFragment, false)
+//                        .build()
+//                    findNavController().navigate(R.id.requestListFragment, null, navOptions)
+//                }
+//            } else {
+//                Toast.makeText(requireContext(), "Место доставки!", Toast.LENGTH_LONG).show()
+//            }
+//        }
+        val navBar = binding.root.findViewById<NavigationBarView>(R.id.navigation_rail)
+        navBar?.menu?.get(0)?.isEnabled = !viewModel.requestDocument.isSent
+        navBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.menu_save -> {
+                    if (viewModel.requestDocument.counterpartiesStores_id.isNotEmpty() || viewModel.requestDocument.isPickup) {
+                        if (!viewModel.saveDoc()) showAlert(
+                            requireContext(),
+                            "Контрагент не выбран!",
+                            "Выберете контрагента и повторите запись документа"
+                        )
+                        else {
+                            val navOptions = NavOptions.Builder()
+                                .setPopUpTo(R.id.homeFragment, false)
+                                .build()
+                            findNavController().navigate(R.id.requestListFragment, null, navOptions)
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "Место доставки!", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    true
+                }
+
                 R.id.menu_cansel -> {
                     findNavController().navigate(RequestDocFragmentDirections.actionRequestDocFragmentToRequestListFragment())
                     //view?.findNavController()?.popBackStack()

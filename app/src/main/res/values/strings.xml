@@ -73,4 +73,5 @@
     <string name="yuor_price">Ваша цена</string>
     <string name="summ">Сумма</string>
     <string name="errorVersion">"Версия файла обмена отличается от версии используемой программой! Обновите программу и продолжите работу!"</string>
+    <string name="save">Сохранить</string>
 </resources>

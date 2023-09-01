@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.navigation.NavigationBarView
@@ -63,10 +62,10 @@ class RequestListFragment : Fragment() {
 
                 R.id.menu_add->{
                     activityViewModel.clearDoc()
-                    val navOptions = NavOptions.Builder()
+                    //val navOptions = NavOptions.Builder()
                         //.setPopUpTo(R.id.homeAdapter, false)
                         // .setLaunchSingleTop(true)
-                        .build()
+                      //  .build()
                     findNavController().navigate(R.id.homeAdapter)
                     true
                 }
