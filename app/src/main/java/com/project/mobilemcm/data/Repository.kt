@@ -269,4 +269,6 @@ class Repository @Inject constructor(
     suspend fun getDiscontsFromCompany(company_id: String, date: String) =
         discontsDao.getDiscontsFromCompany(company_id, date)
 
+    suspend fun getStoreDefault(divisionId: String) = storeDao.getStoreDefault(divisionId)
+
 }

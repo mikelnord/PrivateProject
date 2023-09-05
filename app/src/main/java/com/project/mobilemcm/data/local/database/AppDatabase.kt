@@ -1,8 +1,10 @@
 package com.project.mobilemcm.data.local.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.AutoMigrationSpec
 import com.project.mobilemcm.data.local.database.model.*
 import com.project.mobilemcm.pricing.data.ActionPricesDao
 import com.project.mobilemcm.pricing.data.CompanyDao
@@ -25,10 +27,20 @@ import com.project.mobilemcm.pricing.model.ItemInd
         RequestGoods::class, Vendors::class, CounterpartiesStores::class, LoggedInUser::class,
         Disconts::class, Item::class, Company::class, ActionPrices::class, ItemAction::class,
         IndividualPrices::class, ItemInd::class, Division::class, ObmenDate::class],
-    version = 1
+    autoMigrations = [
+        AutoMigration (
+            from = 1,
+            to = 2,
+            spec = AppDatabase.MyAutoMigration::class
+        )
+    ],
+            version = 2,
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
+
+    class MyAutoMigration : AutoMigrationSpec
     abstract fun storeDao(): StoreDao
     abstract fun categoryDao(): CategoryDao
     abstract fun pricegroupDao(): PricegroupDao

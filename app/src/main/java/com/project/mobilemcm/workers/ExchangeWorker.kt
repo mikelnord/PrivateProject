@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.login.LoginRepository
 import dagger.assisted.Assisted
@@ -11,6 +12,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 
 const val version = "1"
 
@@ -21,6 +23,11 @@ class ExchangeWorker @AssistedInject constructor(
     private val repository: Repository,
     private val loginRepository: LoginRepository
 ) : CoroutineWorker(appContext, workerParams) {
+
+    companion object {
+        const val Progress = "Progress"
+        private const val delayDuration = 1000L
+    }
 
     override suspend fun doWork() =
         try {
@@ -41,10 +48,13 @@ class ExchangeWorker @AssistedInject constructor(
 
     private suspend fun getObmen() {
         coroutineScope {
+            setProgress(workDataOf(Progress to 0))
+
             val strPodr = loginRepository.user?.division_id//stock
             val strUserId = loginRepository.user?.id ?: ""
             val dateObmen = async(Dispatchers.IO) { repository.getObmenDate() }
             val fileObmen = async(Dispatchers.IO) {
+                setProgress(workDataOf(Progress to 10))
                 val result =
                     strPodr?.let {
                         repository.fetchObmenFile(
@@ -56,6 +66,7 @@ class ExchangeWorker @AssistedInject constructor(
                 result?.let { res ->
                     if (res.status == com.project.mobilemcm.data.local.database.model.Result.Status.SUCCESS) {
                         isError = false
+                        setProgress(workDataOf(Progress to 10))
                         return@async result.data
                     } else {
                         isError = true
@@ -65,10 +76,12 @@ class ExchangeWorker @AssistedInject constructor(
                 }
             }
 
+
             if (!isError) {
                 fileObmen.await()?.let {
                     try {
-                        if(it.version== version) {
+                        if (it.version == version) {
+                            setProgress(workDataOf(Progress to 50))
                             repository.addGoodToBase(it)
                             repository.addCategoryToBase(it)
                             repository.addPricegroupToBase(it)
@@ -84,9 +97,12 @@ class ExchangeWorker @AssistedInject constructor(
                             repository.addDateObmenToBase(it)
                             if (repository.getCountVendors())
                                 repository.addVendors(repository.getAllVendors())
+                            setProgress(workDataOf(Progress to 100))
+                            delay(delayDuration)
                         } else {
-                            isError=true
-                            strMessage="Версия файла обмена отличается от версии используемой программой! Обновите программу и продолжите работу!"
+                            isError = true
+                            strMessage =
+                                "Версия файла обмена отличается от версии используемой программой! Обновите программу и продолжите работу!"
                         }
                     } catch (e: Throwable) {
                         isError = true

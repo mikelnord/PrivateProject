@@ -139,6 +139,16 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     fun getActiveUser() = liveData {
         emit(loginRepository.user)
+        loginRepository.user?.let { getDefaultStorage(it.division_id) }
+    }
+
+
+    private fun getDefaultStorage(divisionId:String) {
+                if (requestDocument.store_id.isEmpty()){
+                    viewModelScope.launch {
+                        requestDocument.store_id = repository.getStoreDefault(divisionId)?.id ?: ""
+                    }
+                }
     }
 
     private val _currentCategory = MutableLiveData<String>()

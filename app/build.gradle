@@ -8,6 +8,10 @@ plugins {
     id 'com.google.devtools.ksp'
 
 }
+ksp {
+    arg(new RoomSchemaArgProvider(new File(projectDir, "schemas")))
+}
+
 
 android {
     namespace 'com.project.mobilemcm'
@@ -17,8 +21,8 @@ android {
         applicationId "com.project.mobilemcm"
         minSdk 29
         targetSdk 33
-        versionCode 8
-        versionName "1.1.0"
+        versionCode 9
+        versionName "1.1.1"
 
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
@@ -102,4 +106,22 @@ dependencies {
 
 kapt {
     correctErrorTypes true
+}
+
+class RoomSchemaArgProvider implements CommandLineArgumentProvider {
+
+    @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
+    File schemaDir
+
+    RoomSchemaArgProvider(File schemaDir) {
+        this.schemaDir = schemaDir
+    }
+
+    @Override
+    Iterable<String> asArguments() {
+        // Note: If you're using KSP, change the line below to return
+        return ["room.schemaLocation=${schemaDir.path}".toString()]
+        //return ["-Aroom.schemaLocation=${schemaDir.path}".toString()]
+    }
 }

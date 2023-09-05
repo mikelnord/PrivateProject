@@ -16,6 +16,9 @@ interface StoreDao {
     @Query("SELECT id,name FROM store where division_id=:divisionId")
     suspend fun getStoresFromDivision(divisionId:String):List<StoreItem>?
 
+    @Query("SELECT id,name FROM store where division_id=:divisionId and `default`=1 and deletionmark=0")
+    suspend fun getStoreDefault(divisionId:String):StoreItem?
+
     @Delete
     suspend fun delete(store: Store)
 
