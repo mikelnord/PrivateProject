@@ -14,14 +14,15 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CategoryListFragment : Fragment() {
 
-    private lateinit var binding: FragmentCategoryListBinding
+    private var _binding:FragmentCategoryListBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: CategoryViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCategoryListBinding.inflate(inflater, container, false)
+        _binding = FragmentCategoryListBinding.inflate(inflater, container, false)
         setupUI()
         return binding.root
     }
@@ -30,7 +31,7 @@ class CategoryListFragment : Fragment() {
         val adapter = CategoryAdapter(
             ArrayList(),
             { id, name -> viewModel.setCurrentCategory(id, name) },
-            { _ ->viewModel.hideCategoryList() })
+            viewModel.currentCategory)
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         binding.recycler.adapter = adapter
         binding.recycler.addItemDecoration(decoration)
@@ -41,7 +42,7 @@ class CategoryListFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        //binding = null
+        _binding = null
     }
 
 }

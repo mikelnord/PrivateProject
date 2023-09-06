@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.project.mobilemcm.data.local.database.model.DomainCategory
 import com.project.mobilemcm.data.local.database.model.DomainCategoryChild
@@ -12,13 +13,13 @@ import com.project.mobilemcm.databinding.ItemCategotyListBinding
 class CategoryAdapter(
     private val list: ArrayList<DomainCategoryChild>,
     private val childClick: (String, String) -> Unit,
-    private val hideClick: (String) -> Unit
+    private val currentCategory: (MutableLiveData<String>)
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     class CategoryViewHolder(
         private val binding: ItemCategotyListBinding,
         private val childClick: (String, String) -> Unit,
-        private val hideClick: (String) -> Unit
+        private val currentCategory: (MutableLiveData<String>)
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -28,7 +29,7 @@ class CategoryAdapter(
                 binding.rvSubItem.visibility =
                     if (binding.rvSubItem.isShown) View.GONE else View.VISIBLE
             }
-            binding.rvSubItem.adapter = ChildItemAdapter(childList, childClick, hideClick)
+            binding.rvSubItem.adapter = ChildItemAdapter(childList, childClick, currentCategory)
             binding.tvParentTitle.text = parentName
         }
     }
@@ -39,7 +40,7 @@ class CategoryAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), childClick, hideClick
+            ), childClick, currentCategory
         )
     }
 

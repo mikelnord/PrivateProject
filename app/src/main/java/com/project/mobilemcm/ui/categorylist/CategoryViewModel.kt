@@ -94,7 +94,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         _queryPricegroup.value = query
     }
 
-    private var _selectedPricegroup = MutableLiveData<Pricegroup>()
+    private var _selectedPricegroup = MutableLiveData<Pricegroup?>()
     val selectedPricegroup = _selectedPricegroup
 
     private fun setSelectedPricegroup(id: String) {
@@ -116,11 +116,19 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         _queryVendors.value = query
     }
 
-    private var _selectedVendors = MutableLiveData<Vendors>()
+    private var _selectedVendors = MutableLiveData<Vendors?>()
     val selectedVendors = _selectedVendors
 
     private fun setSelectedVendors(vendors: Vendors) {
         _selectedVendors.value = vendors
+    }
+
+    fun clearSelectedVendors() {
+        _selectedVendors.value = null
+    }
+
+    fun clearSelectedPriceGroup() {
+        _selectedPricegroup.value = null
     }
 
     val findVendors = queryVendors.switchMap {
@@ -143,16 +151,16 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     }
 
 
-    private fun getDefaultStorage(divisionId:String) {
-                if (requestDocument.store_id.isEmpty()){
-                    viewModelScope.launch {
-                        requestDocument.store_id = repository.getStoreDefault(divisionId)?.id ?: ""
-                    }
-                }
+    private fun getDefaultStorage(divisionId: String) {
+        if (requestDocument.store_id.isEmpty()) {
+            viewModelScope.launch {
+                requestDocument.store_id = repository.getStoreDefault(divisionId)?.id ?: ""
+            }
+        }
     }
 
     private val _currentCategory = MutableLiveData<String>()
-    private val currentCategory = _currentCategory
+    val currentCategory = _currentCategory
 
     private val _currentCategoryName = MutableLiveData<String>()
     val currentCategoryName = _currentCategoryName
@@ -331,17 +339,17 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 }
             } else list
 
-            newList = if (isStateFilter.isPrisegroup) {
-                newList.filter { domainCategory ->
-                    domainCategory.pricegroup == (selectedPricegroup.value?.id ?: "")
-                }
-            } else newList
-
-            newList = if (isStateFilter.isVendor) {
-                newList.filter { domainCategory ->
-                    domainCategory.vendor == (selectedVendors.value?.name ?: "")
-                }
-            } else newList
+//            newList = if (isStateFilter.isPrisegroup) {
+//                newList.filter { domainCategory ->
+//                    domainCategory.pricegroup == (selectedPricegroup.value?.id ?: "")
+//                }
+//            } else newList
+//
+//            newList = if (isStateFilter.isVendor) {
+//                newList.filter { domainCategory ->
+//                    domainCategory.vendor == (selectedVendors.value?.name ?: "")
+//                }
+//            } else newList
 
             newList.map { ParentCategory(it.parent_id, it.name, it.code) }.distinct()
                 .sortedBy { it.code }.map { parentCategory ->
@@ -350,20 +358,21 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                         requestDocument.store_id
                     )
                         .asSequence()
-                        .filter { domainCategory ->
-                            if (isStateFilter.isRemainder) {
-                                if (domainCategory.amount == null) false
-                                else domainCategory.amount > 0
-                            } else true
-                        }.filter { domainCategory ->
-                            if (isStateFilter.isPrisegroup) {
-                                domainCategory.pricegroup == (selectedPricegroup.value?.id ?: "")
-                            } else true
-                        }.filter { domainCategory ->
-                            if (isStateFilter.isVendor) {
-                                domainCategory.vendor == (selectedVendors.value?.name ?: "")
-                            } else true
-                        }.map { DomainCategory(it.id, it.parent_id, it.name, "", 0.0, "", "") }
+//                        .filter { domainCategory ->
+//                            if (isStateFilter.isRemainder) {
+//                                if (domainCategory.amount == null) false
+//                                else domainCategory.amount > 0
+//                            } else true
+//                        }.filter { domainCategory ->
+//                            if (isStateFilter.isPrisegroup) {
+//                                domainCategory.pricegroup == (selectedPricegroup.value?.id ?: "")
+//                            } else true
+//                        }.filter { domainCategory ->
+//                            if (isStateFilter.isVendor) {
+//                                domainCategory.vendor == (selectedVendors.value?.name ?: "")
+//                            } else true
+//                        }
+                        .map { DomainCategory(it.id, it.parent_id, it.name, "", 0.0, "", "") }
                         .distinct()
                         .toList()
                     DomainCategoryChild(parentCategory.name, listChild)

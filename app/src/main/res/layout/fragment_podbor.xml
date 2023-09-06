@@ -60,12 +60,14 @@
                 android:id="@+id/chip_pricegroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/pricegroup" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_vendor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/text_vendor" />
 
         </com.google.android.material.chip.ChipGroup>
@@ -113,17 +115,17 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
         android:name="com.project.mobilemcm.ui.categorylist.CategoryListFragment"
-        android:layout_width="380dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:elevation="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/navigation_rail"
         app:layout_constraintEnd_toStartOf="@+id/fragmentContainerView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontal"
-        tools:layout="@layout/fragment_good_list"
-        tools:visibility="visible" />
+        tools:layout="@layout/fragment_good_list" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"

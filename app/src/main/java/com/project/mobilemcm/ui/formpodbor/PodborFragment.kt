@@ -43,7 +43,7 @@ class PodborFragment : Fragment() {
     }
 
     private fun setupFind() {
-        viewModel.setStateRemainder()
+        //viewModel.setStateRemainder()
         binding.searchView.setupWithSearchBar(binding.searchBar)
         binding.chipAmount.isChecked = (viewModel.isStateFilter.value?.isRemainder ?: false) == true
         binding.chipPricegroup.isChecked =
@@ -53,29 +53,29 @@ class PodborFragment : Fragment() {
             viewModel.setStateRemainder()
         }
         binding.chipPricegroup.setOnClickListener {
-            if (binding.chipPricegroup.text == getString(R.string.pricegroup)) {
-                binding.chipPricegroup.isChecked = false
-                findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToDialogFiltrNavigation())
-            } else viewModel.setStatePricegroup()
+            it.visibility = View.GONE
+            viewModel.setStatePricegroup()
+            viewModel.clearSelectedPriceGroup()
         }
         binding.chipVendor.setOnClickListener {
-            if (binding.chipVendor.text == getString(R.string.vendor)) {
-                binding.chipVendor.isChecked = false
-                findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToDialogFiltrNavigation())
-            } else viewModel.setStateVendor()
+            it.visibility = View.GONE
+            viewModel.setStateVendor()
+            viewModel.clearSelectedVendors()
         }
 
         viewModel.selectedPricegroup.observe(viewLifecycleOwner) {
             if (viewModel.isStateFilter.value?.isPrisegroup == true) {
-                binding.chipPricegroup.text = it.name
+                binding.chipPricegroup.text = it?.name
                 binding.chipPricegroup.isChecked = true
+                binding.chipPricegroup.visibility = View.VISIBLE
             }
         }
 
         viewModel.selectedVendors.observe(viewLifecycleOwner) {
             if (viewModel.isStateFilter.value?.isVendor == true) {
-                binding.chipVendor.text = it.name
+                binding.chipVendor.text = it?.name
                 binding.chipVendor.isChecked = true
+                binding.chipVendor.visibility = View.VISIBLE
             }
         }
 
@@ -115,7 +115,8 @@ class PodborFragment : Fragment() {
                 }
 
                 R.id.menu_filtr -> {
-                    findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToDialogFiltrNavigation())
+                    //findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToDialogFiltrNavigation())
+                    findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToPodborFiltrFragment())
                     true
                 }
 
@@ -129,11 +130,6 @@ class PodborFragment : Fragment() {
                     } else {
                         findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToRequestDocFragment())
                     }
-                    true
-                }
-
-                R.id.menu_category_list -> {
-                    viewModel.showCategoryList()
                     true
                 }
 

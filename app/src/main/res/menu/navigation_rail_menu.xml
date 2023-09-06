@@ -16,11 +16,6 @@
         android:icon="@drawable/shopping_cart_24"
         android:title="@string/selection"/>
     <item
-        android:id="@+id/menu_category_list"
-        android:enabled="true"
-        android:icon="@drawable/account_tree_24"
-        android:title="@string/tree_value"/>
-    <item
         android:id="@+id/menu_back"
         android:enabled="true"
         android:icon="@drawable/arrow_back_24"
