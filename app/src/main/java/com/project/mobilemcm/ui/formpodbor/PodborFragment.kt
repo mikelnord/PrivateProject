@@ -1,4 +1,4 @@
-package com.project.mobilemcm.ui.formpodbor
+package com.project.mobilemcm. ui.formpodbor
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -43,14 +43,18 @@ class PodborFragment : Fragment() {
     }
 
     private fun setupFind() {
-        //viewModel.setStateRemainder()
+        if (viewModel.firstLaunchPodbor) {
+            viewModel.setRemainder(true)
+            findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToPodborFiltrFragment())
+            viewModel.setFirstLaunchPodbor()
+        }
         binding.searchView.setupWithSearchBar(binding.searchBar)
-        binding.chipAmount.isChecked = (viewModel.isStateFilter.value?.isRemainder ?: false) == true
-        binding.chipPricegroup.isChecked =
-            (viewModel.isStateFilter.value?.isPrisegroup ?: false) == true
-        binding.chipVendor.isChecked = (viewModel.isStateFilter.value?.isVendor ?: false) == true
-        binding.chipAmount.setOnCheckedChangeListener { _, _ ->
-            viewModel.setStateRemainder()
+        //binding.chipAmount.isChecked = (viewModel.isStateFilter.value?.isRemainder ?: false) == true
+        viewModel.isStateFilter.observe(viewLifecycleOwner){
+            binding.chipAmount.isChecked = it.isRemainder
+        }
+        binding.chipAmount.setOnClickListener {
+            viewModel.setRemainder(!(viewModel.isStateFilter.value?.isRemainder ?: false))
         }
         binding.chipPricegroup.setOnClickListener {
             it.visibility = View.GONE
@@ -80,26 +84,16 @@ class PodborFragment : Fragment() {
         }
 
         viewModel.currentCategoryName.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
+            if (!it.isNullOrEmpty()) {
                 binding.chipCategory.text = it
                 binding.chipCategory.isChecked = true
+            } else {
+                binding.chipCategory.visibility=View.GONE
             }
         }
-
     }
 
     private fun setupNavigationRail() {
-//        binding.navigationRail.headerView?.setOnClickListener {
-//            if (args.isMasterDoc) {
-//                val bundle = bundleOf("podborReturn" to true)
-//                val navOptions = NavOptions.Builder()
-//                    .setPopUpTo(R.id.podborFragment, false)
-//                    .build()
-//                findNavController().navigate(R.id.homeAdapter, bundle, navOptions)
-//            } else {
-//                findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToRequestDocFragment())
-//            }
-//        }
 
         navBar?.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -115,7 +109,6 @@ class PodborFragment : Fragment() {
                 }
 
                 R.id.menu_filtr -> {
-                    //findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToDialogFiltrNavigation())
                     findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToPodborFiltrFragment())
                     true
                 }
@@ -185,19 +178,6 @@ class PodborFragment : Fragment() {
             if (newState == SearchView.TransitionState.HIDDEN) {
                 binding.searchBar.visibility = View.INVISIBLE
                 navBar?.menu?.get(0)?.setIcon(R.drawable.ic_search_black_24dp)
-                //adapter.
-            }
-        }
-        viewModel.showCategoryList.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.fragmentContainerView2.visibility = View.VISIBLE
-                viewModel.setCategoryList()
-            }
-        }
-        viewModel.hideCategoryList.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.fragmentContainerView2.visibility = View.GONE
-                viewModel.setHideCategoryList()
             }
         }
     }
@@ -225,7 +205,6 @@ class PodborFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.clearStateFilter()
         _binding = null
     }
 }

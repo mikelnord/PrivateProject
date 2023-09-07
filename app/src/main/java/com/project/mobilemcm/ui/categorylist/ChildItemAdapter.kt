@@ -10,14 +10,14 @@ import com.project.mobilemcm.databinding.SubListItemBinding
 
 class ChildItemAdapter(
     private val subList: List<DomainCategory>, private val childClick: (String, String) -> Unit,
-    private val currentCategory: (MutableLiveData<String>)
+    private val currentCategory: (MutableLiveData<String?>)
 ) :
     RecyclerView.Adapter<ChildItemAdapter.ChildViewHolder>() {
 
     class ChildViewHolder(
         private val binding: SubListItemBinding,
         private val childClick: (String, String) -> Unit,
-        private val currentCategory: (MutableLiveData<String>)
+        private val currentCategory: (MutableLiveData<String?>)
     ) :
         RecyclerView.ViewHolder(binding.root) {
 

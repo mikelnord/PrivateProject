@@ -52,10 +52,12 @@ class PodborFiltrFragment : Fragment() {
         }
 
         viewModel.currentCategoryName.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
+            if (!it.isNullOrEmpty()) {
                 binding.chipCategory.text = it
                 binding.chipCategory.isChecked = true
                 binding.chipCategory.visibility = View.VISIBLE
+            } else {
+                binding.chipCategory.visibility = View.INVISIBLE
             }
         }
         viewModel.selectedPricegroup.observe(viewLifecycleOwner) {
@@ -63,6 +65,8 @@ class PodborFiltrFragment : Fragment() {
                 binding.chipPricegroup.text = it?.name
                 binding.chipPricegroup.isChecked = true
                 binding.chipPricegroup.visibility = View.VISIBLE
+            } else {
+                binding.chipPricegroup.visibility = View.GONE
             }
         }
         binding.chipPricegroup.setOnClickListener {
@@ -75,6 +79,8 @@ class PodborFiltrFragment : Fragment() {
                 binding.chipVendor.text = it?.name
                 binding.chipVendor.isChecked = true
                 binding.chipVendor.visibility = View.VISIBLE
+            } else {
+                binding.chipVendor.visibility = View.GONE
             }
         }
         binding.chipVendor.setOnClickListener {
@@ -83,6 +89,16 @@ class PodborFiltrFragment : Fragment() {
             viewModel.clearSelectedVendors()
         }
 
+        viewModel.clearAll.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.chipClearAll.visibility = View.VISIBLE
+                binding.chipClearAll.isChecked = true
+            } else binding.chipClearAll.visibility = View.INVISIBLE
+        }
+        binding.chipClearAll.setOnClickListener {
+            viewModel.clearStateFilter()
+            viewModel.setClearAll(false)
+        }
     }
 
     override fun onDestroyView() {

@@ -53,6 +53,12 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
+    var firstLaunchPodbor = true
+
+    fun setFirstLaunchPodbor() {
+        firstLaunchPodbor = false
+    }
+
     private var _companyInfo = MutableLiveData<CompanyInfo?>()
     val companyInfo = _companyInfo
 
@@ -119,6 +125,13 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     private var _selectedVendors = MutableLiveData<Vendors?>()
     val selectedVendors = _selectedVendors
 
+    private var _clearAll = MutableLiveData(false)
+    val clearAll = _clearAll
+
+    fun setClearAll(boolean: Boolean) {
+        _clearAll.value = boolean
+    }
+
     private fun setSelectedVendors(vendors: Vendors) {
         _selectedVendors.value = vendors
     }
@@ -131,18 +144,42 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         _selectedPricegroup.value = null
     }
 
+    private fun clearSelectedCategory() {
+        _currentCategory.value = null
+        _currentCategoryName.value = null
+    }
+
     val findVendors = queryVendors.switchMap {
         repository.getVendors(it).asLiveData()
     }
 
+
     fun setText(id: String) {
-        setStatePricegroup()
+        _isStateFilter.value = FilterState(
+            _isStateFilter.value?.isRemainder ?: false,
+            true,
+            _isStateFilter.value?.isVendor ?: false
+        )
         setSelectedPricegroup(id)
+        setClearAll(true)
     }
 
     fun setVendor(vendors: Vendors) {
-        setStateVendor()
+        _isStateFilter.value = FilterState(
+            _isStateFilter.value?.isRemainder ?: false,
+            _isStateFilter.value?.isPrisegroup ?: false,
+            true
+        )
         setSelectedVendors(vendors)
+        setClearAll(true)
+    }
+
+    fun setRemainder(boolean: Boolean) {
+        _isStateFilter.value = FilterState(
+            boolean,
+            _isStateFilter.value?.isPrisegroup ?: false,
+            _isStateFilter.value?.isVendor ?: false
+        )
     }
 
     fun getActiveUser() = liveData {
@@ -159,38 +196,16 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         }
     }
 
-    private val _currentCategory = MutableLiveData<String>()
+    private val _currentCategory = MutableLiveData<String?>()
     val currentCategory = _currentCategory
 
-    private val _currentCategoryName = MutableLiveData<String>()
+    private val _currentCategoryName = MutableLiveData<String?>()
     val currentCategoryName = _currentCategoryName
 
     val addStringsList: MutableMap<String, GoodWithStock> = mutableMapOf()
 
     private val _countList = MutableLiveData<Int>()
     val countList = _countList
-
-    private var _showCategoryList = MutableLiveData<Boolean>()
-    val showCategoryList = _showCategoryList
-
-    fun setCategoryList() {
-        _showCategoryList.value = false
-    }
-
-    fun showCategoryList() {
-        _showCategoryList.value = true
-    }
-
-    private var _hideCategoryList = MutableLiveData<Boolean>()
-    val hideCategoryList = _hideCategoryList
-
-    fun setHideCategoryList() {
-        _hideCategoryList.value = false
-    }
-
-    fun hideCategoryList() {
-        _hideCategoryList.value = true
-    }
 
     var requestDocument =
         RequestDocument(counterparties_id = "0", store_id = "")
@@ -295,6 +310,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         id?.let {
             _currentCategory.value = it
             _currentCategoryName.value = name
+            setClearAll(true)
         }
     }
 
@@ -303,6 +319,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     fun clearStateFilter() {
         _isStateFilter.value = FilterState()
+        clearSelectedVendors()
+        clearSelectedPriceGroup()
+        clearSelectedCategory()
     }
 
     fun setStateRemainder() {
@@ -332,24 +351,12 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryChildList = _isStateFilter.switchMap { isStateFilter ->
         repository.categoryBaseList(requestDocument.store_id).mapLatest { list ->
-            var newList = if (isStateFilter.isRemainder) {
+            val newList = if (isStateFilter.isRemainder) {
                 list.filter { domainCategory ->
                     if (domainCategory.amount == null) false
                     else domainCategory.amount > 0
                 }
             } else list
-
-//            newList = if (isStateFilter.isPrisegroup) {
-//                newList.filter { domainCategory ->
-//                    domainCategory.pricegroup == (selectedPricegroup.value?.id ?: "")
-//                }
-//            } else newList
-//
-//            newList = if (isStateFilter.isVendor) {
-//                newList.filter { domainCategory ->
-//                    domainCategory.vendor == (selectedVendors.value?.name ?: "")
-//                }
-//            } else newList
 
             newList.map { ParentCategory(it.parent_id, it.name, it.code) }.distinct()
                 .sortedBy { it.code }.map { parentCategory ->
@@ -358,20 +365,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                         requestDocument.store_id
                     )
                         .asSequence()
-//                        .filter { domainCategory ->
-//                            if (isStateFilter.isRemainder) {
-//                                if (domainCategory.amount == null) false
-//                                else domainCategory.amount > 0
-//                            } else true
-//                        }.filter { domainCategory ->
-//                            if (isStateFilter.isPrisegroup) {
-//                                domainCategory.pricegroup == (selectedPricegroup.value?.id ?: "")
-//                            } else true
-//                        }.filter { domainCategory ->
-//                            if (isStateFilter.isVendor) {
-//                                domainCategory.vendor == (selectedVendors.value?.name ?: "")
-//                            } else true
-//                        }
                         .map { DomainCategory(it.id, it.parent_id, it.name, "", 0.0, "", "") }
                         .distinct()
                         .toList()
@@ -382,46 +375,51 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val listGood = _isStateFilter.switchMap { isStateFilter ->
-        currentCategory.switchMap {
-            repository.getChildGoods(it, requestDocument.store_id).mapLatest { list ->
-                var newList = if (isStateFilter.isRemainder) {
-                    list.filter { goodWithStock ->
-                        if (goodWithStock.amount == null || goodWithStock.price == null) false
-                        else (goodWithStock.amount!! > 0 && goodWithStock.price != 0.0)
-                    }
-                } else list
-                newList.forEach { goodWithStock ->
-                    val gp = getPricing(
-                        divisionId = loginRepository.user?.division_id ?: "",
-                        goodId = goodWithStock.id,
-                        companyId = selectedCompanies.value?.id ?: "",
-                        date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
-                        goodWithStock.pricegroup,
-                        goodWithStock.pricegroup2,
-                        selectedCompanies.value?.apply_actions ?: false
-                    )
-                    gp?.let { indPrices ->
-                        goodWithStock.discont = indPrices.discount
-                        goodWithStock.priceInd = indPrices.price
-                        goodWithStock.number = indPrices.number
-                        goodWithStock.metod =
-                            if ((indPrices.discount.compareTo(0.0) == 0) and (indPrices.metod == 4)) 0 else indPrices.metod
-                    }
-                }
+        currentCategory.switchMap { currentCategory ->
+            if (!currentCategory.isNullOrEmpty()) {
+                repository.getChildGoods(currentCategory, requestDocument.store_id)
+                    .mapLatest { list ->
+                        var newList = if (isStateFilter.isRemainder) {
+                            list.filter { goodWithStock ->
+                                if (goodWithStock.amount == null || goodWithStock.price == null) false
+                                else (goodWithStock.amount!! > 0 && goodWithStock.price != 0.0)
+                            }
+                        } else list
+                        newList.forEach { goodWithStock ->
+                            val gp = getPricing(
+                                divisionId = loginRepository.user?.division_id ?: "",
+                                goodId = goodWithStock.id,
+                                companyId = selectedCompanies.value?.id ?: "",
+                                date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
+                                goodWithStock.pricegroup,
+                                goodWithStock.pricegroup2,
+                                selectedCompanies.value?.apply_actions ?: false
+                            )
+                            gp?.let { indPrices ->
+                                goodWithStock.discont = indPrices.discount
+                                goodWithStock.priceInd = indPrices.price
+                                goodWithStock.number = indPrices.number
+                                goodWithStock.metod =
+                                    if ((indPrices.discount.compareTo(0.0) == 0) and (indPrices.metod == 4)) 0 else indPrices.metod
+                            }
+                        }
 
-                newList = if (isStateFilter.isPrisegroup) {
-                    newList.filter { goodWithStock ->
-                        goodWithStock.pricegroup == (selectedPricegroup.value?.id ?: "")
-                    }
-                } else newList
+                        newList = if (isStateFilter.isPrisegroup) {
+                            newList.filter { goodWithStock ->
+                                goodWithStock.pricegroup == (selectedPricegroup.value?.id ?: "")
+                            }
+                        } else newList
 
-                newList = if (isStateFilter.isVendor) {
-                    newList.filter { goodWithStock ->
-                        goodWithStock.vendors == (selectedVendors.value?.name ?: "")
-                    }
-                } else newList
-                sync(newList)
-            }.asLiveData()
+                        newList = if (isStateFilter.isVendor) {
+                            newList.filter { goodWithStock ->
+                                goodWithStock.vendors == (selectedVendors.value?.name ?: "")
+                            }
+                        } else newList
+                        sync(newList)
+                    }.asLiveData()
+            } else {
+                liveData { emit(listOf()) }
+            }
         }
     }
 
@@ -528,6 +526,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         val idDoc = viewModelScope.async {
             repository.addRequestDoc(requestDocument)
         }
+        clearStateFilter()
         viewModelScope.launch {
             val requestGoodsList: MutableList<RequestGoods> = mutableListOf()
             idDoc.await().let {

@@ -35,7 +35,6 @@ class FragmentVendor : Fragment() {
     }
 
     private fun setupUI() {
-
         binding.searchViewVendors.setupWithSearchBar(binding.searchBarVendors)
         val adapterSelectVendors = SelectVendorsAdapter { vendors -> viewModel.setVendor(vendors) }
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)

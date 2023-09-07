@@ -13,13 +13,13 @@ import com.project.mobilemcm.databinding.ItemCategotyListBinding
 class CategoryAdapter(
     private val list: ArrayList<DomainCategoryChild>,
     private val childClick: (String, String) -> Unit,
-    private val currentCategory: (MutableLiveData<String>)
+    private val currentCategory: (MutableLiveData<String?>)
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     class CategoryViewHolder(
         private val binding: ItemCategotyListBinding,
         private val childClick: (String, String) -> Unit,
-        private val currentCategory: (MutableLiveData<String>)
+        private val currentCategory: (MutableLiveData<String?>)
     ) :
         RecyclerView.ViewHolder(binding.root) {
 

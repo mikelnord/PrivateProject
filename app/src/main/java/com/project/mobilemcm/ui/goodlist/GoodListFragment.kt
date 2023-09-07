@@ -43,6 +43,8 @@ class GoodListFragment : Fragment() {
         binding.recyclerGoods.addItemDecoration(decoration)
         viewModel.listGood.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            if(it.isEmpty()) binding.notFind.visibility  =View.VISIBLE
+            else binding.notFind.visibility  =View.INVISIBLE
         }
         viewModel.countList.observe(viewLifecycleOwner) {
             viewModel.listGood.value?.let {
