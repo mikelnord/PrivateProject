@@ -94,6 +94,7 @@ class ExchangeWorker @AssistedInject constructor(
                             repository.addActionPricesToBase(it)
                             repository.addIndividualPricesToBase(it)
                             repository.addDivisionToBase(it)
+                            repository.addContractsToBase(it)
                             repository.addDateObmenToBase(it)
                             if (repository.getCountVendors())
                                 repository.addVendors(repository.getAllVendors())

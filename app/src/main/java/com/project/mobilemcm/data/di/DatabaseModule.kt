@@ -32,6 +32,11 @@ object DatabaseModule {
     }
 
     @Provides
+    fun providesContractsDao(appDatabase: AppDatabase): ContractsDao {
+        return appDatabase.contractsDao()
+    }
+
+    @Provides
     fun providesObmenDateDao(appDatabase: AppDatabase): ObmenDateDao {
         return appDatabase.obmenDateDao()
     }

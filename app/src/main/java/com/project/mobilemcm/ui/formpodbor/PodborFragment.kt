@@ -1,4 +1,4 @@
-package com.project.mobilemcm. ui.formpodbor
+package com.project.mobilemcm.ui.formpodbor
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -49,8 +49,7 @@ class PodborFragment : Fragment() {
             viewModel.setFirstLaunchPodbor()
         }
         binding.searchView.setupWithSearchBar(binding.searchBar)
-        //binding.chipAmount.isChecked = (viewModel.isStateFilter.value?.isRemainder ?: false) == true
-        viewModel.isStateFilter.observe(viewLifecycleOwner){
+        viewModel.isStateFilter.observe(viewLifecycleOwner) {
             binding.chipAmount.isChecked = it.isRemainder
         }
         binding.chipAmount.setOnClickListener {
@@ -87,8 +86,13 @@ class PodborFragment : Fragment() {
             if (!it.isNullOrEmpty()) {
                 binding.chipCategory.text = it
                 binding.chipCategory.isChecked = true
+                binding.chipAmount.visibility = View.VISIBLE
+                binding.chipCategory.visibility = View.VISIBLE
+                binding.notFind.visibility = View.INVISIBLE
             } else {
-                binding.chipCategory.visibility=View.GONE
+                binding.chipCategory.visibility = View.INVISIBLE
+                binding.chipAmount.visibility = View.INVISIBLE
+                binding.notFind.visibility = View.VISIBLE
             }
         }
     }

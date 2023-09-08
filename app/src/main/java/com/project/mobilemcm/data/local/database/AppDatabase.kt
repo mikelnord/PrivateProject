@@ -26,21 +26,22 @@ import com.project.mobilemcm.pricing.model.ItemInd
         Good::class, Stock::class, RequestDocument::class, Counterparties::class,
         RequestGoods::class, Vendors::class, CounterpartiesStores::class, LoggedInUser::class,
         Disconts::class, Item::class, Company::class, ActionPrices::class, ItemAction::class,
-        IndividualPrices::class, ItemInd::class, Division::class, ObmenDate::class],
+        IndividualPrices::class, ItemInd::class, Division::class, ObmenDate::class, Contract::class],
     autoMigrations = [
-        AutoMigration (
+        AutoMigration(
             from = 1,
             to = 2,
             spec = AppDatabase.MyAutoMigration::class
         )
     ],
-            version = 2,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     class MyAutoMigration : AutoMigrationSpec
+
     abstract fun storeDao(): StoreDao
     abstract fun categoryDao(): CategoryDao
     abstract fun pricegroupDao(): PricegroupDao
@@ -60,6 +61,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun itemActionDao(): ItemActionDao
     abstract fun individualPricesDao(): IndividualPricesDao
     abstract fun itemIndDao(): ItemIndDao
-    abstract fun divisionDao():DivisionDao
-    abstract fun obmenDateDao():ObmenDateDao
+    abstract fun divisionDao(): DivisionDao
+    abstract fun obmenDateDao(): ObmenDateDao
+    abstract fun contractsDao(): ContractsDao
 }

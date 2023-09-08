@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import androidx.navigation.fragment.findNavController
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentPodborFiltrBinding
 import com.project.mobilemcm.ui.categorylist.CategoryListFragment
@@ -49,6 +50,9 @@ class PodborFiltrFragment : Fragment() {
                 replace(R.id.fragmentContainer, FragmentPricegroup())
                 setReorderingAllowed(true)
             }
+        }
+        binding.ButtonCloseFiltr.setOnClickListener {
+            findNavController().popBackStack()
         }
 
         viewModel.currentCategoryName.observe(viewLifecycleOwner) {

@@ -56,10 +56,6 @@ class HomeAdapter : Fragment() {
         }
     }
 
-    fun goToBasket(){
-        viewPager.currentItem = 1
-    }
-
     private fun setTabLayout(tabLayout: TabLayout) {
         viewModelMain.selectedCompanies.observe(viewLifecycleOwner) { company ->
             if (company.id.isNotEmpty()) {

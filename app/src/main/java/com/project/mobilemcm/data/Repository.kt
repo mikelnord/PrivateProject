@@ -2,6 +2,7 @@ package com.project.mobilemcm.data
 
 import com.project.mobilemcm.data.local.database.AppDatabase
 import com.project.mobilemcm.data.local.database.CategoryDao
+import com.project.mobilemcm.data.local.database.ContractsDao
 import com.project.mobilemcm.data.local.database.CounterpartiesDao
 import com.project.mobilemcm.data.local.database.CounterpartiesStoresDao
 import com.project.mobilemcm.data.local.database.DivisionDao
@@ -57,6 +58,7 @@ class Repository @Inject constructor(
     private val itemIndDao: ItemIndDao,
     private val divisionDao: DivisionDao,
     private val obmenDateDao: ObmenDateDao,
+    private val contractsDao: ContractsDao,
     private val appDatabase: AppDatabase
 ) {
 
@@ -66,6 +68,13 @@ class Repository @Inject constructor(
         strUserId: String
     ): Result<FileObmen> {
         return remoteDataSource.startObmen(strDate, strPodr, strUserId)
+    }
+
+    suspend fun addContractsToBase(fileObmen: FileObmen): Int {
+        fileObmen.contracts.let { contracts ->
+            contractsDao.insertAll(contracts)
+            return contracts.size
+        }
     }
 
     suspend fun addGoodToBase(fileObmen: FileObmen): Int {
