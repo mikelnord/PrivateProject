@@ -55,8 +55,8 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     var firstLaunchPodbor = true
 
-    fun setFirstLaunchPodbor() {
-        firstLaunchPodbor = false
+    fun setLaunchPodbor(bool: Boolean = false) {
+        firstLaunchPodbor = bool
     }
 
     private var _companyInfo = MutableLiveData<CompanyInfo?>()
@@ -520,6 +520,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         if (requestDocument.isSent) {
             return false
         }
+        setLaunchPodbor(true)
         docSumm.value?.let {
             requestDocument.summDoc = it.docSumm
         }
@@ -753,4 +754,22 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             }
         }
     }
+
+    val storeList = liveData {
+        loginRepository.user?.division_id?.let {
+            emit(repository.getStoresFromDivision(it))
+        }
+    }
+
+    val contractsCompanyList = liveData {
+        emit(repository.getCompanyContract(requestDocument.counterparties_id))
+    }
+
+    fun getPositionFromIdContract(id: String): Int {
+        contractsCompanyList.value?.forEachIndexed { index, contractItem ->
+            if (contractItem.id == id) return index
+        }
+        return 0
+    }
+
 }

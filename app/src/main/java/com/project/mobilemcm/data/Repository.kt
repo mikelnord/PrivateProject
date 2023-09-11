@@ -71,10 +71,11 @@ class Repository @Inject constructor(
     }
 
     suspend fun addContractsToBase(fileObmen: FileObmen): Int {
-        fileObmen.contracts.let { contracts ->
+        fileObmen.contracts?.let { contracts ->
             contractsDao.insertAll(contracts)
             return contracts.size
         }
+        return 0
     }
 
     suspend fun addGoodToBase(fileObmen: FileObmen): Int {
@@ -279,5 +280,7 @@ class Repository @Inject constructor(
         discontsDao.getDiscontsFromCompany(company_id, date)
 
     suspend fun getStoreDefault(divisionId: String) = storeDao.getStoreDefault(divisionId)
+
+    suspend fun getCompanyContract(company: String) = contractsDao.getCompanyContract(company)
 
 }

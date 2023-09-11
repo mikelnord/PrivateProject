@@ -13,6 +13,9 @@ interface ContractsDao {
     @Query("SELECT * FROM contract order by name")
     suspend fun getAll(): List<Contract>
 
+    @Query("SELECT * FROM contract WHERE company=:company order by name")
+    suspend fun getCompanyContract(company: String): List<Contract>?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(contracts: List<Contract>)
 

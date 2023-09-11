@@ -19,7 +19,7 @@ data class FileObmen(
     val discounts:List<Disconts>?,
     val action_prices:List<ActionPrices>?,
     val individual_prices:List<IndividualPrices>?,
-    val contracts: List<Contract>
+    val contracts: List<Contract>?
 )
 
 data class FileUsers(

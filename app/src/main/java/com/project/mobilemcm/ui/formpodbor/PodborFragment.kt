@@ -46,7 +46,7 @@ class PodborFragment : Fragment() {
         if (viewModel.firstLaunchPodbor) {
             viewModel.setRemainder(true)
             findNavController().navigate(PodborFragmentDirections.actionPodborFragmentToPodborFiltrFragment())
-            viewModel.setFirstLaunchPodbor()
+            viewModel.setLaunchPodbor()
         }
         binding.searchView.setupWithSearchBar(binding.searchBar)
         viewModel.isStateFilter.observe(viewLifecycleOwner) {

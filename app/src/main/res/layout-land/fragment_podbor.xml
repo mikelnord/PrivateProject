@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:clickable="false"
+                android:visibility="invisible"
                 android:text="@string/category" />
 
             <com.google.android.material.chip.Chip
@@ -52,6 +53,7 @@
                 android:checkable="true"
                 android:clickable="true"
                 android:focusable="true"
+                android:visibility="invisible"
                 android:text="@string/amount_text"
                 app:checkedIconVisible="true" />
 
@@ -59,12 +61,16 @@
                 android:id="@+id/chip_pricegroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
+                android:visibility="gone"
                 android:text="@string/pricegroup" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_vendor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
+                android:visibility="gone"
                 android:text="@string/text_vendor" />
 
         </com.google.android.material.chip.ChipGroup>

@@ -85,6 +85,7 @@ class HomeFragment : Fragment() {
 
     private fun setupUI() {
         homeViewModel.isLoginFirst()
+        viewModel.setLaunchPodbor(true)
         homeViewModel.emptyBase.observe(viewLifecycleOwner) {
             savedStateHandle[LOGIN_FIRST] = it
         }
@@ -149,6 +150,7 @@ class HomeFragment : Fragment() {
 //        }
 
         binding.imageButtonUpdate.setOnClickListener {
+            it.isEnabled=false
             requestMultiplePermissions.launch(
                 arrayOf(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,

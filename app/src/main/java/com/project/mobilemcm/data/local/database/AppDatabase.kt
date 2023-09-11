@@ -29,12 +29,12 @@ import com.project.mobilemcm.pricing.model.ItemInd
         IndividualPrices::class, ItemInd::class, Division::class, ObmenDate::class, Contract::class],
     autoMigrations = [
         AutoMigration(
-            from = 1,
-            to = 2,
+            from = 3,
+            to = 4,
             spec = AppDatabase.MyAutoMigration::class
         )
     ],
-    version = 2,
+    version = 4,
     exportSchema = true
 )
 @TypeConverters(Converters::class)

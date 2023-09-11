@@ -9,13 +9,13 @@ data class Contract(
     @PrimaryKey
     val id: String,
     val company: String,
-    val name: String,
-    val type: String,
-    val number: String,
-    val deletionmark:Boolean,
-    val maxsumm:Double,
-    val maxDays:Int,
-    val delivery:Int
+    val name: String?,
+    val type: String?,
+    val number: String?,
+    val deletionmark:Boolean?,
+    val maxsumm:Double?,
+    val maxDays:Int?,
+    val delivery:Int?
 )
 
 

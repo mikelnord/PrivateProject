@@ -89,7 +89,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         app:boxCornerRadiusBottomEnd="25dp"
         app:boxCornerRadiusBottomStart="25dp"
@@ -101,6 +101,33 @@
 
         <AutoCompleteTextView
             android:id="@+id/storeList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:breakStrategy="balanced"
+            android:inputType="none"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:visibility="visible" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/contracts"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        app:boxCornerRadiusBottomEnd="25dp"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusTopStart="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSklad2">
+
+        <AutoCompleteTextView
+            android:id="@+id/contractsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:breakStrategy="balanced"
@@ -191,11 +218,22 @@
         android:id="@+id/textViewSklad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="Склады"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/contracts" />
 
+    <TextView
+        android:id="@+id/textViewSklad2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Договор"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar"
+        tools:text="Договор" />
 </androidx.constraintlayout.widget.ConstraintLayout>

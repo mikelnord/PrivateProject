@@ -74,7 +74,6 @@ class StartPage : Fragment() {
                 binding.searchBar.text = it.name
                 binding.searchView.hide()
                 viewModelMain.requestDocument.counterparties_id = it.id
-                //viewModel.getCompanyInfo(it.id)
                 viewModelMain.requestDocument.counterpartiesStores_id = ""
                 viewModelMain.requestDocument.isPickup = false
                 binding.next.isEnabled = viewModelMain.requestDocument.counterparties_id != "0"
@@ -95,6 +94,19 @@ class StartPage : Fragment() {
                     viewModelMain.requestDocument.store_name = nameStore
                 }
             }
+        }
+
+        viewModelMain.contractsCompanyList.observe(viewLifecycleOwner){ contractList->
+
+            contractList?.let{
+                val adapter=ArrayAdapter(requireContext(),R.layout.list_item,it)
+                binding.contractsList.setAdapter(adapter)
+                if(viewModelMain.requestDocument.contract_id.isNotEmpty()){
+                    val nameContract=it[viewModelMain.getPositionFromIdContract(viewModelMain.requestDocument.contract_id)].name
+                    binding.contractsList.setText(nameContract,false)
+                }
+            }
+
         }
 
         binding.storeList.setOnItemClickListener { parent, view, position, id ->

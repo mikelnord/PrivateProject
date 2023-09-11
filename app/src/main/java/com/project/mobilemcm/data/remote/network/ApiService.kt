@@ -1,5 +1,6 @@
 package com.project.mobilemcm.data.remote.network
 
+import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.data.local.database.model.AnswerServer
 import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.FileObmen
@@ -14,11 +15,13 @@ import retrofit2.http.Path
 
 interface ApiService {
 
-    @GET("exchange/{strPodr}/{strDate}/{strUserId}")
+    @GET("exchange/{strPodr}/{strDate}/{strUserId}/{NumberVersion}/{UUIDInstall}")
     suspend fun getObmen(
         @Path("strDate") strDate: String,
         @Path("strPodr") strPodr: String,
-        @Path("strUserId") strUserId: String
+        @Path("strUserId") strUserId: String,
+        @Path("NumberVersion") numberVersion: String= BuildConfig.VERSION_NAME,
+        @Path("UUIDInstall") uuidInstall: String="11111111",
     ): Response<FileObmen>
 
     @GET("getusers")

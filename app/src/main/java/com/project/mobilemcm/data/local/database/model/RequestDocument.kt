@@ -1,5 +1,6 @@
 package com.project.mobilemcm.data.local.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDateTime
@@ -21,7 +22,9 @@ data class RequestDocument(
     var isSent: Boolean = false,
     val idOneC: String = UUID.randomUUID().toString(),
     var summDoc: Double = 0.0,
-    var markToDelete: Boolean = false
+    var markToDelete: Boolean = false,
+    @ColumnInfo(defaultValue = "")
+    var contract_id: String = ""
 )
 
 data class RequestDocumentItem(
