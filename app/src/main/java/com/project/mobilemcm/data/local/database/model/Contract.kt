@@ -14,7 +14,7 @@ data class Contract(
     val number: String?,
     val deletionmark:Boolean?,
     val maxsumm:Double?,
-    val maxDays:Int?,
+    val maxdays:Int?,
     val delivery:Int?
 )
 

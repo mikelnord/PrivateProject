@@ -21,7 +21,7 @@ import com.project.mobilemcm.data.local.database.model.GoodWithStock
 import com.project.mobilemcm.data.local.database.model.ParentCategory
 import com.project.mobilemcm.data.local.database.model.Pricegroup
 import com.project.mobilemcm.data.local.database.model.RequestDocument
-import com.project.mobilemcm.data.local.database.model.RequestDocument1c
+import com.project.mobilemcm.data.local.database.model.RequestDocumentToRequestDocument1c
 import com.project.mobilemcm.data.local.database.model.RequestGoods
 import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.local.database.model.SummDoc
@@ -324,14 +324,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         clearSelectedCategory()
     }
 
-    fun setStateRemainder() {
-        _isStateFilter.value = FilterState(
-            !(_isStateFilter.value?.isRemainder ?: false),
-            _isStateFilter.value?.isPrisegroup ?: false,
-            _isStateFilter.value?.isVendor ?: false
-        )
-    }
-
     fun setStatePricegroup() {
         _isStateFilter.value = FilterState(
             _isStateFilter.value?.isRemainder ?: false,
@@ -562,25 +554,11 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                     )
                 )
             }
-            val date = LocalDateTime.ofInstant(
-                requestDocument.docDate.toInstant(),
-                requestDocument.docDate.timeZone.toZoneId()
-            )
-            val requestDocument1c = RequestDocument1c(
-                userId = loginRepository.getActiveUser()?.id ?: "",
-                idOneC = requestDocument.idOneC,
-                id_doc = (if (requestDocument.document_id.compareTo(0) == 0) repository.getLastDocid()
-                    ?: 1 else requestDocument.document_id),
-                docDate = date.format(DateTimeFormatter.ISO_DATE_TIME),
-                store_id = requestDocument.store_id,
-                counterparties_id = requestDocument.counterparties_id,
-                counterpartiesStores_id = requestDocument.counterpartiesStores_id,
-                isPickup = requestDocument.isPickup,
-                itemList = itemList,
-                comment = requestDocument.comment
 
+            val requestDocument1c = requestDocument.RequestDocumentToRequestDocument1c(
+                loginRepository.getActiveUser()?.id ?: "", itemList
             )
-            //           println(Gson().toJson(requestDocument1c))
+//            println(Gson().toJson(requestDocument1c))
             try {
                 if (!requestDocument.isSent) {
                     val res = repository.postDoc(requestDocument1c)
@@ -661,6 +639,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     fun setSelectedCompanies(counterparties: Counterparties) {
         _selectedCompanies.value = counterparties
+        requestDocument.contract_id = ""
         viewModelScope.launch {
             recalculationOfPrices()
         }
@@ -755,14 +734,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         }
     }
 
-    val storeList = liveData {
-        loginRepository.user?.division_id?.let {
-            emit(repository.getStoresFromDivision(it))
-        }
-    }
 
-    val contractsCompanyList = liveData {
-        emit(repository.getCompanyContract(requestDocument.counterparties_id))
+    var contractsCompanyList = selectedCompanies.switchMap {
+        liveData { emit(repository.getCompanyContract(it.id)) }
     }
 
     fun getPositionFromIdContract(id: String): Int {
@@ -771,5 +745,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         }
         return 0
     }
+
+    fun getItemFromListContracts(position: Int) = contractsCompanyList.value?.get(position)?.id
 
 }

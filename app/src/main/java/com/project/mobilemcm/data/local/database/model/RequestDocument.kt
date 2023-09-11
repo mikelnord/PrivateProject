@@ -44,6 +44,7 @@ data class RequestDocument1c(
     val docDate: String,
     val counterparties_id: String,
     val counterpartiesStores_id: String,
+    val contract_id: String,
     val store_id: String,
     val isPickup: Boolean,
     val userId: String,
@@ -67,6 +68,7 @@ fun RequestDocument.RequestDocumentToRequestDocument1c(
         store_id = store_id,
         counterparties_id = counterparties_id,
         counterpartiesStores_id = counterpartiesStores_id,
+        contract_id = contract_id,
         isPickup = isPickup,
         itemList = itemList,
         comment = comment

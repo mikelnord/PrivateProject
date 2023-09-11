@@ -16,6 +16,7 @@ import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentStartPageBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
 import com.project.mobilemcm.ui.requestDocument.CompaniesAdapter
+import com.project.mobilemcm.util.getContractInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -70,13 +71,15 @@ class StartPage : Fragment() {
 
 
         viewModelMain.selectedCompanies.observe(viewLifecycleOwner) {
-            if (it.id.isNotBlank()) {
+            if (it.id.isNotEmpty()) {
                 binding.searchBar.text = it.name
                 binding.searchView.hide()
                 viewModelMain.requestDocument.counterparties_id = it.id
                 viewModelMain.requestDocument.counterpartiesStores_id = ""
                 viewModelMain.requestDocument.isPickup = false
-                binding.next.isEnabled = viewModelMain.requestDocument.counterparties_id != "0"
+                binding.contractsList.setText("")
+
+                binding.next.isEnabled = false
             }
         }
 
@@ -96,21 +99,33 @@ class StartPage : Fragment() {
             }
         }
 
-        viewModelMain.contractsCompanyList.observe(viewLifecycleOwner){ contractList->
-
-            contractList?.let{
-                val adapter=ArrayAdapter(requireContext(),R.layout.list_item,it)
-                binding.contractsList.setAdapter(adapter)
-                if(viewModelMain.requestDocument.contract_id.isNotEmpty()){
-                    val nameContract=it[viewModelMain.getPositionFromIdContract(viewModelMain.requestDocument.contract_id)].name
-                    binding.contractsList.setText(nameContract,false)
-                }
-            }
-
-        }
-
         binding.storeList.setOnItemClickListener { parent, view, position, id ->
             viewModel.getItemFromListStore(position)?.let { viewModelMain.setStoreId(it) }
+        }
+
+        viewModelMain.contractsCompanyList.observe(viewLifecycleOwner) { contractListNull ->
+            contractListNull?.let { contractList ->
+                val adapter =
+                    ArrayAdapter(
+                        requireContext(),
+                        R.layout.list_item,
+                        contractList.map { getContractInfo(it) })
+                binding.contractsList.setAdapter(adapter)
+                if (viewModelMain.requestDocument.contract_id.isNotEmpty()) {
+                    val nameContract =
+                        contractList[viewModelMain.getPositionFromIdContract(viewModelMain.requestDocument.contract_id)].name
+                    binding.contractsList.setText(nameContract, false)
+                }
+            }
+        }
+
+        binding.contractsList.setOnItemClickListener { parent, view, position, id ->
+            viewModelMain.getItemFromListContracts(position)
+                ?.let {
+                    viewModelMain.requestDocument.contract_id = it
+                    binding.next.isEnabled =
+                        (viewModelMain.requestDocument.counterparties_id != "0" && viewModelMain.requestDocument.contract_id.isNotEmpty())
+                }
         }
 
         binding.next.setOnClickListener {

@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.project.mobilemcm.R
+import com.project.mobilemcm.data.local.database.model.Contract
 import com.project.mobilemcm.data.local.database.model.GoodWithStock
 import java.text.NumberFormat
 import java.util.Currency
@@ -77,4 +78,10 @@ fun currencyFormat(currency: Double): String {
     currencyFormat.maximumFractionDigits = 2
     currencyFormat.currency = Currency.getInstance("RUB")
     return currencyFormat.format(currency)
+}
+
+fun getContractInfo(contract: Contract) = if (!contract.type.isNullOrEmpty()) {
+    "${contract.name} (${contract.type})"
+} else {
+    contract.name
 }
