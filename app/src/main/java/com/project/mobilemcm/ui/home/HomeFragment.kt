@@ -117,6 +117,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.homeAdapter)
         }
 
+        binding.iconButtonPlan.setOnClickListener {
+            findNavController().navigate(R.id.debitReportFragment)
+        }
+
 //        homeViewModel.appMode.observe(viewLifecycleOwner) {
 //            when (it) {
 //                true -> {

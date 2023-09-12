@@ -16,6 +16,7 @@ data class GoodWithStock(
     var number: String?,
     var priceInd: Double?,
     var discont: Double?,
+    var reserve:Double=0.0,
     var metod:Int?=0
 )
 

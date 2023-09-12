@@ -29,7 +29,7 @@ interface GoodDao {
 
     @Query(
         """Select g.id, g.name, g.vendorCode ,s.amount, s.price, g.pricegroup, g.pricegroup2, g.category, 
-            g.vendor as vendors, p.name as namePricegroup, 0 as count
+            g.vendor as vendors, p.name as namePricegroup, 0 as count, s.reserve
            from  Good g 
            LEFT JOIN pricegroup p on g.pricegroup=p.id
            LEFT JOIN stock s  on g.id=s.good_id and  s.store_id=:store
@@ -44,7 +44,7 @@ interface GoodDao {
 
     @Query(
         """SELECT g. id, g.name, g.vendorCode ,s.amount, s.price, g.pricegroup, g.pricegroup2, g.category, 
-            g.vendor as vendors, p.name as namePricegroup, 0 as count
+            g.vendor as vendors, p.name as namePricegroup, 0 as count, s.reserve
   FROM good g
   LEFT JOIN pricegroup p on g.pricegroup=p.id
   LEFT JOIN stock s  on g.id=s.good_id and  s.store_id=:store
@@ -58,7 +58,7 @@ interface GoodDao {
 
     @Query(
         """SELECT g. id, g.name, g.vendorCode ,s.amount, s.price, g.pricegroup, g.pricegroup2, g.category, 
-            g.vendor as vendors, p.name as namePricegroup, 0 as count
+            g.vendor as vendors, p.name as namePricegroup, 0 as count, s.reserve
   FROM good g
   LEFT JOIN pricegroup p on g.pricegroup=p.id
   LEFT JOIN stock s  on g.id=s.good_id and  s.store_id=:store

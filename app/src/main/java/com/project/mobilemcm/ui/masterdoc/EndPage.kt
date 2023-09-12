@@ -132,8 +132,8 @@ class EndPage : Fragment() {
                     binding.textCardComm.editText?.text.toString().trim()
                 if (!viewModel.saveDoc()) showAlert(
                     requireContext(),
-                    "Контрагент не выбран!",
-                    "Выберете контрагента и повторите запись документа"
+                    "Сумма документа превышает разрешенную сумму по договору",
+                    "Измените договор или уменьшите сумму"
                 )
                 else {
                     val navOptions = NavOptions.Builder()

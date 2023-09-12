@@ -51,7 +51,8 @@ class ListDocRequestAdapter(
                 imgShare.loadImage("https://data.mcmshop.ru/products/${good.id}/main_image?size=thumb")
                 price.text = (good.price ?: 0.0).toString()
                 count.text = countValue.toString()
-                textSklad.visibility=View.INVISIBLE
+                textSklad.visibility = View.INVISIBLE
+                textRezerv.visibility = View.INVISIBLE
                 if (action.checkGood(good)) {
                     buttonMinus.visibility = View.VISIBLE
                     buttonDel.visibility = View.VISIBLE

@@ -74,12 +74,10 @@ class StartPage : Fragment() {
             if (it.id.isNotEmpty()) {
                 binding.searchBar.text = it.name
                 binding.searchView.hide()
-                viewModelMain.requestDocument.counterparties_id = it.id
-                viewModelMain.requestDocument.counterpartiesStores_id = ""
-                viewModelMain.requestDocument.isPickup = false
                 binding.contractsList.setText("")
+                binding.next.isEnabled =
+                    (viewModelMain.requestDocument.counterparties_id != "0" && viewModelMain.requestDocument.contract_id.isNotEmpty())
 
-                binding.next.isEnabled = false
             }
         }
 
@@ -122,7 +120,8 @@ class StartPage : Fragment() {
         binding.contractsList.setOnItemClickListener { parent, view, position, id ->
             viewModelMain.getItemFromListContracts(position)
                 ?.let {
-                    viewModelMain.requestDocument.contract_id = it
+                    viewModelMain.requestDocument.contract_id = it.id
+                    viewModelMain.requestDocument.contract_type = it.type ?: ""
                     binding.next.isEnabled =
                         (viewModelMain.requestDocument.counterparties_id != "0" && viewModelMain.requestDocument.contract_id.isNotEmpty())
                 }

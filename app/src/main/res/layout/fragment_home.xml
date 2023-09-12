@@ -127,7 +127,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/iconButtonExchange2"
+        android:id="@+id/iconButtonPlan"
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -184,8 +184,8 @@
         android:text="@string/visit_plan_text"
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="@+id/iconButtonExchange2"
-        app:layout_constraintStart_toStartOf="@+id/iconButtonExchange2" />
+        app:layout_constraintEnd_toEndOf="@+id/iconButtonPlan"
+        app:layout_constraintStart_toStartOf="@+id/iconButtonPlan" />
 
     <TextView
         android:id="@+id/textDateObmen"

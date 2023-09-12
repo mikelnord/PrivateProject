@@ -24,7 +24,8 @@ data class RequestDocument(
     var summDoc: Double = 0.0,
     var markToDelete: Boolean = false,
     @ColumnInfo(defaultValue = "")
-    var contract_id: String = ""
+    var contract_id: String = "",
+    var contract_type:String=""
 )
 
 data class RequestDocumentItem(

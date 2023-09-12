@@ -39,6 +39,9 @@
             app:destination="@id/requestListFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_debitReportFragment"
+            app:destination="@id/debitReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/requestListFragment"
@@ -108,4 +111,9 @@
         android:name="com.project.mobilemcm.ui.formpodbor.PodborFiltrFragment"
         android:label="fragment_podbor_filtr"
         tools:layout="@layout/fragment_podbor_filtr" />
+    <fragment
+        android:id="@+id/debitReportFragment"
+        android:name="com.project.mobilemcm.ui.reports.DebitReportFragment"
+        android:label="fragment_debit_report"
+        tools:layout="@layout/fragment_debit_report" />
 </navigation>

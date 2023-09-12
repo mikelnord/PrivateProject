@@ -1,6 +1,5 @@
 package com.project.mobilemcm.ui.categorylist
 
-import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.data.Repository
 import com.project.mobilemcm.data.local.database.model.CompanyInfo
@@ -509,13 +509,22 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         if (requestDocument.counterparties_id.isEmpty()) {
             return false
         }
+        if (requestDocument.contract_id.isEmpty()) {
+            return false
+        }
         if (requestDocument.isSent) {
             return false
         }
         setLaunchPodbor(true)
+
         docSumm.value?.let {
             requestDocument.summDoc = it.docSumm
         }
+
+        if (requestDocument.contract_type == "Наличный юр. лицо (до 99 тыс руб)" && requestDocument.summDoc > 100000.0) {
+           return false
+        }
+
         val idDoc = viewModelScope.async {
             repository.addRequestDoc(requestDocument)
         }
@@ -558,22 +567,22 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             val requestDocument1c = requestDocument.RequestDocumentToRequestDocument1c(
                 loginRepository.getActiveUser()?.id ?: "", itemList
             )
-//            println(Gson().toJson(requestDocument1c))
-            try {
-                if (!requestDocument.isSent) {
-                    val res = repository.postDoc(requestDocument1c)
-                    res.data?.let { answerServer ->
-                        answerServer.id?.let {
-                            repository.sendDocumentUpdate(
-                                it,
-                                answerServer.number ?: "",
-                            )
-                        }
-                    }
-                }
-            } catch (e: Throwable) {
-                Log.e("errorSendDocument", e.message.toString())
-            }
+            println(Gson().toJson(requestDocument1c))
+//            try {
+//                if (!requestDocument.isSent) {
+//                    val res = repository.postDoc(requestDocument1c)
+//                    res.data?.let { answerServer ->
+//                        answerServer.id?.let {
+//                            repository.sendDocumentUpdate(
+//                                it,
+//                                answerServer.number ?: "",
+//                            )
+//                        }
+//                    }
+//                }
+//            } catch (e: Throwable) {
+//                Log.e("errorSendDocument", e.message.toString())
+//            }
             clearDoc()
         }
         return true
@@ -638,8 +647,11 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
     val selectedCompanies = _selectedCompanies
 
     fun setSelectedCompanies(counterparties: Counterparties) {
+        requestDocument.contract_id = counterparties.default_contract
+        requestDocument.counterparties_id = counterparties.id
+        requestDocument.counterpartiesStores_id = ""
+        requestDocument.isPickup = false
         _selectedCompanies.value = counterparties
-        requestDocument.contract_id = ""
         viewModelScope.launch {
             recalculationOfPrices()
         }
@@ -746,6 +758,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         return 0
     }
 
-    fun getItemFromListContracts(position: Int) = contractsCompanyList.value?.get(position)?.id
+    fun getItemFromListContracts(position: Int) = contractsCompanyList.value?.get(position)
 
 }

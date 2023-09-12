@@ -283,4 +283,6 @@ class Repository @Inject constructor(
 
     suspend fun getCompanyContract(company: String) = contractsDao.getCompanyContract(company)
 
+    suspend fun getDebets(strUserId: String) = remoteDataSource.getDebets(strUserId)
+
 }

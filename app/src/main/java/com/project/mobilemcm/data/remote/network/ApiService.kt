@@ -3,6 +3,7 @@ package com.project.mobilemcm.data.remote.network
 import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.data.local.database.model.AnswerServer
 import com.project.mobilemcm.data.local.database.model.CompanyInfo
+import com.project.mobilemcm.data.local.database.model.Debets
 import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.FileUsers
 import com.project.mobilemcm.data.local.database.model.RequestDocument1c
@@ -20,8 +21,8 @@ interface ApiService {
         @Path("strDate") strDate: String,
         @Path("strPodr") strPodr: String,
         @Path("strUserId") strUserId: String,
-        @Path("NumberVersion") numberVersion: String= BuildConfig.VERSION_NAME,
-        @Path("UUIDInstall") uuidInstall: String="11111111",
+        @Path("NumberVersion") numberVersion: String = BuildConfig.VERSION_NAME,
+        @Path("UUIDInstall") uuidInstall: String = "11111111",
     ): Response<FileObmen>
 
     @GET("getusers")
@@ -37,5 +38,14 @@ interface ApiService {
     suspend fun getCompanyInfo(
         @Path("companyId") companyId: String
     ): Response<CompanyInfo>
+
+    @GET("get_debets/{strUserId}")
+    suspend fun getDebets(
+        @Path("strUserId") strUserId: String
+    ): Response<Debets>
+
+
+//    дебиторка /upr_mcm/hs/MobileAgent/get_debets/cab6be6e-4f74-11e5-80e4-001e67921ce7
+//    платежи /upr_mcm/hs/MobileAgent/get_payments/cab6be6e-4f74-11e5-80e4-001e67921ce7
 
 }

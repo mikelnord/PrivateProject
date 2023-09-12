@@ -27,7 +27,7 @@ import com.project.mobilemcm.pricing.model.ItemInd
         RequestGoods::class, Vendors::class, CounterpartiesStores::class, LoggedInUser::class,
         Disconts::class, Item::class, Company::class, ActionPrices::class, ItemAction::class,
         IndividualPrices::class, ItemInd::class, Division::class, ObmenDate::class, Contract::class],
-    version = 7,
+    version = 10,
     exportSchema = true
 )
 @TypeConverters(Converters::class)

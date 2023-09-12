@@ -3,6 +3,7 @@ package com.project.mobilemcm.data.remote
 import android.util.Log
 import com.project.mobilemcm.data.local.database.model.AnswerServer
 import com.project.mobilemcm.data.local.database.model.CompanyInfo
+import com.project.mobilemcm.data.local.database.model.Debets
 import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.FileUsers
 import com.project.mobilemcm.data.local.database.model.RequestDocument1c
@@ -76,6 +77,13 @@ class RemoteDataSource @Inject constructor(
         return getResponse(
             request = { apiService.getVersionInfo() },
             defaultErrorMessage = "Error get version info"
+        )
+    }
+
+    suspend fun getDebets(strUserId: String):Result<Debets>{
+        return getResponse(
+            request = {apiService.getDebets(strUserId)},
+            defaultErrorMessage = "Error get debets report"
         )
     }
 }

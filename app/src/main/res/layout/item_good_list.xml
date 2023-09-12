@@ -25,6 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -49,7 +50,7 @@
                 android:id="@+id/amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textSklad"
@@ -60,11 +61,10 @@
                 android:id="@+id/price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textPrice"
-                app:layout_constraintStart_toEndOf="@+id/textPrice"
+                app:layout_constraintStart_toStartOf="@+id/amount"
                 tools:text="Price" />
 
             <ImageView
@@ -93,6 +93,7 @@
                 style="?attr/materialIconButtonFilledStyle"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
                 android:visibility="visible"
                 app:icon="@drawable/baseline_add_24"
@@ -118,9 +119,11 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
                 android:visibility="invisible"
                 app:icon="@drawable/baseline_delete_24"
                 app:iconGravity="textStart"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonMinus"
                 tools:visibility="visible" />
@@ -130,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/store_value"
                 app:layout_constraintStart_toEndOf="@+id/imgShare"
                 app:layout_constraintTop_toBottomOf="@+id/tvGoodCode"
@@ -165,7 +168,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:text="@string/summ"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgShare"
+                app:layout_constraintTop_toBottomOf="@+id/textRezerv" />
+
+            <TextView
+                android:id="@+id/textRezerv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="В резерве"
                 android:textSize="14sp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toEndOf="@+id/imgShare"
@@ -175,22 +192,30 @@
                 android:id="@+id/price2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textPrice2"
-                app:layout_constraintStart_toEndOf="@+id/textPrice2"
+                app:layout_constraintStart_toStartOf="@+id/price"
                 tools:text="10.00" />
 
             <TextView
                 android:id="@+id/summPos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textSumm"
-                app:layout_constraintStart_toEndOf="@+id/textSumm"
+                app:layout_constraintStart_toStartOf="@+id/rezerv"
+                tools:text="10.00" />
+
+            <TextView
+                android:id="@+id/rezerv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textRezerv"
+                app:layout_constraintStart_toStartOf="@+id/price2"
                 tools:text="10.00" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

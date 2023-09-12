@@ -35,13 +35,13 @@ fun showPlusDialog(
     val nameText = EditText(context)
     nameText.inputType = InputType.TYPE_CLASS_NUMBER
     MaterialAlertDialogBuilder(context)
-        .setTitle("Enter value")
+        .setTitle("Введите число")
         .setView(nameText)
-        .setMessage("Enter value for add many position")
-        .setNegativeButton("No") { _, _ ->
+        .setMessage("Введите число для добавления числа позиций")
+        .setNegativeButton("Нет") { _, _ ->
             // Respond to negative button press
         }
-        .setPositiveButton("Yes") { _, _ ->
+        .setPositiveButton("Да") { _, _ ->
             val count = nameText.text.toString().toDoubleOrNull()
             count?.let {
                 addList(good, it)

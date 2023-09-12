@@ -51,6 +51,7 @@ class NewGoodAdapter(
                 amount.text = (good.amount ?: 0.0).toString()
                 price.text = currencyFormat((good.price ?: 0.0))
                 count.text = good.count.toString()
+                rezerv.text = good.reserve.toString()
                 if (action.checkGood(good)) {
                     buttonDel.visibility = View.VISIBLE
                 } else {

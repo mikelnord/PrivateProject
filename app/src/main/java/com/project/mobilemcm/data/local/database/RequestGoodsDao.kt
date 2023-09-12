@@ -12,7 +12,7 @@ import com.project.mobilemcm.data.local.database.model.RequestGoods
 interface RequestGoodsDao {
     @Query(
         """Select g.id, g.name,g.vendorCode, 0 as amount , rg.price, g.pricegroup, g.pricegroup2, g.category, 
-           g.vendor as vendors, "" as namePricegroup, rg.count, rg.number, rg.discont, rg.metod, rg.priceInd
+           g.vendor as vendors, "" as namePricegroup, rg.count, rg.number, rg.discont, rg.metod, rg.priceInd, 0 as reserve
            from requestgoods rg inner join requestdocument r on rg.idDoc=r.document_id
            inner join good g on rg.idGood=g.id
            where r.document_id=:idDoc"""

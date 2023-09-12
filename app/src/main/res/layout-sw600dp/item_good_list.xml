@@ -25,6 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -60,18 +61,16 @@
                 android:id="@+id/price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textPrice"
-                app:layout_constraintStart_toEndOf="@+id/textPrice"
+                app:layout_constraintStart_toStartOf="@+id/amount"
                 tools:text="Price" />
 
             <ImageView
                 android:id="@+id/imgShare"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_marginStart="4dp"
                 android:src="@drawable/ic_baseline_share_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,14 +85,15 @@
                 android:visibility="visible"
                 app:icon="@drawable/baseline_horizontal_rule_24"
                 app:iconGravity="textStart"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/count" />
 
             <Button
                 android:id="@+id/buttonPlus"
                 style="?attr/materialIconButtonFilledStyle"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
                 android:visibility="visible"
                 app:icon="@drawable/baseline_add_24"
@@ -105,12 +105,9 @@
                 android:id="@+id/count"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
                 android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/buttonMinus"
                 app:layout_constraintEnd_toEndOf="@+id/buttonPlus"
                 app:layout_constraintStart_toStartOf="@+id/buttonPlus"
                 app:layout_constraintTop_toBottomOf="@+id/buttonPlus"
@@ -119,14 +116,16 @@
             <Button
                 android:id="@+id/buttonDel"
                 style="?attr/materialIconButtonFilledStyle"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
                 android:visibility="invisible"
                 app:icon="@drawable/baseline_delete_24"
                 app:iconGravity="textStart"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/buttonMinus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonMinus"
                 tools:visibility="visible" />
 
             <TextView
@@ -134,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/store_value"
                 app:layout_constraintStart_toEndOf="@+id/imgShare"
                 app:layout_constraintTop_toBottomOf="@+id/tvGoodCode"
@@ -156,11 +155,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/yuor_price"
                 android:textSize="14sp"
                 android:textStyle="normal"
-                app:layout_constraintBaseline_toBaselineOf="@+id/price"
-                app:layout_constraintStart_toEndOf="@+id/price" />
+                app:layout_constraintStart_toEndOf="@+id/imgShare"
+                app:layout_constraintTop_toBottomOf="@+id/textPrice" />
 
             <TextView
                 android:id="@+id/textSumm"
@@ -168,32 +168,54 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:text="@string/summ"
                 android:textSize="14sp"
                 android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgShare"
-                app:layout_constraintTop_toBottomOf="@+id/textPrice" />
+                app:layout_constraintTop_toBottomOf="@+id/textRezerv" />
+
+            <TextView
+                android:id="@+id/textRezerv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="В резерве"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toEndOf="@+id/imgShare"
+                app:layout_constraintTop_toBottomOf="@+id/textPrice2" />
 
             <TextView
                 android:id="@+id/price2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textPrice2"
-                app:layout_constraintStart_toEndOf="@+id/textPrice2"
+                app:layout_constraintStart_toStartOf="@+id/price"
                 tools:text="10.00" />
 
             <TextView
                 android:id="@+id/summPos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textSumm"
-                app:layout_constraintStart_toEndOf="@+id/textSumm"
+                app:layout_constraintStart_toStartOf="@+id/rezerv"
+                tools:text="10.00" />
+
+            <TextView
+                android:id="@+id/rezerv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textRezerv"
+                app:layout_constraintStart_toStartOf="@+id/price2"
                 tools:text="10.00" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
