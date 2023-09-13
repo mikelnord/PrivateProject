@@ -285,4 +285,6 @@ class Repository @Inject constructor(
 
     suspend fun getDebets(strUserId: String) = remoteDataSource.getDebets(strUserId)
 
+    suspend fun getPayments(strUserId: String) = remoteDataSource.getPayments(strUserId)
+
 }

@@ -6,6 +6,7 @@ import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.Debets
 import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.FileUsers
+import com.project.mobilemcm.data.local.database.model.Payments
 import com.project.mobilemcm.data.local.database.model.RequestDocument1c
 import com.project.mobilemcm.data.local.database.model.UpdateDate
 import retrofit2.Response
@@ -44,6 +45,10 @@ interface ApiService {
         @Path("strUserId") strUserId: String
     ): Response<Debets>
 
+    @GET("get_payments/{strUserId}")
+    suspend fun getPayments(
+        @Path("strUserId") strUserId: String
+    ): Response<Payments>
 
 //    дебиторка /upr_mcm/hs/MobileAgent/get_debets/cab6be6e-4f74-11e5-80e4-001e67921ce7
 //    платежи /upr_mcm/hs/MobileAgent/get_payments/cab6be6e-4f74-11e5-80e4-001e67921ce7

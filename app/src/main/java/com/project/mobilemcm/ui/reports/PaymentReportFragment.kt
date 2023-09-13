@@ -7,21 +7,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.project.mobilemcm.databinding.FragmentDebitReportBinding
+import com.project.mobilemcm.databinding.FragmentPaymentReportBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DebitReportFragment : Fragment() {
+class PaymentReportFragment : Fragment() {
 
-    private var _binding: FragmentDebitReportBinding? = null
+    private var _binding: FragmentPaymentReportBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DebetViewModel by viewModels()
+    private val viewModel: PaymentsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDebitReportBinding.inflate(inflater, container, false)
+        _binding = FragmentPaymentReportBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -30,14 +30,14 @@ class DebitReportFragment : Fragment() {
     }
 
     private fun setupUI() {
-        val adapter = DebetAdapter(arrayListOf())
+        val reportsAdapterAction = ReportsPaymentsAdapterAction { item -> viewModel.onItemClick(item) }
+        val adapter = PaymentsAdapter(arrayListOf(), reportsAdapterAction)
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         binding.debetList.adapter = adapter
         binding.debetList.addItemDecoration(decoration)
-        viewModel.debetList.observe(viewLifecycleOwner) { listDebet ->
+        viewModel.paymentsList.observe(viewLifecycleOwner) { listDebet ->
             listDebet?.let { adapter.updateData(it) }
         }
-
     }
 
     override fun onDestroyView() {

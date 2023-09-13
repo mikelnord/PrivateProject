@@ -34,7 +34,24 @@ data class DebetItem(
     val client: String,
     val contract: String,
     val debt: String,
-    val overdue_debt: String
+    val overdue_debt: String,
+    val overdue_debt5: String,
+    val delivery: String,
+    val days: String,
+    val limit: String
+)
+
+data class Payments(
+    val payments: List<PaymentsItem>
+)
+
+data class PaymentsItem(
+    val client: String,
+    val contract: String,
+    val sum: String,
+    val date: String,
+    val number: String,
+    val purpose: String
 )
 
 //"debets": [

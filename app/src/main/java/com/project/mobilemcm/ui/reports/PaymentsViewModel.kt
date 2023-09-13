@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.mobilemcm.data.Repository
-import com.project.mobilemcm.data.local.database.model.DebetItem
+import com.project.mobilemcm.data.local.database.model.PaymentsItem
 import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,42 +14,42 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class DebetViewModel @Inject constructor(
+class PaymentsViewModel @Inject constructor(
     private val repository: Repository,
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
     init {
-        getDebet()
+        getPayments()
     }
 
     private var _showDetail = MutableLiveData<Boolean>()
     val showDetail = _showDetail
 
-    var debetItem: DebetItem? = null
+    var paymentsItem: PaymentsItem? = null
 
     fun setShowDetail() {
         _showDetail.value = false
     }
 
-    private var _debetList = MutableLiveData<List<DebetItem>?>()
-    val debetList = _debetList
+    private var _paymentsList = MutableLiveData<List<PaymentsItem>?>()
+    val paymentsList = _paymentsList
 
-    private fun getDebet() {
+    private fun getPayments() {
         viewModelScope.launch(Dispatchers.IO) {
             loginRepository.user?.let {
-                val result = repository.getDebets(it.id)
+                val result = repository.getPayments(it.id)
                 result.let { res ->
                     if (res.status == Result.Status.SUCCESS) {
-                        _debetList.postValue(result.data?.debets)
+                        _paymentsList.postValue(result.data?.payments)
                     }
                 }
             }
         }
     }
 
-    fun onItemClick(debetItem: DebetItem) {
-        this.debetItem = debetItem
+    fun onItemClick(paymentsItem: PaymentsItem) {
+        this.paymentsItem = paymentsItem
         _showDetail.value = true
     }
 

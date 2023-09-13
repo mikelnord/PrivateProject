@@ -6,6 +6,7 @@ import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.Debets
 import com.project.mobilemcm.data.local.database.model.FileObmen
 import com.project.mobilemcm.data.local.database.model.FileUsers
+import com.project.mobilemcm.data.local.database.model.Payments
 import com.project.mobilemcm.data.local.database.model.RequestDocument1c
 import com.project.mobilemcm.data.remote.network.ApiService
 import retrofit2.Response
@@ -80,10 +81,18 @@ class RemoteDataSource @Inject constructor(
         )
     }
 
-    suspend fun getDebets(strUserId: String):Result<Debets>{
+    suspend fun getDebets(strUserId: String): Result<Debets> {
         return getResponse(
-            request = {apiService.getDebets(strUserId)},
+            request = { apiService.getDebets(strUserId) },
             defaultErrorMessage = "Error get debets report"
         )
     }
+
+    suspend fun getPayments(strUserId: String): Result<Payments> {
+        return getResponse(
+            request = { apiService.getPayments(strUserId) },
+            defaultErrorMessage = "Error get payments report"
+        )
+    }
+
 }

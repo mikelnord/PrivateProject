@@ -118,7 +118,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.iconButtonPlan.setOnClickListener {
-            findNavController().navigate(R.id.debitReportFragment)
+            //findNavController().navigate(R.id.debitReportFragment)
+            findNavController().navigate(R.id.paymentReportFragment)
         }
 
 //        homeViewModel.appMode.observe(viewLifecycleOwner) {

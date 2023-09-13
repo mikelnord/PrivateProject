@@ -113,7 +113,11 @@
         tools:layout="@layout/fragment_podbor_filtr" />
     <fragment
         android:id="@+id/debitReportFragment"
-        android:name="com.project.mobilemcm.ui.reports.DebitReportFragment"
+        android:name="com.project.mobilemcm.ui.reports.DebetReportFragment"
         android:label="fragment_debit_report"
-        tools:layout="@layout/fragment_debit_report" />
+        tools:layout="@layout/fragment_debet_report" />
+    <fragment
+        android:id="@+id/paymentReportFragment"
+        android:name="com.project.mobilemcm.ui.reports.PaymentReportFragment"
+        android:label="PaymentReportFragment" />
 </navigation>

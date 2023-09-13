@@ -8,7 +8,10 @@ import com.project.mobilemcm.data.local.database.model.DebetItem
 import com.project.mobilemcm.databinding.DebetItemBinding
 import com.project.mobilemcm.util.currencyFormat
 
-class DebetAdapter(private val list: ArrayList<DebetItem>) :
+class DebetAdapter(
+    private val list: ArrayList<DebetItem>,
+    private val reportsAdapterAction: ReportsAdapterAction
+) :
     RecyclerView.Adapter<DebetAdapter.DebetViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -20,11 +23,14 @@ class DebetAdapter(private val list: ArrayList<DebetItem>) :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ), reportsAdapterAction = reportsAdapterAction
         )
     }
 
-    class DebetViewHolder(private val binding: DebetItemBinding) :
+    class DebetViewHolder(
+        private val binding: DebetItemBinding,
+        private val reportsAdapterAction: ReportsAdapterAction
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("NotifyDataSetChanged")
         fun bind(debetItem: DebetItem) {
@@ -33,6 +39,7 @@ class DebetAdapter(private val list: ArrayList<DebetItem>) :
                 textContract.text = debetItem.contract
                 textDebt.text = currencyFormat(debetItem.overdue_debt.toDouble())
                 textDebt5.text = currencyFormat(debetItem.debt.toDouble())
+                card.setOnClickListener { reportsAdapterAction.clickItem.invoke(debetItem)}
             }
         }
     }
@@ -56,3 +63,7 @@ class DebetAdapter(private val list: ArrayList<DebetItem>) :
         list.clear()
     }
 }
+
+class ReportsAdapterAction(
+    val clickItem: (DebetItem) -> Unit
+)

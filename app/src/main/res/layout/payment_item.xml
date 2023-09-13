@@ -2,17 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.reports.DebitReportFragment">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="2dp"
         app:cardCornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,14 +29,11 @@
                 android:id="@+id/textClient"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:text="Контрагент"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
                 android:textSize="12sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -44,13 +44,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:gravity="center"
-                android:text="Договор"
+                android:layout_marginEnd="2dp"
                 android:textSize="12sp"
-                android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textClient"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -65,55 +62,58 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.6" />
+                app:layout_constraintGuide_percent="0.65" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.80" />
+                app:layout_constraintGuide_percent="0.85" />
 
             <TextView
-                android:id="@+id/textDebt"
+                android:id="@+id/textSum"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:gravity="center"
-                android:text="Просрочка"
-                android:textColor="@color/md_theme_dark_errorContainer"
+                android:layout_marginEnd="2dp"
                 android:textSize="12sp"
-                android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textContract"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
             <TextView
-                android:id="@+id/textDebt5"
+                android:id="@+id/textDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center|top"
-                android:text="Общая сумма"
+                android:layout_marginEnd="2dp"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textDebt"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textSum"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline4" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <TextView
+                android:id="@+id/textNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="2dp"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textContract"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                tools:text="Number" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/debetList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card"
-        tools:layout_editor_absoluteX="5dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
