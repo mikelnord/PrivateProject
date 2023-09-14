@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RequestDocumentDao {
 
-    @Query("""Select r.document_id, r.docDate, s.name as nameStore, c.name as nameCounterparties, 
-        r.isSent, r.summDoc, r.number from requestdocument r left join store s on r.store_id=s.id
+    @Query("""Select r.document_id, r.docDate, r.idOneC, s.name as nameStore, c.name as nameCounterparties, 
+        r.isSent, r.summDoc, r.number, c.email from requestdocument r left join store s on r.store_id=s.id
             left join counterparties c on r.counterparties_id=c.id   order by docDate""")
      fun getAll(): Flow<List<RequestDocumentItem>>
 

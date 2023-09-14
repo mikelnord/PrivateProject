@@ -47,12 +47,14 @@
 
             <TextView
                 android:id="@+id/counterparties"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/buttonSendEmail"
                 app:layout_constraintStart_toEndOf="@+id/imageSend"
                 app:layout_constraintTop_toBottomOf="@+id/number"
                 tools:text="Counterparties 1" />
@@ -80,6 +82,23 @@
                 app:layout_constraintStart_toEndOf="@+id/imageSend"
                 app:layout_constraintTop_toBottomOf="@+id/counterparties"
                 tools:text="200 000" />
+
+            <ImageButton
+                android:id="@+id/buttonSendEmail"
+                style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="8dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:iconGravity="textStart"
+                app:iconSize="60dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/send_email_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

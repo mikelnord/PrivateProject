@@ -22,6 +22,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/buttonSendEmail"
+                style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="8dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:iconGravity="textStart"
+                app:iconSize="60dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/send_email_24" />
+
             <TextView
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
@@ -59,16 +76,6 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/date"
                 app:layout_constraintStart_toEndOf="@+id/date"
                 tools:text="Counterparties 1" />
-
-            <Button
-                android:id="@+id/buttonDel"
-                style="@style/Widget.Material3.Button.IconButton"
-                app:icon="@drawable/baseline_delete_24"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageSend"

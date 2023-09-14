@@ -20,20 +20,21 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/ic_launcher_background"
             android:elevation="5dp">
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="72dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/mcm_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -64,14 +65,16 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.navigationrail.NavigationRailView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_rail"
-        style="@style/Widget.MaterialComponents.NavigationRailView.Compact"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:visibility="visible"
         app:elevation="4dp"
         app:labelVisibilityMode="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation_home_menu"
         app:menuGravity="center"
         tools:ignore="MissingConstraints" />
@@ -81,13 +84,13 @@
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="200dp"
+        android:layout_marginStart="70dp"
         android:layout_marginTop="80dp"
         app:icon="@drawable/icon_add_order"
         app:iconGravity="textEnd"
         app:iconSize="60dp"
-        app:iconTint="@null"
-        app:layout_constraintStart_toEndOf="@+id/navigation_rail"
+        app:iconTint="@color/md_theme_dark_inverseSurface"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout3" />
 
     <Button
@@ -95,14 +98,17 @@
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="70dp"
         android:elevation="5dp"
         android:textColorLink="@color/md_theme_dark_background"
         app:icon="@drawable/icon_orders"
         app:iconGravity="textEnd"
         app:iconSize="60dp"
-        app:iconTint="@null"
+        app:iconTint="@color/md_theme_dark_inverseSurface"
         app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonDoc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.923"
         app:layout_constraintStart_toEndOf="@+id/iconButtonDoc" />
 
     <Button
@@ -110,32 +116,35 @@
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="32dp"
         android:elevation="5dp"
         android:textColorLink="@color/md_theme_dark_background"
         app:icon="@drawable/obmen_icon"
         app:iconGravity="textEnd"
         app:iconPadding="8dp"
         app:iconSize="60dp"
-        app:iconTint="@null"
-        app:layout_constraintStart_toEndOf="@+id/navigation_rail"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:iconTint="@color/md_theme_dark_inverseSurface"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <Button
         android:id="@+id/iconButtonPayment"
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="70dp"
         android:elevation="5dp"
         android:textColorLink="@color/md_theme_dark_background"
         app:icon="@drawable/outline_payments_24"
         app:iconGravity="textEnd"
         app:iconPadding="8dp"
         app:iconSize="60dp"
-        app:iconTint="@color/md_theme_dark_background"
+        app:iconTint="@color/md_theme_dark_inverseSurface"
         app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonDebet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toEndOf="@+id/iconButtonDebet" />
 
     <Button
@@ -143,31 +152,35 @@
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="32dp"
         android:elevation="5dp"
         android:textColorLink="@color/md_theme_dark_background"
         app:icon="@drawable/monetization_on_24"
         app:iconGravity="textEnd"
         app:iconPadding="8dp"
         app:iconSize="60dp"
-        app:iconTint="@color/md_theme_dark_background"
-        app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonList"
-        app:layout_constraintStart_toEndOf="@+id/iconButtonList" />
+        app:iconTint="@color/md_theme_dark_inverseSurface"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/iconButtonPlan"
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="70dp"
         android:elevation="5dp"
         android:textColorLink="@color/md_theme_dark_background"
         app:icon="@drawable/plan_icon"
         app:iconGravity="textEnd"
         app:iconPadding="8dp"
         app:iconSize="60dp"
-        app:iconTint="@null"
+        app:iconTint="@color/md_theme_dark_inverseSurface"
         app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonExchange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.923"
         app:layout_constraintStart_toEndOf="@+id/iconButtonExchange" />
 
     <TextView
@@ -228,12 +241,11 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/visit_plan_text"
         android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="@+id/iconButtonPlan"
-        app:layout_constraintStart_toStartOf="@+id/iconButtonPlan"
-        app:layout_constraintTop_toBottomOf="@+id/iconButtonPlan" />
+        app:layout_constraintStart_toStartOf="@+id/iconButtonPlan" />
 
     <TextView
         android:id="@+id/textDateObmen"
@@ -241,7 +253,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigation_rail"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="TextDateObmen" />
 
@@ -253,8 +265,8 @@
         android:layout_marginBottom="8dp"
         android:src="@android:drawable/stat_notify_sync"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/navigation_rail" />
+        app:layout_constraintBottom_toTopOf="@+id/navigation_rail"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewUpdate"

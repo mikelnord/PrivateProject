@@ -1,12 +1,21 @@
 package com.project.mobilemcm.ui.requestDocument
 
+import android.content.Context
+import android.text.InputType
+import android.text.SpannableStringBuilder
+import android.widget.EditText
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.project.mobilemcm.data.Repository
+import com.project.mobilemcm.data.local.database.model.AnswerEmail
 import com.project.mobilemcm.data.local.database.model.Good1c
+import com.project.mobilemcm.data.local.database.model.GoodWithStock
 import com.project.mobilemcm.data.local.database.model.RequestDocument
 import com.project.mobilemcm.data.local.database.model.RequestDocumentToRequestDocument1c
+import com.project.mobilemcm.data.local.database.model.Result
 import com.project.mobilemcm.data.login.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -18,6 +27,8 @@ class RequestListViewModel @Inject constructor(
     private val repository: Repository,
     private val loginRepository: LoginRepository
 ) : ViewModel() {
+
+    val resultEmail = MutableLiveData<Result<AnswerEmail?>>()
 
     val docList = repository.getAllRequestDoc().asLiveData()
 
@@ -68,5 +79,28 @@ class RequestListViewModel @Inject constructor(
         }
     }
 
+    fun showEmailDialog(
+        context: Context,
+        docId: String,
+        email: String
+    ) {
+        val nameText = EditText(context)
+        nameText.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        nameText.text = SpannableStringBuilder(email)
+        MaterialAlertDialogBuilder(context)
+            .setTitle("Введите email")
+            .setView(nameText)
+            .setMessage("Введите email для отправки документа")
+            .setNegativeButton("Нет") { _, _ ->
+                // Respond to negative button press
+            }
+            .setPositiveButton("Да") { _, _ ->
+                val email = nameText.text.toString()
+                viewModelScope.launch {
+                    resultEmail.postValue(repository.sendEmail(docId, email))
+                }
+            }
+            .show()
+    }
 
 }

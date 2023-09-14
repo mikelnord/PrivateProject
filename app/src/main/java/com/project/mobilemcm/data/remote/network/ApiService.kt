@@ -1,6 +1,7 @@
 package com.project.mobilemcm.data.remote.network
 
 import com.project.mobilemcm.BuildConfig
+import com.project.mobilemcm.data.local.database.model.AnswerEmail
 import com.project.mobilemcm.data.local.database.model.AnswerServer
 import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.Debets
@@ -50,7 +51,14 @@ interface ApiService {
         @Path("strUserId") strUserId: String
     ): Response<Payments>
 
+    @GET("send_bill/{docId}/{email}")
+    suspend fun postEmail(
+        @Path("docId") docId: String,
+        @Path("email") email: String
+    ): Response<AnswerEmail?>
+
+
 //    дебиторка /upr_mcm/hs/MobileAgent/get_debets/cab6be6e-4f74-11e5-80e4-001e67921ce7
 //    платежи /upr_mcm/hs/MobileAgent/get_payments/cab6be6e-4f74-11e5-80e4-001e67921ce7
-
+//    счет /upr_mcm/hs/MobileAgent/send_bill/1583c863-931c-405f-bafb-f2d193566bee/obuhov@wlbs.ru
 }

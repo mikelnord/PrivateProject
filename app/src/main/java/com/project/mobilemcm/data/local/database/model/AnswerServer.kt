@@ -10,3 +10,7 @@ data class CompanyInfo(
     val overdue_debt:Double?,
     val overdue_debt5:Double?
 )
+
+data class AnswerEmail(
+    val id: String?
+)

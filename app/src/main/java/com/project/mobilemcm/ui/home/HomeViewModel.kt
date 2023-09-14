@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
 
     private var _appMode: MutableLiveData<Boolean> =
         MutableLiveData(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-    val appMode = _appMode
+    private val appMode = _appMode
 
     private var _emptyBase: MutableLiveData<Boolean> = MutableLiveData()
     val emptyBase = _emptyBase

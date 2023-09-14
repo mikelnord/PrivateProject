@@ -1,6 +1,7 @@
 package com.project.mobilemcm.data.remote
 
 import android.util.Log
+import com.project.mobilemcm.data.local.database.model.AnswerEmail
 import com.project.mobilemcm.data.local.database.model.AnswerServer
 import com.project.mobilemcm.data.local.database.model.CompanyInfo
 import com.project.mobilemcm.data.local.database.model.Debets
@@ -92,6 +93,13 @@ class RemoteDataSource @Inject constructor(
         return getResponse(
             request = { apiService.getPayments(strUserId) },
             defaultErrorMessage = "Error get payments report"
+        )
+    }
+
+    suspend fun sendEmail(docId: String, email: String): Result<AnswerEmail?> {
+        return getResponse(
+            request = { apiService.postEmail(docId, email) },
+            defaultErrorMessage = "Error send email"
         )
     }
 

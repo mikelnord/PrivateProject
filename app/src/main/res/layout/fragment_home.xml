@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:src="@drawable/mcm_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -83,7 +83,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="80dp"
         app:icon="@drawable/icon_add_order"
         app:iconGravity="textEnd"
         app:iconSize="60dp"
@@ -114,7 +114,7 @@
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="68dp"
         android:layout_marginTop="32dp"
         android:elevation="5dp"
         android:textColorLink="@color/md_theme_dark_background"
@@ -123,6 +123,42 @@
         app:iconPadding="8dp"
         app:iconSize="60dp"
         app:iconTint="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <Button
+        android:id="@+id/iconButtonPayment"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="70dp"
+        android:elevation="5dp"
+        android:textColorLink="@color/md_theme_dark_background"
+        app:icon="@drawable/outline_payments_24"
+        app:iconGravity="textEnd"
+        app:iconPadding="8dp"
+        app:iconSize="60dp"
+        app:iconTint="@color/md_theme_dark_background"
+        app:layout_constraintBaseline_toBaselineOf="@+id/iconButtonDebet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toEndOf="@+id/iconButtonDebet" />
+
+    <Button
+        android:id="@+id/iconButtonDebet"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="32dp"
+        android:elevation="5dp"
+        android:textColorLink="@color/md_theme_dark_background"
+        app:icon="@drawable/monetization_on_24"
+        app:iconGravity="textEnd"
+        app:iconPadding="8dp"
+        app:iconSize="60dp"
+        app:iconTint="@color/md_theme_dark_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -176,6 +212,28 @@
         app:layout_constraintEnd_toEndOf="@+id/iconButtonExchange"
         app:layout_constraintStart_toStartOf="@+id/iconButtonExchange"
         app:layout_constraintTop_toBottomOf="@+id/iconButtonExchange" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Дебиторка"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/iconButtonDebet"
+        app:layout_constraintStart_toStartOf="@+id/iconButtonDebet"
+        app:layout_constraintTop_toBottomOf="@+id/iconButtonDebet" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Платежи"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/iconButtonPayment"
+        app:layout_constraintStart_toStartOf="@+id/iconButtonPayment"
+        app:layout_constraintTop_toBottomOf="@+id/iconButtonPayment" />
 
     <TextView
         android:id="@+id/textView8"

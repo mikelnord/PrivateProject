@@ -30,12 +30,14 @@ data class RequestDocument(
 
 data class RequestDocumentItem(
     val document_id: Long,
+    val idOneC: String,
     val docDate: Calendar,
     val nameStore: String,
     val nameCounterparties: String,
     var isSent: Boolean,
     val summDoc: Double,
-    val number: String?
+    val number: String?,
+    val email:String
 )
 
 data class RequestDocument1c(

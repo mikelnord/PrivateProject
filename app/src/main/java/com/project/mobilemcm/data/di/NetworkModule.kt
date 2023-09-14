@@ -3,6 +3,7 @@ package com.project.mobilemcm.data.di
 import com.project.mobilemcm.BuildConfig
 import com.project.mobilemcm.data.remote.network.ApiService
 import com.project.mobilemcm.data.remote.network.AuthInterceptor
+import com.project.mobilemcm.data.remote.network.NullOnEmptyConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,6 +46,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .addConverterFactory(NullOnEmptyConverterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -55,3 +57,4 @@ object NetworkModule {
         retrofit.create(ApiService::class.java)
 
 }
+

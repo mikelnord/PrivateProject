@@ -58,8 +58,8 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val navController = findNavController()
-        val currentBackStackEntry = navController.currentBackStackEntry!!
+        val navigator = findNavController()
+        val currentBackStackEntry = navigator.currentBackStackEntry!!
         savedStateHandle = currentBackStackEntry.savedStateHandle
         if (homeViewModel.loginRepository.user == null && !savedStateHandle.contains(LoginFragment.LOGIN_SUCCESSFUL))
             savedStateHandle[LoginFragment.LOGIN_SUCCESSFUL] = false
@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
                     val navOptions = NavOptions.Builder()
                         .setPopUpTo(R.id.loginFragment, true)
                         .build()
-                    navController.navigate(R.id.loginFragment, null, navOptions)
+                    navigator.navigate(R.id.loginFragment, null, navOptions)
                 }
             }
         savedStateHandle.getLiveData<Boolean>(LOGIN_FIRST)
@@ -119,22 +119,16 @@ class HomeFragment : Fragment() {
 
         binding.iconButtonPlan.setOnClickListener {
             //findNavController().navigate(R.id.debitReportFragment)
-            findNavController().navigate(R.id.paymentReportFragment)
+            //findNavController().navigate(R.id.paymentReportFragment)
         }
 
-//        homeViewModel.appMode.observe(viewLifecycleOwner) {
-//            when (it) {
-//                true -> {
-//                    // binding.dayButton.visibility = View.VISIBLE
-//                    // binding.nightButton.visibility = View.GONE
-//                }
-//
-//                false -> {
-//                    //  binding.dayButton.visibility = View.GONE
-//                    //  binding.nightButton.visibility = View.VISIBLE
-//                }
-//            }
-//        }
+        binding.iconButtonDebet.setOnClickListener {
+            findNavController().navigate(R.id.debitReportFragment)
+        }
+
+        binding.iconButtonPayment.setOnClickListener {
+            findNavController().navigate(R.id.paymentReportFragment)
+        }
 
         viewModel.updateAvailable.observe(viewLifecycleOwner) {
             if (it) {
@@ -146,16 +140,8 @@ class HomeFragment : Fragment() {
             }
         }
 
-//        binding.dayButton.setOnClickListener {
-//            homeViewModel.setMode()
-//        }
-//
-//        binding.nightButton.setOnClickListener {
-//            homeViewModel.setMode()
-//        }
-
         binding.imageButtonUpdate.setOnClickListener {
-            it.isEnabled=false
+            it.isEnabled = false
             requestMultiplePermissions.launch(
                 arrayOf(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -207,36 +193,33 @@ class HomeFragment : Fragment() {
         viewModel.getActiveUser().observe(viewLifecycleOwner) { loggedInUser ->
             loggedInUser?.let {
                 binding.managerTextView.text = it.displayName
-//                if (it.division_id == "c3a21002-ef22-11e5-a605-f07959941a7c" && viewModel.requestDocument.store_id.isEmpty()) {
-//                    viewModel.requestDocument.store_id = "ac7265a0-66bb-11df-b7ab-001517890160"
-//                }
             }
         }
     }
 
     private fun setupNavigationRail() {
+        val navigator = findNavController()
         val navBar = binding.root.findViewById<NavigationBarView>(R.id.navigation_rail)
         navBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_list_doc -> {
-                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToRequestListFragment())
+                    navigator.navigate(HomeFragmentDirections.actionHomeFragmentToRequestListFragment())
                     true
                 }
 
                 R.id.menu_add_doc -> {
                     viewModel.clearDoc()
-                    findNavController().navigate(R.id.homeAdapter)
+                    navigator.navigate(R.id.homeAdapter)
                     true
                 }
 
                 R.id.menu_exchange -> {
-                    findNavController().navigate(R.id.exchangeFragment)
+                    navigator.navigate(R.id.exchangeFragment)
                     true
                 }
 
                 R.id.menu_logout -> {
-                    val navController = findNavController()
-                    val currentBackStackEntry = navController.currentBackStackEntry!!
+                    val currentBackStackEntry = findNavController().currentBackStackEntry!!
                     val savedStateHandle = currentBackStackEntry.savedStateHandle
                     savedStateHandle[LoginFragment.LOGIN_SUCCESSFUL] = false
                     homeViewModel.loginRepository.logout()

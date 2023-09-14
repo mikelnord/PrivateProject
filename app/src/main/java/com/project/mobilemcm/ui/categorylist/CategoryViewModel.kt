@@ -1,5 +1,6 @@
 package com.project.mobilemcm.ui.categorylist
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -522,7 +523,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         }
 
         if (requestDocument.contract_type == "Наличный юр. лицо (до 99 тыс руб)" && requestDocument.summDoc > 100000.0) {
-           return false
+            return false
         }
 
         val idDoc = viewModelScope.async {
@@ -567,22 +568,22 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
             val requestDocument1c = requestDocument.RequestDocumentToRequestDocument1c(
                 loginRepository.getActiveUser()?.id ?: "", itemList
             )
-            println(Gson().toJson(requestDocument1c))
-//            try {
-//                if (!requestDocument.isSent) {
-//                    val res = repository.postDoc(requestDocument1c)
-//                    res.data?.let { answerServer ->
-//                        answerServer.id?.let {
-//                            repository.sendDocumentUpdate(
-//                                it,
-//                                answerServer.number ?: "",
-//                            )
-//                        }
-//                    }
-//                }
-//            } catch (e: Throwable) {
-//                Log.e("errorSendDocument", e.message.toString())
-//            }
+//            println(Gson().toJson(requestDocument1c))
+            try {
+                if (!requestDocument.isSent) {
+                    val res = repository.postDoc(requestDocument1c)
+                    res.data?.let { answerServer ->
+                        answerServer.id?.let {
+                            repository.sendDocumentUpdate(
+                                it,
+                                answerServer.number ?: "",
+                            )
+                        }
+                    }
+                }
+            } catch (e: Throwable) {
+                Log.e("errorSendDocument", e.message.toString())
+            }
             clearDoc()
         }
         return true

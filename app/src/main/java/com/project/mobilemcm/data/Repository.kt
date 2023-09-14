@@ -287,4 +287,6 @@ class Repository @Inject constructor(
 
     suspend fun getPayments(strUserId: String) = remoteDataSource.getPayments(strUserId)
 
+    suspend fun sendEmail(docId: String, email: String) = remoteDataSource.sendEmail(docId, email)
+
 }

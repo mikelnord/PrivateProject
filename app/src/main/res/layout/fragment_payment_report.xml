@@ -44,26 +44,15 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewKontr" />
 
         <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Условия договора"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewContract" />
-
-        <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:text="Срок действия :"
+            android:text="Сумма :"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewContract" />
 
         <TextView
             android:id="@+id/textView5"
@@ -71,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:text="Дней на оплату :"
+            android:text="Дата :"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -82,50 +71,28 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:text="Лимит :"
+            android:text="Номер :"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <TextView
             android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="131dp"
+            android:layout_height="52dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Общая сумма долга :"
+            android:text="Назначение платежа :"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="ПДЗ :"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="5 дней до пдз :"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <androidx.constraintlayout.widget.Barrier
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="right"
-            app:constraint_referenced_ids="textView1,textView2,textView3,textView4,
-        textView5,textView6,textView7,textView8,textView9" />
+            app:constraint_referenced_ids="textView1,textView2,textView4,
+        textView5,textView6,textView7" />
 
         <Button
             android:id="@+id/buttonReturn"
@@ -163,7 +130,7 @@
             tools:text="Contract" />
 
         <TextView
-            android:id="@+id/textViewSrok"
+            android:id="@+id/textViewSumm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -175,7 +142,7 @@
             tools:text="TextViewSrok" />
 
         <TextView
-            android:id="@+id/textViewDay"
+            android:id="@+id/textViewDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -187,7 +154,7 @@
             tools:text="Day" />
 
         <TextView
-            android:id="@+id/textViewLimit"
+            android:id="@+id/textViewNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -199,7 +166,7 @@
             tools:text="textViewLimit" />
 
         <TextView
-            android:id="@+id/textViewAllSumm"
+            android:id="@+id/textViewPurpose"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -210,29 +177,6 @@
             app:layout_constraintStart_toEndOf="@+id/textView7"
             tools:text="textViewAllSumm" />
 
-        <TextView
-            android:id="@+id/textViewPDZ"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="2dp"
-            android:textColor="@color/md_theme_dark_errorContainer"
-            android:textSize="16sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView7"
-            tools:text="textViewPDZ" />
-
-        <TextView
-            android:id="@+id/textViewPDZ5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textSize="16sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView7"
-            tools:text="textViewPDZ5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
@@ -240,7 +184,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="2dp"
         app:cardCornerRadius="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/paymentsList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -249,37 +197,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <TextView
                 android:id="@+id/textClient"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
                 android:text="Контрагент"
                 android:textSize="12sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Контрагент" />
 
             <TextView
                 android:id="@+id/textContract"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:gravity="center"
+                android:layout_marginEnd="2dp"
                 android:text="Договор"
                 android:textSize="12sp"
-                android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textClient"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline2" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                tools:text="Договор" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline2"
@@ -293,50 +238,67 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.6" />
+                app:layout_constraintGuide_percent="0.65" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.80" />
+                app:layout_constraintGuide_percent="0.85" />
 
             <TextView
-                android:id="@+id/textDebt"
+                android:id="@+id/textSum"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:gravity="center"
-                android:text="Просрочка"
-                android:textColor="@color/md_theme_dark_errorContainer"
+                android:layout_marginEnd="2dp"
+                android:text="Сумма"
                 android:textSize="12sp"
-                android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textContract"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                app:layout_constraintStart_toStartOf="@+id/guideline3" />
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                tools:text="Сумма" />
 
             <TextView
-                android:id="@+id/textDebt5"
+                android:id="@+id/textDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center|top"
-                android:text="Общая сумма"
+                android:layout_marginEnd="2dp"
+                android:text="Дата"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textDebt"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textSum"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline4" />
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                tools:text="Дата" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <TextView
+                android:id="@+id/textNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="2dp"
+                android:text="Номер"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textContract"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                tools:text="Number" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/debetList"
+        android:id="@+id/paymentsList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
