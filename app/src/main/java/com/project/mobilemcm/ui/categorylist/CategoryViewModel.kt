@@ -188,7 +188,6 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
         loginRepository.user?.let { getDefaultStorage(it.division_id) }
     }
 
-
     private fun getDefaultStorage(divisionId: String) {
         if (requestDocument.store_id.isEmpty()) {
             viewModelScope.launch {
@@ -262,6 +261,9 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     fun setStoreId(storeId: String) {
         requestDocument.store_id = storeId
+        viewModelScope.launch {
+            recalculationOfPrices()
+        }
     }
 
     val docCount = countList.switchMap {
@@ -386,7 +388,8 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                                 date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                                 goodWithStock.pricegroup,
                                 goodWithStock.pricegroup2,
-                                selectedCompanies.value?.apply_actions ?: false
+                                selectedCompanies.value?.apply_actions ?: false,
+                                requestDocument.store_id
                             )
                             gp?.let { indPrices ->
                                 goodWithStock.discont = indPrices.discount
@@ -438,7 +441,8 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                             date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                             it.pricegroup,
                             it.pricegroup2,
-                            selectedCompanies.value?.apply_actions ?: false
+                            selectedCompanies.value?.apply_actions ?: false,
+                            requestDocument.store_id
                         )
                         gp?.let { indPrices ->
                             it.discont = indPrices.discount
@@ -482,7 +486,8 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                     date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                     goodWithStock.pricegroup,
                     goodWithStock.pricegroup2,
-                    selectedCompanies.value?.apply_actions ?: false
+                    selectedCompanies.value?.apply_actions ?: false,
+                    requestDocument.store_id
                 )
                 ip?.let { gp ->
                     goodWithStock.discont = gp.discount
@@ -696,7 +701,7 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
 
     private suspend fun getPricing(
         divisionId: String, goodId: String, companyId: String, date: String, pricegroup: String,
-        pricegroup2: String, applyActions: Boolean
+        pricegroup2: String, applyActions: Boolean, storeId: String
     ): IndPrices? {
         var result = individualPricesDao.getIndividualPices(goodId, companyId, date)
         if (result == null) {
@@ -706,7 +711,12 @@ class CategoryViewModel @Inject constructor(//rename to main viewmodel
                 im?.let {
                     result =
                         if (it) individualPricesDao.getActionPricesIm(divisionId, goodId, date)
-                        else individualPricesDao.getActionPricesOther(divisionId, goodId, date)
+                        else individualPricesDao.getActionPricesOther(
+                            divisionId,
+                            goodId,
+                            date,
+                            storeId
+                        )
                 }
             }
             return if (result == null) {

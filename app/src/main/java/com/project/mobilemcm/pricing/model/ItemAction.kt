@@ -7,9 +7,10 @@ import androidx.room.PrimaryKey
 
 @Entity(indices = [Index(value = ["id"])])
 data class ItemAction(
-   @PrimaryKey(autoGenerate = true) val item_id: Long=0,
-   val id: String?,
-   val price: Double?,
-   val division_id: String?,
-   val good_id: String?
+    @PrimaryKey(autoGenerate = true) val item_id: Long = 0,
+    val id: String?,
+    val price: Double?,
+    val division_id: String?,
+    val good_id: String?,
+    val store_id: String?
 )

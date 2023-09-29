@@ -110,9 +110,9 @@ class StartPage : Fragment() {
                         contractList.map { getContractInfo(it) })
                 binding.contractsList.setAdapter(adapter)
                 if (viewModelMain.requestDocument.contract_id.isNotEmpty()) {
-                    val nameContract =
-                        contractList[viewModelMain.getPositionFromIdContract(viewModelMain.requestDocument.contract_id)].name
-                    binding.contractsList.setText(nameContract, false)
+                    val contract =
+                        contractList[viewModelMain.getPositionFromIdContract(viewModelMain.requestDocument.contract_id)]
+                    binding.contractsList.setText(getContractInfo(contract), false)
                 }
             }
         }

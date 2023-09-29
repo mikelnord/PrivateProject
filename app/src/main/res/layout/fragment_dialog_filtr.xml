@@ -2,85 +2,47 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/md_theme_dark_onPrimary">
 
-    <com.google.android.material.search.SearchBar
-        android:id="@+id/search_bar_pricegroup"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/pricegroup"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.search.SearchBar
-        android:id="@+id/search_bar_vendors"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/text_vendor"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar_pricegroup" />
-
-    <com.google.android.material.search.SearchView
-        android:id="@+id/search_view_pricegroup"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="@string/find_text"
-        tools:ignore="MissingConstraints">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchRecycler_pricegroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_pricegroup">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </com.google.android.material.search.SearchView>
-
-    <com.google.android.material.search.SearchView
-        android:id="@+id/search_view_vendors"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="@string/find_text"
-        tools:ignore="MissingConstraints">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchRecycler_vendors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_pricegroup">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </com.google.android.material.search.SearchView>
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/group_177"
+        tools:layout_editor_absoluteX="52dp"
+        tools:layout_editor_absoluteY="38dp" />
 
     <Button
         android:id="@+id/elevatedButton"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/button_text_ok"
         android:textColor="@color/design_default_color_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="107dp" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="53dp"
+        tools:layout_editor_absoluteY="147dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

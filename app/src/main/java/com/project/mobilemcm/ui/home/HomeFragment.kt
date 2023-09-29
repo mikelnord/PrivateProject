@@ -1,6 +1,7 @@
 package com.project.mobilemcm.ui.home
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,9 +20,13 @@ import com.google.android.material.navigation.NavigationBarView
 import com.project.mobilemcm.R
 import com.project.mobilemcm.databinding.FragmentHomeBinding
 import com.project.mobilemcm.ui.categorylist.CategoryViewModel
+import com.project.mobilemcm.ui.exchange.ExchangeViewModel
 import com.project.mobilemcm.ui.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import java.util.Locale
 
 
@@ -31,6 +36,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: CategoryViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+    private val exchangeViewModel: ExchangeViewModel by viewModels()
     private lateinit var savedStateHandle: SavedStateHandle
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -83,6 +89,7 @@ class HomeFragment : Fragment() {
             }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun setupUI() {
         homeViewModel.isLoginFirst()
         viewModel.setLaunchPodbor(true)
@@ -101,6 +108,17 @@ class HomeFragment : Fragment() {
                             date
                         )
                     }
+
+                val nowDate = ZonedDateTime.now(ZoneId.of("Europe/Moscow"))
+                val date = ZonedDateTime.parse("${it.dateObmen}.679+03:00[Europe/Moscow]")
+
+                val rez = ChronoUnit.HOURS.between(
+                    date, nowDate
+                )
+                if (rez >= 2) {
+                    exchangeViewModel.applyWorker(requireContext())
+                }
+
 
             }
         }
