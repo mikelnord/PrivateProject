@@ -14,7 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 
-const val version = "1"
+const val version = "2"
 
 @HiltWorker
 class ExchangeWorker @AssistedInject constructor(

@@ -29,7 +29,7 @@ object DatabaseModule {
             AppDatabase::class.java,
             "localdb.db"
         )
-            .fallbackToDestructiveMigration()
+            //.fallbackToDestructiveMigration()
             .build()
     }
 

@@ -22,7 +22,9 @@ object NetworkModule {
     private const val name = BuildConfig.API_NAME
     private const val pwd = BuildConfig.API_PASS
 
-
+//    API_URL=https://mx.wlbs.ru/upr_mcm/hs/MobileAgent/
+//    API_NAME=change1c
+//    API_PASS=changius
     @Provides
     fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()

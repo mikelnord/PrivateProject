@@ -20,7 +20,7 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-const val version = "1"
+const val version = "2"
 
 @HiltViewModel
 class ExchangeViewModel @Inject constructor(
